@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>博客爬虫</title>
+
+<script type="text/javascript" src="http://oschina.net/js/2012/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+
+function GetQueryString(name) {
+	   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+	   var r = window.location.search.substr(1).match(reg);
+	   
+	   document.formf.code.value= unescape(r[2]);
+		if("w" == document.formf.code.value){
+			window.location.replace("http://www.oschina.com/action/oauth2/authorize?response_type=code&client_id=J2pBh55ca84TzkGZ1ZYv&redirect_uri=http://www.moveblog.com:8080/");
+			//document.formf.code.value= unescape(r[2]);   
+		}
+		
+	}
+
+	$(document).ready(function(){
+		var linkUrl="SpiderAction?";
+		var capUrl="MoveBlogAction?";
+		$(".import").click(function(){
+			$(".loading").remove();
+			var count=0;
+			$(".cb").each(function(){
+				if($(this).attr("checked")==true){
+					count++;	
+				}
+			});
+			
+			var time1= new Date();
+			var code=document.formf.code.value;
+			$(".cb").each(function(){
+				var cur=$(this);
+				if(cur.is(":checked") && typeof(cur.attr("suc"))=='undefined'){
+					$("#import").attr("disabled",true);
+					var index=cur.attr("index");
+					var id = cur.attr("id");
+					cur.parent().append("<span class='loading msg' id='loading"+index+"'><img src='loading.gif'/>正在导入，请稍候...</span>");
+					$.post(capUrl,"code="+code+"&id="+id,function(json){
+						if(json){
+							json = eval("("+json+")");
+							if(json.msg){
+								$("#loading"+index).replaceWith("<span class='loading msg'>"+json.msg+"</span>");
+							}else{
+								$("#loading"+index).replaceWith("<span class='loading msg'>[导入成功]</span>");
+								cur.attr("suc","suc");
+							}
+						}else{
+							$("#loading"+index).replaceWith("<span class='loading msg'>请先认证!</span>");
+						}
+						count--;
+						if(count==0){
+							$("#import").removeAttr("disabled");
+							alert("操作完成(用时:"+(new Date()-time1)+"ms)");
+						}
+					});
+				}
+			});
+			
+			
+			if(idxs=""){
+				alert("请勾选需要导入的文章！");
+			}
+		});
+		
+		$(".links_btn").click(function(){
+			var url=$("#url").val();
+			$(".links_btn").attr("disabled","disabled");
+			$("#link_list").html("<span class='msg'><img src='loading.gif' />正在抓取，请稍候...</span>");
+			$("#extra_menu").remove();
+			$.post(linkUrl,"url="+url,function(json){
+				if(json){
+					$("#menuh").append('<p id="extra_menu"><input id="select_all" value="全选" state="none" type="button" class="links_btn"></p>');
+					
+					$("#link_list").html("");
+					var size=json.length;
+					for(var i=0;i<size;i++){
+						var art=json[i];
+						$("#link_list").append('<li>'+(i+1)+'.<input type="checkbox" class="cb" id="'+art.id+'"><a href="'+art.link+'" target="_blank" class="text1">'+art.title+'</a></li>');
+					}
+					
+					if(size>50){
+						$("#return2top").css("display","block");
+					}
+					if(size>0){
+						$("#menu").append('<p id="extra_menu"><input id="select_all" value="全选" state="none" type="button" class="links_btn"><a class="links_btn" href="#top">Top</a></p>');
+						$("#select_all").click(function(){
+							var s=$(this).attr("state");
+							if(s=="none"){
+								$(".cb").attr("checked",true);
+								$(this).attr("state","all");
+								$(this).val("取消全选");
+							}else{
+								$(".cb").removeAttr("checked");
+								$(this).attr("state","none");
+								$(this).val("全选");
+							}
+						});
+					}
+				}else{
+					$("#link_list").html("抓取失败，请检查地址和用户id是否正确!");
+				}
+				$(".links_btn").removeAttr("disabled");
+			});
+		});
+		
+		$('.links_btn').live("mouseover", function(){
+		    $(this).addClass("mouseover");
+		});
+		$('.links_btn').live("mouseout",function(){
+			$(this).removeClass("mouseover");
+		})
+		
+		$("#url").focus(function(){
+			$(this).select();
+		});
+	});
+</script>
+</head>
+<body id="top"  onload="GetQueryString('code')">
+
+<a href="http://www.oschina.com/action/oauth2/authorize?response_type=code&client_id=J2pBh55ca84TzkGZ1ZYv&redirect_uri=http://www.moveblog.com:8080/">oschina认证</a>
+	<div id="usermenu">
+		
+	</div>	
+	<form action="SpiderAction" method="post">
+		<p><span class="text1">1：填写要抓取的博客地址:</span><input  name="url" type="text" id="url" value="" class="input"><span class="msg">即博客主页的地址，类似于:	http://blog.csdn.net/foxyaxin</span></p>
+		<p><input class="links_btn" value="抓取列表"  type="button"></p>
+		
+	</form>
+	
+	<form name="formf" action="MoveBlogAction" method="post">
+		<input name="code" value="w" style="display:none;" type="text">
+		<p><input class="import" value="导入本人博客" type="button"></p>
+	</form>
+	
+	<div id="menuh">
+		
+	</div>
+	<ul id="link_list">
+	</ul>
+	<div id="menu">
+		
+	</div>
+	<p id="return2top" style="display:none;"><a href="#top" class="text1" >返回顶部</a></p>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>
