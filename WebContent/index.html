@@ -21,8 +21,9 @@
 	$(document).ready(function(){
 		
 		var username=getCookie("user");
+		var userhref=getCookie("href");
 		if(username != null)
-			$("#usermenu").replaceWith("<span>用户名："+username+"</span>");
+			$("#usermenu").replaceWith("<a href="+userhref+">用户名："+username+"</span>");
 		
 		var linkUrl="SpiderAction?";
 		var capUrl="MoveBlogAction?";

@@ -46,13 +46,21 @@ public class Oauth2Action extends HttpServlet {
 		User user = UserApi.getUser(access_token);
 		String username = user.getName();
 		//创建对象
-        Cookie c = new Cookie("user",username) ;
+        Cookie namecookie = new Cookie("user",username) ;
         //设定有效时间  以s为单位
-        c.setMaxAge(60) ;
+        namecookie.setMaxAge(600) ;
         //设置Cookie路径和域名
-        c.setPath("/") ;
+        namecookie.setPath("/") ;
+        String userhref = user.getUrl();
+        //创建对象
+        Cookie linkcookie = new Cookie("href",userhref) ;
+        //设定有效时间  以s为单位
+        linkcookie.setMaxAge(600) ;
+        //设置Cookie路径和域名
+        linkcookie.setPath("/") ;
         //发送Cookie文件
-        response.addCookie(c) ;
+        response.addCookie(namecookie) ;
+        response.addCookie(linkcookie) ;
 		
 		response.sendRedirect("/index.html");
 		

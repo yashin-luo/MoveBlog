@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import beans.Blog;
 import beans.BlogList;
 import spider.CsdnBlogPageProcesser;
-import spider.GetBlogPipeline;
+import spider.CsdnBlogPipeline;
 import us.codecraft.webmagic.Spider;
 
 /**
@@ -38,7 +38,7 @@ public class SpiderAction extends HttpServlet {
 		//爬取博客，结果存放在BLogList中
         Spider.create(new CsdnBlogPageProcesser(url))
         	.addUrl(url)
-             .addPipeline(new GetBlogPipeline()).run();
+             .addPipeline(new CsdnBlogPipeline()).run();
         
         blogList = BlogList.getBlogList();
         result = new Gson().toJson(blogList);

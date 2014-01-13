@@ -11,11 +11,11 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 
 
 /**
- * csdn博客导入oschina
+ * 将csdn博客代码部分转换为oschina博客类型，并保存至BlogList
  * @author oscfox
- * @date 20140106
+ * @date 
  */
-public class GetBlogPipeline implements Pipeline {
+public class CsdnBlogPipeline implements Pipeline {
 
 	
 	private Map<String, Object> fields = new HashMap<String, Object>();
@@ -30,8 +30,12 @@ public class GetBlogPipeline implements Pipeline {
         }
     	*/
     	fields = resultItems.getAll();
+    	Blog oscBlog = new Blog(fields);
     	
-    	BlogList.addBlog(new Blog(fields));
+    	//处理代码格式
+    	oscBlog.setContent(oscBlog.getContent());
+    	
+    	BlogList.addBlog(oscBlog);
     	
     }
 }
