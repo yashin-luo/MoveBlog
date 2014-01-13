@@ -1,5 +1,10 @@
 package beans;
 
+/**
+ * oschina 用户信息
+ * @author oscfox
+ *
+ */
 public class User {
 	
 	private String id;

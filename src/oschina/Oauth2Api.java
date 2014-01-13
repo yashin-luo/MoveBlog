@@ -9,6 +9,11 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import com.google.gson.Gson;
 
+/**
+ * oschina—È÷§api
+ * @author oscfox
+ *
+ */
 public class Oauth2Api {
 
 	

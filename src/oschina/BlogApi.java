@@ -12,6 +12,11 @@ import beans.Blog;
 
 import com.google.gson.Gson;
 
+/**
+ * oschina 获取博客api
+ * @author oscfox
+ *
+ */
 public class BlogApi {
 	
 	//测试用host

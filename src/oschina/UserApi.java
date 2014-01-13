@@ -11,6 +11,11 @@ import beans.User;
 
 import com.google.gson.Gson;
 
+/**
+ * oschina 获取用户信息api
+ * @author oscfox
+ *
+ */
 public class UserApi {
 	
 	//测试用host
