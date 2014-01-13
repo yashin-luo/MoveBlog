@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import beans.Blog;
-import beans.BlogList;
+import spider.BlogList;
 import spider.CsdnBlogPageProcesser;
 import spider.CsdnBlogPipeline;
 import us.codecraft.webmagic.Spider;

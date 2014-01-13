@@ -1,4 +1,4 @@
-package beans;
+package spider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import beans.Blog;
 /**
  * 爬虫获取的博客列表
  * @author oscfox

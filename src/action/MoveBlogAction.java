@@ -3,14 +3,16 @@ package action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import oschina.BlogApi;
 import oschina.Oauth2Api;
+import spider.BlogList;
 import beans.Blog;
-import beans.BlogList;
 
 /**
  * 博客搬家action
