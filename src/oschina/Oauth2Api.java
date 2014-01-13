@@ -22,10 +22,15 @@ public class Oauth2Api {
 	//oschina host
 	//private String hostString = "http://www.oschina.";\
 	
-	
+	/*
 	private static String client_secret="7uAqJvTYjSQKv3NMK8KSapMRDohhmTgV";	//应用私钥
 	private static String client_id="J2pBh55ca84TzkGZ1ZYv";	//应用id
 	private static String redirect_uri="http://www.moveblog.com:8080/";	//回调地址
+	*/
+	private static String client_secret="FJLnihKY54W8p8z68gI9RraErpk5dFpY";	//应用私钥
+	private static String client_id="yKqX3IQWBvft0W8JXz0k";	//应用id
+	private static String redirect_uri="http://www.moveblog.com:8080/Oauth2Action";	//回调地址
+	
 	private static String access_token="";
 	private static String code="";
 	
@@ -47,8 +52,8 @@ public class Oauth2Api {
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
-		token_href =hostString + token_href + code;
-		HttpMethod method = new GetMethod(token_href);
+		String token_ =hostString + token_href + code;
+		HttpMethod method = new GetMethod(token_);
 		String responsestr = new String();
 		
 		try {
@@ -69,6 +74,7 @@ public class Oauth2Api {
 			JsonData jsonData = gson.fromJson(responsestr, JsonData.class);
 			return jsonData.getToken();
 		} catch (Exception e) {
+			
 			// TODO: handle exception
 		}
         

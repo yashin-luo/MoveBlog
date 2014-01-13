@@ -19,18 +19,17 @@ import beans.BlogList;
  */
 public class MoveBlogAction extends HttpServlet {
 	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.doPost(request, response);
+	}
+	
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String code = request.getParameter("code");
-		
-		if(code.isEmpty() || code.equals("w")){//授权码获取失败
-			json_out("",response);
-			return;
-		}
-		
-		//根据oschina authorization_code 回调的code请求 access_token
-		String access_token= Oauth2Api.getAccess_token(code);
+
+		String access_token= Oauth2Api.getAccess_token();
 		if(access_token.isEmpty()){//授权码获取失败
-			json_out("",response);
+			json_out("请先授权!",response);
 			return;
 		}
 		
@@ -40,18 +39,11 @@ public class MoveBlogAction extends HttpServlet {
 			return;
 		}
 		
-		if(access_token.isEmpty() || id.isEmpty())
-		{
-			json_out("",response);
-			return;
-		}
-		
 		Blog blog = BlogList.getBlog(Long.parseLong(id));
 		//根据access_token 导入blog
 		String reString = BlogApi.pubBlog(blog,access_token);
 		json_out(reString,response);
 	}
-
 
 	/**
 	 * 以json返回action结果
@@ -68,9 +60,5 @@ public class MoveBlogAction extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		out.print(json);
 	}
-	
-	
-	
-	
 	
 }

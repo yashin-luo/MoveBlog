@@ -56,7 +56,6 @@ public class BlogApi {
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
-		
 		PostMethod method = new PostMethod(blogpubString);
 		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
 		NameValuePair access_token_ = new NameValuePair("access_token",access_token);  

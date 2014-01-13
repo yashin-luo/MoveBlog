@@ -32,4 +32,15 @@
     <servlet-name>MoveBlogAction</servlet-name>
     <url-pattern>/MoveBlogAction</url-pattern>
   </servlet-mapping>
+  
+    <servlet>
+    <description></description>
+    <display-name>Oauth2Action</display-name>
+    <servlet-name>Oauth2Action</servlet-name>
+    <servlet-class>action.Oauth2Action</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Oauth2Action</servlet-name>
+    <url-pattern>/Oauth2Action</url-pattern>
+  </servlet-mapping>
 </web-app>

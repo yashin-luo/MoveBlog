@@ -16,7 +16,7 @@ dp.sh.Toolbar.Commands = {
 	ExpandSource : {
 		label : "+ expand source",
 		check : function(b) {
-			return b.collapse
+			return b.collapse;
 		},
 		func : function(b, c) {
 			b.parentNode.removeChild(b);
