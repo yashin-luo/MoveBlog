@@ -4,19 +4,17 @@ package action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
-
 import beans.Blog;
 import spider.BlogList;
 import spider.CsdnBlogPageProcesser;
-import spider.CsdnBlogPipeline;
+import spider.BlogPipeline;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.processor.PageProcessor;
 
 /**
  * 爬虫调用action
@@ -34,15 +32,23 @@ public class SpiderAction extends HttpServlet {
 		String result="";
 		List<Blog> blogList;
 		
-		BlogList.clearBlogList(); //清楚原有列表
+		BlogList.clearBlogList(); //清除原有列表
+		
+		//博客类型选择
+		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
+		
 		//爬取博客，结果存放在BLogList中
-        Spider.create(new CsdnBlogPageProcesser(url))
+        Spider.create(pageProcessor)
         	.addUrl(url)
-             .addPipeline(new CsdnBlogPipeline()).run();
+             .addPipeline(new BlogPipeline()).run();
         
         blogList = BlogList.getBlogList();
         result = new Gson().toJson(blogList);
 		json_out(result, response);
+	}
+	
+	private PageProcessor getBlogSitePageProcessor(String url){
+		return new CsdnBlogPageProcesser(url);
 	}
 	
 	private void json_out(String json,HttpServletResponse response) throws IOException{

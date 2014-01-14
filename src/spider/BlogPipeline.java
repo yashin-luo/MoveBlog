@@ -1,0 +1,35 @@
+package spider;
+
+import java.util.HashMap;
+import java.util.Map;
+import beans.Blog;
+import us.codecraft.webmagic.ResultItems;
+import us.codecraft.webmagic.Task;
+import us.codecraft.webmagic.pipeline.Pipeline;
+
+
+/**
+ * blog保存至BlogList
+ * @author oscfox
+ * @date 
+ */
+public class BlogPipeline implements Pipeline{
+
+	private Map<String, Object> fields = new HashMap<String, Object>();
+	
+    @Override
+    public void process(ResultItems resultItems, Task task) {
+
+    	fields = resultItems.getAll();
+    	Blog oscBlog = null;
+    	try {
+			oscBlog = new Blog(fields);
+		} catch (Exception e) {
+			// TODO 捕获空博客异常
+			//e.printStackTrace();
+			return ;
+		}
+
+    	BlogList.addBlog(oscBlog);
+    }
+}

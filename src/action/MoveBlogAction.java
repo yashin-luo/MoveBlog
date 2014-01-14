@@ -37,7 +37,7 @@ public class MoveBlogAction extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		if(id.isEmpty()){//id获取失败
-			json_out("",response);
+			json_out("id获取失败",response);
 			return;
 		}
 		

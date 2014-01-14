@@ -17,6 +17,7 @@ public class OscBlogReplacer {
 		hashtable = hash;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static String replace(String rex, String csdn) {
 		String osc=csdn;
 		

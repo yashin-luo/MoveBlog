@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * ²©¿Í beans
  * @author oscfox
@@ -18,11 +19,11 @@ public class Blog {
 	private List<String> tags;
 	
 	@SuppressWarnings("unchecked")
-	public Blog(Map<String, Object> blogMap) {
+	public Blog(Map<String, Object> blogMap) throws Exception {
 		this.setContent(blogMap.get("content").toString());
 		this.setLink(blogMap.get("link").toString());
 		this.setTitle(blogMap.get("title").toString());
-		this.setTags((ArrayList<String>)blogMap.get("tags"));
+		this.setTags((ArrayList<String>)blogMap.get("tags"));	
 	}
 	
 	public Blog(String url){
