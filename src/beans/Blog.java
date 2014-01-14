@@ -20,10 +20,25 @@ public class Blog {
 	
 	@SuppressWarnings("unchecked")
 	public Blog(Map<String, Object> blogMap) throws Exception {
-		this.setContent(blogMap.get("content").toString());
-		this.setLink(blogMap.get("link").toString());
-		this.setTitle(blogMap.get("title").toString());
-		this.setTags((ArrayList<String>)blogMap.get("tags"));	
+		
+		Object content = blogMap.get("content");
+		Object title = blogMap.get("title");
+		
+		if(null == content || null == title){
+			throw new Exception("");
+		}
+		
+		
+		try {
+			this.setTags((ArrayList<String>)blogMap.get("tags"));	
+			this.setLink(blogMap.get("link").toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		this.setContent(content.toString());
+		this.setTitle(title.toString());
+		
 	}
 	
 	public Blog(String url){

@@ -4,15 +4,21 @@ package action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.google.gson.Gson;
+
 import beans.Blog;
 import spider.BlogList;
-import spider.CsdnBlogPageProcesser;
 import spider.BlogPipeline;
+import spider.CnBlogPageProcesser;
+import spider.CsdnBlogPageProcesser;
+import spider.IteyeBlogPageProcesser;
+import spider.CtoBlogPageProcesser;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
@@ -48,7 +54,26 @@ public class SpiderAction extends HttpServlet {
 	}
 	
 	private PageProcessor getBlogSitePageProcessor(String url){
-		return new CsdnBlogPageProcesser(url);
+		if(url.contains("www.cnblogs.com")){
+			
+			return new CnBlogPageProcesser(url);
+			
+		}else if(url.contains("blog.csdn.net")){
+			
+			return new CsdnBlogPageProcesser(url);
+			
+		}else if(url.contains("blog.51cto.com")){
+			
+			return new CtoBlogPageProcesser(url);
+		
+		}else if(url.contains("www.iteye.com")){
+			
+			return new IteyeBlogPageProcesser(url);
+		
+		}else {
+			
+			return new IteyeBlogPageProcesser(url);
+		}
 	}
 	
 	private void json_out(String json,HttpServletResponse response) throws IOException{

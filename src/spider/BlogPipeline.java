@@ -2,6 +2,7 @@ package spider;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import beans.Blog;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
@@ -31,5 +32,12 @@ public class BlogPipeline implements Pipeline{
 		}
 
     	BlogList.addBlog(oscBlog);
+    	
+    	//≤‚ ‘
+    	System.out.println("get page: " + resultItems.getRequest().getUrl());
+        for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
+            System.out.println(entry.getKey() + ":\t" + entry.getValue());
+        }
+    	
     }
 }

@@ -8,23 +8,23 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 /**
- * csdn博客爬虫逻辑
+ * cnblogs博客爬虫逻辑
  * @author oscfox
  * @date 20140114
  */
-public class CsdnBlogPageProcesser implements PageProcessor{
+public class CnBlogPageProcesser implements PageProcessor{
 	
-	private Site site = Site.me().setDomain("blog.csdn.net");
+	private Site site = Site.me().setDomain("www.cnblogs.com");
 	
-	private String urlString ;
 	private String name;
-	private String codeRex = "<pre\\s*.*\\s*class=\"(.*)\">"; 	//代码过滤正则表达式
+	//<pre class="brush:java;gutter:true;"> 
+	private String codeRex = "<pre\\s*class=\"brush:(.*);.*;\">"; 	//代码过滤正则表达式
 	private Hashtable<String, String> hashtable=null;				//代码class映射关系
 	
-	public CsdnBlogPageProcesser(String url) {
+	public CnBlogPageProcesser(String url) {
 		this.site.setSleepTime(10);
-		urlString = url;
-		name = urlString.split("/")[urlString.split("/").length - 1];
+		
+		name = url.substring(url.indexOf("com/")+4);
 	}
 	
 	/**
@@ -32,14 +32,16 @@ public class CsdnBlogPageProcesser implements PageProcessor{
 	 */
 	@Override
     public void process(Page page) {
+		//http://www.cnblogs.com/scgw/
+        List<String> links = page.getHtml().links().regex("http://www\\.cnblogs\\.com/"+name+"/p/.*\\.html").all();
         
-        List<String> links = page.getHtml().links().regex("http://blog\\.csdn\\.net/"+name+"/article/details/\\d+").all();
         page.addTargetRequests(links);
-        page.putField("title", page.getHtml().xpath("//div[@class='details']/div[@class='article_title']/h3/span/a/text()").toString());
-        page.putField("tags",page.getHtml().xpath("//div[@class='tag2box']/a/text()").all());
-        page.putField("link", page.getHtml().xpath("//div[@class='details']/div[@class='article_title']/h3/span/a/@href").toString());
         
-        String oldContent = page.getHtml().$("div.article_content").toString();
+        page.putField("title", page.getHtml().xpath("//div[@class='post']/h2/a/text()").toString());//title 标签不唯一，有的能抓有的不能抓
+        page.putField("ags",page.getHtml().xpath("//div[@id='EntryTag']/a/text()").all()); //cnblogs中tags不在网页源码中，获取不了
+        page.putField("link", page.getHtml().xpath("//div[@class='post']/h2/a/@href").toString());
+        
+        String oldContent = page.getHtml().$("div.entry").toString();
         if(null == oldContent){
         	return;
         }
@@ -59,12 +61,13 @@ public class CsdnBlogPageProcesser implements PageProcessor{
 
     /**
      * 初始化映射关系，只初始化代码类型同样而class属性不一样的。
-     * 分别为:csdn， osc
+     * 分别为:cnblogs， osc
      */
 	private void initMap() {
 		hashtable = new Hashtable<String,String>();
-		hashtable.put("csharp", "c#");
+		
+		/*hashtable.put("csharp", "c#");
 		hashtable.put("javascript", "js");
-		hashtable.put("objc", "cpp");
+		hashtable.put("objc", "cpp");*/
 	}
 }
