@@ -21,11 +21,16 @@ public class UserApi {
 	//测试用host
 	private static String hostString = "http://www.oschina.com";
 	//oschina host
-	//private String hostString = "http://www.oschina.";
+	//private String hostString = "http://www.oschina.net";
 	
 	private static String userString = hostString + "/action/openapi/user";
 	private static String type="json";
 	
+	/**
+	 * 根据access_token 获取用户信息
+	 * @param access_token
+	 * @return
+	 */
 	public static User getUser(String access_token) {
 		HttpClient client = new HttpClient();
 		//User-Agent

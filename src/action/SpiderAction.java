@@ -38,9 +38,8 @@ public class SpiderAction extends HttpServlet {
 		String result="";
 		List<Blog> blogList;
 		
-		BlogList.clearBlogList(); //清除原有列表
+		BlogList.clearBlogList(); 	//清除原有列表
 		
-		//博客类型选择
 		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
 		
 		//爬取博客，结果存放在BLogList中
@@ -53,6 +52,11 @@ public class SpiderAction extends HttpServlet {
 		json_out(result, response);
 	}
 	
+	/**
+	 * //根据url选择博客类型
+	 * @param url
+	 * @return
+	 */
 	private PageProcessor getBlogSitePageProcessor(String url){
 		if(url.contains("www.cnblogs.com")){
 			

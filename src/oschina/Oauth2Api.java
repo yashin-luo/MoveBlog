@@ -22,13 +22,8 @@ public class Oauth2Api {
 	//oschina host
 	//private String hostString = "http://www.oschina.";\
 	
-	/*
-	private static String client_secret="7uAqJvTYjSQKv3NMK8KSapMRDohhmTgV";	//应用私钥
-	private static String client_id="J2pBh55ca84TzkGZ1ZYv";	//应用id
-	private static String redirect_uri="http://www.moveblog.com:8080/";	//回调地址
-	*/
-	private static String client_secret="FJLnihKY54W8p8z68gI9RraErpk5dFpY";	//应用私钥
-	private static String client_id="yKqX3IQWBvft0W8JXz0k";	//应用id
+	private static String client_secret="FJLnihKY54W8p8z68gI9RraErpk5dFpY";			//应用私钥
+	private static String client_id="yKqX3IQWBvft0W8JXz0k";							//应用id
 	private static String redirect_uri="http://www.moveblog.com:8080/Oauth2Action";	//回调地址
 	
 	private static String access_token="";

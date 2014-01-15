@@ -43,7 +43,7 @@ public class CsdnBlogPageProcesser implements PageProcessor{
         }
         
         if(null != tags){
-        	tags.substring(1,tags.length()-1);
+        	tags = tags.substring(tags.indexOf("[")+1,tags.indexOf("]"));
         }
         
         initMap();														//初始化映射关系

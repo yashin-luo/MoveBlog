@@ -34,7 +34,7 @@ public class CtoBlogPageProcesser implements PageProcessor{
 	@Override
     public void process(Page page) {
 		//http://coffeescript.iteye.com/blog/2003321
-        List<String> links = page.getHtml().links().regex("http://"+name+"\\.blog\\.51cto\\.com/\\.+/\\d+").all();
+        List<String> links = page.getHtml().links().regex("http://"+name+"\\.blog\\.51cto\\.com/.+/\\d+").all();
         page.addTargetRequests(links);
         
         String title = page.getHtml().xpath("//div[@class='showTitleBOx']/div[@class='showTitle']/text()").toString();
@@ -46,7 +46,7 @@ public class CtoBlogPageProcesser implements PageProcessor{
         }
         
         if(null != tags){
-        	tags.substring(1,tags.length()-1);
+        	tags = tags.substring(tags.indexOf("[")+1,tags.indexOf("]"));
         }
         
         initMap();														//初始化映射关系

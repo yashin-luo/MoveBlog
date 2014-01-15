@@ -14,7 +14,7 @@ public class Blog {
 	
 	private String 	title="";			//	true		博客标题	
 	private String 	content="";			//	true		博客内容	
-	private String 	classification;		//	true		系统博客分类
+	private String 	classification="418860";//	true		系统博客分类
 	private String 	save_as_draft="0";	//	false		保存到草稿 是：1 否：0	0
 	private String 	catalog;			//	false		博客分类	
 	private String 	abstracts="";		//	false		博客摘要	
@@ -47,13 +47,16 @@ public class Blog {
 		Object link = blogMap.get("link");						//	原博客链接
 		Object id = blogMap.get("id");							//	
 		
-		if(null == content || null == title || null == classification){
+		if(null == content || null == title){
 			throw new Exception("blog缺乏必要参数");
 		}
 
 		this.setContent(content.toString());
 		this.setTitle(title.toString());
-		this.setClassification(classification.toString());
+	
+		if(null != classification){
+			this.setClassification(classification.toString());
+		}
 		
 		if(null != save_as_draft){
 			this.setSave_as_draft(save_as_draft.toString());

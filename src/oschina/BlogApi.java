@@ -29,6 +29,7 @@ public class BlogApi {
 	/**
 	 * 将博客导入oschina
 	 * @param blog
+	 * @param access_token
 	 * @return
 	 */
 	public static String pubBlog(Blog blog, String access_token) {
@@ -57,9 +58,17 @@ public class BlogApi {
 	 * @param access_token
 	 * @param title
 	 * @param content
+	 * @param abstracts
+	 * @param origin_url
+	 * @param tags
+	 * @param as_top
+	 * @param auto_content
 	 * @param catalog
-	 * @param tags1
+	 * @param deny_comment
 	 * @param classification
+	 * @param type
+	 * @param save_as_draft
+	 * @param privacy
 	 * @return
 	 */
 	protected static String pubBlog(
