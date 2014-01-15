@@ -2,6 +2,7 @@ package spider;
 
 import java.util.Hashtable;
 import java.util.List;
+
 import common.OscBlogReplacer;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -15,16 +16,13 @@ import us.codecraft.webmagic.processor.PageProcessor;
 public class CsdnBlogPageProcesser implements PageProcessor{
 	
 	private Site site = Site.me().setDomain("blog.csdn.net");
-	
-	private String urlString ;
-	private String name;
-	private String codeRex = "<pre\\s*.*\\s*class=\"(.*)\">"; 	//代码过滤正则表达式
-	private Hashtable<String, String> hashtable=null;				//代码class映射关系
+	private String name="";															//博客原url 的名字域
+	private String codeRex = "<pre\\s*.*\\s*class=\"(.*)\">"; 						//代码过滤正则表达式
+	private Hashtable<String, String> hashtable = new Hashtable<String,String>();	//代码class映射关系
 	
 	public CsdnBlogPageProcesser(String url) {
 		this.site.setSleepTime(10);
-		urlString = url;
-		name = urlString.split("/")[urlString.split("/").length - 1];
+		name = url.split("/")[url.split("/").length - 1];
 	}
 	
 	/**
@@ -35,21 +33,26 @@ public class CsdnBlogPageProcesser implements PageProcessor{
         
         List<String> links = page.getHtml().links().regex("http://blog\\.csdn\\.net/"+name+"/article/details/\\d+").all();
         page.addTargetRequests(links);
-        page.putField("title", page.getHtml().xpath("//div[@class='details']/div[@class='article_title']/h3/span/a/text()").toString());
-        page.putField("tags",page.getHtml().xpath("//div[@class='tag2box']/a/text()").all());
-        page.putField("link", page.getHtml().xpath("//div[@class='details']/div[@class='article_title']/h3/span/a/@href").toString());
         
+        String title = page.getHtml().xpath("//div[@class='details']/div[@class='article_title']/h3/span/a/text()").toString();
         String oldContent = page.getHtml().$("div.article_content").toString();
-        if(null == oldContent){
+        String tags = page.getHtml().xpath("//div[@class='tag2box']/a/text()").all().toString();
+        
+        if(null == oldContent || null == title){
         	return;
         }
-        //初始化映射关系
-        initMap();
-		//设置工具类映射关系
-		OscBlogReplacer.setHashtable(hashtable);
-		//处理代码格式,
-    	String oscContent = OscBlogReplacer.replace(codeRex,oldContent);
+        
+        if(null != tags){
+        	tags.substring(1,tags.length()-1);
+        }
+        
+        initMap();														//初始化映射关系
+		OscBlogReplacer.setHashtable(hashtable);						//设置工具类映射关系
+    	String oscContent = OscBlogReplacer.replace(codeRex,oldContent);//处理代码格式
+    	
         page.putField("content", oscContent);
+        page.putField("title", title);
+        page.putField("tags", tags);
 	}
 
     @Override
@@ -62,7 +65,6 @@ public class CsdnBlogPageProcesser implements PageProcessor{
      * 分别为:csdn， osc
      */
 	private void initMap() {
-		hashtable = new Hashtable<String,String>();
 		hashtable.put("csharp", "c#");
 		hashtable.put("javascript", "js");
 		hashtable.put("objc", "cpp");

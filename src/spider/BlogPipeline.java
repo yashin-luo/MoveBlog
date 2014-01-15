@@ -10,7 +10,7 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 
 
 /**
- * blog保存至BlogList
+ * 成功blog并保存至BlogList
  * @author oscfox
  * @date 
  */
@@ -22,11 +22,12 @@ public class BlogPipeline implements Pipeline{
     public void process(ResultItems resultItems, Task task) {
 
     	fields = resultItems.getAll();
+    	
     	Blog oscBlog = null;
     	try {
 			oscBlog = new Blog(fields);
+			oscBlog.setLink(resultItems.getRequest().getUrl());
 		} catch (Exception e) {
-			// TODO 捕获空博客异常
 			//e.printStackTrace();
 			return ;
 		}

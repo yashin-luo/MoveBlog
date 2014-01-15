@@ -7,13 +7,13 @@ package beans;
  */
 public class User {
 	
-	private String id;
-	private String email;
-	private String name;
-	private String gender;
-	private String avatar;		//: "http://www.oschina.net/uploads/user/****",
-	private String location;	//: "广东 深圳",
-	private String url;			//: "http://home.oschina.net/****"
+	private String id="";			//: 899**,
+	private String email="";		//: "****@gmail.com",
+	private String name="";			//: "彭博",
+	private String gender="";		//: "male",
+	private String avatar="";		//: "http://www.oschina.net/uploads/user/****",
+	private String location="";		//: "广东 深圳",
+	private String url="";			//: "http://home.oschina.net/****"
 	
     @Override
     public String toString()

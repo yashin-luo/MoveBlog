@@ -42,8 +42,21 @@ public class MoveBlogAction extends HttpServlet {
 		}
 		
 		Blog blog = BlogList.getBlog(Long.parseLong(id));
-		//根据access_token 导入blog
-		String reString = BlogApi.pubBlog(blog,access_token);
+		/**
+		 * 可设置blog非必要参数：
+		 *	save_as_draft=0;	//	false		保存到草稿 是：1 否：0	0
+		 *	catalog;			//	false		博客分类	
+		*	abstracts="";		//	false		博客摘要	
+		*	tags="";			//	false		博客标签，用逗号隔开	
+		*	type=1;				//	false		原创：1、转载：4	1
+		*	origin_url="";		//	false		转载的原文链接	
+		*	privacy=0;			//	false		公开：0、私有：1	0
+		*	deny_comment=0;		//	false		允许评论：0、禁止评论：1	0
+		*	auto_content=0;		//	false		自动生成目录：0、不自动生成目录：1	0
+		*	as_top=0;			//	false		非置顶：0、置顶：1	0
+		 */
+		
+		String reString = BlogApi.pubBlog(blog,access_token);	//根据access_token 导入blog
 		json_out(reString,response);
 	}
 

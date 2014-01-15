@@ -22,9 +22,9 @@ public class BlogApi {
 	//测试用host
 	private static String hostString = "http://www.oschina.com";
 	//oschina host
-	//private String hostString = "http://www.oschina.";
+	//private String hostString = "http://www.oschina.net";
 	
-	private static String blogpubString = hostString + "/action/openapi/blog_pub";
+	private static String blogPubString = hostString + "/action/openapi/blog_pub";
 	
 	/**
 	 * 将博客导入oschina
@@ -32,11 +32,23 @@ public class BlogApi {
 	 * @return
 	 */
 	public static String pubBlog(Blog blog, String access_token) {
-		String title = blog.getTitle();
-		String content = blog.getContent();
-		String catalog = "";
-		String tags = blog.getTags();
-		String reString = pubBlog(access_token, title, content, catalog, tags, "418860");
+		
+		String reString = pubBlog(
+				access_token, 
+				blog.getTitle(),
+				blog.getContent(),
+				blog.getAbstracts(),
+				blog.getOrigin_url(),
+				blog.getTags(),
+				blog.getAs_top(),
+				blog.getAuto_content(),
+				blog.getCatalog(),
+				blog.getDeny_comment(),
+				blog.getClassification(),
+				blog.getType(),
+				blog.getSave_as_draft(),
+				blog.getPrivacy());
+		
 		return reString;
 	}
 	
@@ -46,25 +58,53 @@ public class BlogApi {
 	 * @param title
 	 * @param content
 	 * @param catalog
-	 * @param tags
+	 * @param tags1
 	 * @param classification
 	 * @return
 	 */
-	protected static String pubBlog(String access_token,String title, String content, String catalog, String tags, String classification) {
+	protected static String pubBlog(
+			String access_token,
+			String title, 
+			String content, 
+			String abstracts,
+			String origin_url, 
+			String tags, 
+			String as_top, 
+			String auto_content, 
+			String catalog, 
+			String deny_comment, 
+			String classification,
+			String type,
+			String save_as_draft,
+			String privacy) {
+		
 		HttpClient client = new HttpClient();
 		//User-Agent
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
-		PostMethod method = new PostMethod(blogpubString);
+		PostMethod method = new PostMethod(blogPubString);
 		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
+		
 		NameValuePair access_token_ = new NameValuePair("access_token",access_token);  
 		NameValuePair title_ = new NameValuePair("title",title);
 		NameValuePair content_ = new NameValuePair("content",content);
 		NameValuePair catalog_ = new NameValuePair("catalog",catalog);
 		NameValuePair tags_ = new NameValuePair("tags",tags);
 		NameValuePair classification_ = new NameValuePair("classification",classification);
-        method.setRequestBody(new NameValuePair[] { access_token_,title_,content_,catalog_,tags_,classification_});  
+		NameValuePair abstracts_ = new NameValuePair("abstracts",abstracts);  
+		NameValuePair origin_url_ = new NameValuePair("origin_url",origin_url);
+		NameValuePair as_top_ = new NameValuePair("as_top",as_top);
+		NameValuePair auto_content_ = new NameValuePair("auto_content",auto_content);
+		NameValuePair deny_comment_ = new NameValuePair("deny_comment",deny_comment);
+		NameValuePair type_ = new NameValuePair("type",type);
+		NameValuePair save_as_draft_ = new NameValuePair("save_as_draft",save_as_draft);
+		NameValuePair privacy_ = new NameValuePair("privacy",privacy);
+		
+        method.setRequestBody(
+        		new NameValuePair[] {access_token_,title_,content_,classification_,
+        				catalog_,tags_,abstracts_,origin_url_,as_top_,auto_content_,
+        				deny_comment_,type_,save_as_draft_,privacy_} );  
 		
 		String responsestr = "";
 		
