@@ -38,16 +38,18 @@ public class SpiderAction extends HttpServlet {
 		String result="";
 		List<Blog> blogList;
 		
-		BlogList.clearBlogList(); 	//清除原有列表
+		String user=request.getParameter("user");
+		
+		BlogList.clearBlogList(user); 	//清除原有列表
 		
 		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
 		
 		//爬取博客，结果存放在BLogList中
         Spider.create(pageProcessor)
         	.addUrl(url)
-             .addPipeline(new BlogPipeline()).run();
+             .addPipeline(new BlogPipeline(user)).run();
         
-        blogList = BlogList.getBlogList();
+        blogList = BlogList.getBlogList(user);
         result = new Gson().toJson(blogList);
 		json_out(result, response);
 	}

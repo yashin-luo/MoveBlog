@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import oschina.BlogApi;
-import oschina.Oauth2Api;
 import spider.BlogList;
 import beans.Blog;
 
@@ -29,19 +29,29 @@ public class MoveBlogAction extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String access_token= Oauth2Api.getAccess_token();
-		if(access_token.isEmpty()){//授权码获取失败
+		String user="";
+		Cookie[] cookie = request.getCookies();
+
+		for (int i = 0; i < cookie.length; i++) {
+			Cookie cook = cookie[i];
+			if(cook.getName().equalsIgnoreCase("user")){ //获取键 
+				user = cook.getValue().toString();
+			}
+		}
+		
+		if(user.isEmpty()){//授权码获取失败
 			json_out("请先授权!",response);
 			return;
 		}
 		
-		String id = request.getParameter("id");
-		if(id.isEmpty()){//id获取失败
-			json_out("id获取失败",response);
+		String index = request.getParameter("indexx");
+		
+		if(index.isEmpty()){//id获取失败
+			json_out("index获取失败",response);
 			return;
 		}
 		
-		Blog blog = BlogList.getBlog(Long.parseLong(id));
+		Blog blog = BlogList.getBlog(user, Integer.parseInt(index));
 		/**
 		 * 可设置blog非必要参数：
 		 *	save_as_draft=0;	//	false		保存到草稿 是：1 否：0	0
@@ -56,7 +66,7 @@ public class MoveBlogAction extends HttpServlet {
 		*	as_top=0;			//	false		非置顶：0、置顶：1	0
 		 */
 		
-		String reString = BlogApi.pubBlog(blog,access_token);	//根据access_token 导入blog
+		String reString = BlogApi.pubBlog(blog,Oauth2Action.Users.get(user));	//根据access_token 导入blog
 		json_out(reString,response);
 	}
 

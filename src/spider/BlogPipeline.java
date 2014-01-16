@@ -18,6 +18,12 @@ public class BlogPipeline implements Pipeline{
 
 	private Map<String, Object> fields = new HashMap<String, Object>();
 	
+	private String user;
+	
+	public BlogPipeline(String user){
+		this.user = user;
+	}
+	
     @Override
     public void process(ResultItems resultItems, Task task) {
 
@@ -32,7 +38,7 @@ public class BlogPipeline implements Pipeline{
 			return ;
 		}
 
-    	BlogList.addBlog(oscBlog);
+    	BlogList.addBlog(user,oscBlog);
     	
     	//≤‚ ‘
     	System.out.println("get page: " + resultItems.getRequest().getUrl());
