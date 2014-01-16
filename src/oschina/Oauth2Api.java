@@ -1,13 +1,13 @@
 package oschina;
 
 import java.io.IOException;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import com.google.gson.Gson;
+import common.AppConfigTool;
 
 /**
  * oschina验证api
@@ -16,25 +16,8 @@ import com.google.gson.Gson;
  */
 public class Oauth2Api {
 
-	
-	//测试用host
-	private static String hostString = "http://www.oschina.com";
-	//oschina host
-	//private String hostString = "http://www.oschina.";\
-	
-	private static String client_secret="FJLnihKY54W8p8z68gI9RraErpk5dFpY";			//应用私钥
-	private static String client_id="yKqX3IQWBvft0W8JXz0k";							//应用id
-	private static String redirect_uri="http://www.moveblog.com:8080/Oauth2Action";	//回调地址
-	
 	private static String access_token="";
 	private static String code="";
-	
-	private static String token_href="/action/openapi/token?"
-			+"client_secret="+client_secret
-			+"&client_id="+client_id
-			+"&grant_type=authorization_code"
-			+"&redirect_uri="+redirect_uri
-			+"&code=";
 	
 	/**
 	 * 根据code获取oschina的 token
@@ -47,8 +30,15 @@ public class Oauth2Api {
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
-		String token_ =hostString + token_href + code;
-		HttpMethod method = new GetMethod(token_);
+		String token_href = AppConfigTool.osc_host
+				+AppConfigTool.oauth2_token
+				+"?client_secret="+AppConfigTool.client_secret
+				+"&client_id="+AppConfigTool.client_id
+				+"&grant_type=authorization_code"
+				+"&redirect_uri="+AppConfigTool.redirect_uri
+				+"&code="+code;
+
+		HttpMethod method = new GetMethod(token_href);
 		String responsestr = new String();
 		
 		try {
