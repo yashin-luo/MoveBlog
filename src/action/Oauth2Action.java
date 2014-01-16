@@ -3,7 +3,9 @@ package action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.ConcurrentHashMap;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,8 @@ import beans.User;
  *
  */
 public class Oauth2Action extends HttpServlet {
+	
+	public static ConcurrentHashMap<Long, String> Users;
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,13 +48,15 @@ public class Oauth2Action extends HttpServlet {
 		
 		//根据access_token 获取User
 		User user = UserApi.getUser(access_token);
-		String username = user.getName();
+		
+		Users.put(Long.valueOf(user.getId()), access_token);
+		
 		//创建对象
-        Cookie namecookie = new Cookie("user",username) ;
+        Cookie u = new Cookie("user",user.getId()) ;
         //设定有效时间  以s为单位
-        namecookie.setMaxAge(600) ;
+        u.setMaxAge(600) ;
         //设置Cookie路径和域名
-        namecookie.setPath("/") ;
+        u.setPath("/") ;
         String userhref = user.getUrl();
         //创建对象
         Cookie linkcookie = new Cookie("href",userhref) ;
@@ -59,15 +65,13 @@ public class Oauth2Action extends HttpServlet {
         //设置Cookie路径和域名
         linkcookie.setPath("/") ;
         //发送Cookie文件
-        response.addCookie(namecookie) ;
-        response.addCookie(linkcookie) ;
+        response.addCookie(u) ;
 		
-		response.sendRedirect("/index.html");
+		response.sendRedirect("/index2.html");
 		
 		//String reString = user.toString();
 		//json_out(reString,response);
 	}
-
 
 	/**
 	 * 以json返回action结果
@@ -75,7 +79,7 @@ public class Oauth2Action extends HttpServlet {
 	 * @param response
 	 * @throws IOException
 	 */
-	private void json_out(String json,HttpServletResponse response) throws IOException{
+	public static void json_out(String json,HttpServletResponse response) throws IOException{
 		response.setContentType("application/json;charset=utf-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -83,5 +87,11 @@ public class Oauth2Action extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		response.setCharacterEncoding("utf-8");
 		out.print(json);
+	}
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		Users = new ConcurrentHashMap<Long,String>();
+		super.init(config);
 	}
 }
