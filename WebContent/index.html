@@ -23,7 +23,7 @@
 		if(username != null)
 			$("#usermenu").replaceWith("<a href="+userhref+">用户名："+username+"</span>");
 		
-		var linkUrl="SpiderAction?";
+		var linkUrl="action/spider?";
 		var capUrl="MoveBlogAction?";
 		$(".import").click(function(){
 			$(".loading").remove();
@@ -82,7 +82,7 @@
 					var size=json.length;
 					for(var i=0;i<size;i++){
 						var art=json[i];
-						$("#link_list").append('<li>'+(i+1)+'.<input type="checkbox" class="cb" id="'+art.id+'"><a href="'+art.link+'" target="_blank" class="text1">'+art.title+'</a></li>');
+						$("#link_list").append('<li>'+(i+1)+'.<input type="checkbox" class="cb" index="'+i+'"><a href="'+art.link+'" target="_blank" class="text1">'+art.title+'</a></li>');
 					}
 					
 					if(size>50){

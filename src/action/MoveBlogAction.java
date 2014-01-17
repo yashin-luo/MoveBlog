@@ -67,8 +67,9 @@ public class MoveBlogAction extends HttpServlet {
 		*	auto_content=0;		//	false		自动生成目录：0、不自动生成目录：1	0
 		*	as_top=0;			//	false		非置顶：0、置顶：1	0
 		 */
-		
-		String reString = BlogApi.pubBlog(blog,Oauth2Action.Users.get(user));	//根据access_token 导入blog
+		long key = Long.valueOf(user);
+		String token = Oauth2Action.Users.get(key);
+		String reString = BlogApi.pubBlog(blog,token);	//根据access_token 导入blog
 		json_out(reString,response);
 	}
 
