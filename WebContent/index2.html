@@ -12,18 +12,19 @@
 		<div class="content">
 			<div class="user-info">
 				<img src="img/osc_logo.png"/>
-				<a class="cblue" href="javascript:Api.login();return false;">登录 OSChina.Net</a>
+				<a class="cblue login" href="javascript:Api.login();">使用 OSCHINA 帐号登录</a>
+				<a class="cred logout" href="javascript:Api.logout();" style="display:none;margin-left:10px;">退出登录</a>
 			</div>
 			<h2>OSChina.Net 博客搬家</h2>
 			<div class="search-control">
 				<form id="search-form" method="POST">
-					<input name="url"/>
-					<a class="blue" id="submit" href="#">抓取</a>
+					<input name="url" disabled="disabled"/>
+					<a class="blue" id="submit" href="javascript:void(0);">抓取</a>
 				</form>
 			</div>
 			<div class="blog-providers clearfix">
 				<ul>
-					<li class="cnblog">
+					<li class="cnblogs">
 						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/logo_small.gif"/>
 					</li>
 					<li class="iteye">
