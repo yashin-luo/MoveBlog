@@ -9,7 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
+  <!-- <servlet>
     <description></description>
     <display-name>SpiderAction</display-name>
     <servlet-name>SpiderAction</servlet-name>
@@ -38,5 +38,5 @@
   <servlet-mapping>
     <servlet-name>Oauth2Action</servlet-name>
     <url-pattern>/Oauth2Action</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
 </web-app>

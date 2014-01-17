@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import beans.Blog;
  * @author oscfox
  *
  */
+@WebServlet("/MoveBlogAction")
 public class MoveBlogAction extends HttpServlet {
 	
 	@Override

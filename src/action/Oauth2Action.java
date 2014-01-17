@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import beans.User;
  * @author oscfox
  *
  */
+@WebServlet("/Oauth2Action")
 public class Oauth2Action extends HttpServlet {
 	
 	public static ConcurrentHashMap<Long, String> Users;
@@ -52,7 +54,6 @@ public class Oauth2Action extends HttpServlet {
 		
 		Users.put(Long.valueOf(user.getId()), access_token);
 		
-
         Cookie u = new Cookie("user",user.getId()) ;
         u.setMaxAge(600) ;
         u.setPath("/") ;

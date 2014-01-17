@@ -15,16 +15,12 @@ import common.AppConfigTool;
  *
  */
 public class Oauth2Api {
-
-	private static String access_token="";
-	private static String code="";
-	
 	/**
 	 * 根据code获取oschina的 token
 	 * @param code
 	 * @return
 	 */
-	public static String GetToken(String code){
+	public static String getAccess_token(String code){
 		HttpClient client = new HttpClient();
 		//User-Agent
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
@@ -67,22 +63,6 @@ public class Oauth2Api {
         
 	}
 	
-	public static String getAccess_token(String code_) {
-		if(code.equals(code_))
-			return access_token;
-		code = code_;
-		access_token = GetToken(code);
-		return access_token;
-	}
-	
-	public static String getAccess_token() {
-		return access_token;
-	}
-
-	public static void setAccess_token(String access_token) {
-		Oauth2Api.access_token = access_token;
-	}
-
 	/**
 	 * oschina返回的access_token
 	 * @author oscfox

@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,8 @@ import us.codecraft.webmagic.processor.PageProcessor;
  * @author oscfox
  *
  */
+
+@WebServlet("/action/spider")
 public class SpiderAction extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,11 +38,26 @@ public class SpiderAction extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url=request.getParameter("url");
+		
 		String result="";
 		List<Blog> blogList;
 		
-		String user=request.getParameter("user");
+		String url=request.getParameter("url");
+		
+		String user="";
+		Cookie[] cookie = request.getCookies();
+
+		for (int i = 0; i < cookie.length; i++) {
+			Cookie cook = cookie[i];
+			if(cook.getName().equalsIgnoreCase("user")){ //获取键 
+				user = cook.getValue().toString();
+			}
+		}
+		
+		if(user.isEmpty()){//授权码获取失败
+			json_out("请先授权!",response);
+			return;
+		}
 		
 		BlogList.clearBlogList(user); 	//清除原有列表
 		
