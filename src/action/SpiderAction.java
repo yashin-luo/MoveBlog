@@ -62,6 +62,10 @@ public class SpiderAction extends HttpServlet {
 		BlogList.clearBlogList(user); 	//清除原有列表
 		
 		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
+		if(null == pageProcessor){
+			json_out("暂不支持该博客网站!",response);
+			return;
+		}
 		
 		//爬取博客，结果存放在BLogList中
         Spider.create(pageProcessor)
@@ -97,7 +101,7 @@ public class SpiderAction extends HttpServlet {
 		
 		}else {
 			
-			return new IteyeBlogPageProcesser(url);
+			return null;
 		}
 	}
 	

@@ -40,11 +40,5 @@ public class BlogPipeline implements Pipeline{
 
     	BlogList.addBlog(user,oscBlog);
     	
-    	//≤‚ ‘
-    	System.out.println("get page: " + resultItems.getRequest().getUrl());
-        for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
-            System.out.println(entry.getKey() + ":\t" + entry.getValue());
-        }
-    	
     }
 }
