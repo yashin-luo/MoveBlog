@@ -67,12 +67,17 @@ public class MoveBlogAction extends HttpServlet {
 			return;
 		}
 		
-		//爬取博客，结果存放在BLogList中
-        Spider.create(pageProcessor)
-        	.addUrl(link)
-             .addPipeline(new BlogPipeline(user)).run();
+		Blog blog=BlogList.getBlog(user); //已存在，不用抓取
+		
+		if(null == blog){
+			//爬取博客，结果存放在BLogList中
+	        Spider.create(pageProcessor)
+	        	.addUrl(link)
+	             .addPipeline(new BlogPipeline(user)).run();
+	        blog=BlogList.getBlog(user);
+		}
+		
 
-        Blog blog=BlogList.getBlog(user);
 		/**
 		 * 可设置blog非必要参数：
 		 *	save_as_draft=0;	//	false		保存到草稿 是：1 否：0	0
