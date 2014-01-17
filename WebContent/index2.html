@@ -1,51 +1,31 @@
 <!Doctype html>
 <html>
 	<head>
-		<title>OSChina.Net ²©¿Í°á¼Ò</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>OSChina.Net åšå®¢æ¬å®¶</title>
 		<link rel="stylesheet" type="text/css" href="http://www.oschina.net/css/reset_y.css"/>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery-plugins/jquery.form-2.82.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>		
 	</head>
-	
-	<script type="text/javascript">
-	
-	//¶ÁÈ¡COOKIES
-	function getCookie(name)
-	{
-		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-		if(arr=document.cookie.match(reg)) return unescape(arr[2]);
-		else return null;
-	}
-	
-	$(document).ready(function(){
-		
-		var username=decodeURIComponent(getCookie("username"));
-		var userhref=getCookie("href");
-		if(username != "null")
-			$("#cblue").replaceWith("<a href="+userhref+">ÒÑµÇÂ¼£º"+username+"</a>");
-	});
-	</script>
-	
 	<body>
 		<div class="content">
 			<div class="user-info">
 				<img src="img/osc_logo.png"/>
-				<a id = "cblue" class="cblue" href="javascript:Api.login();return false;">µÇÂ¼ OSChina.Net</a>
+				<a class="cblue login" href="javascript:Api.login();">ä½¿ç”¨ OSCHINA å¸å·ç™»å½•</a>
+				<a class="cred logout" href="javascript:Api.logout();" style="display:none;margin-left:10px;">é€€å‡ºç™»å½•</a>
 			</div>
-			<h2>OSChina.Net ²©¿Í°á¼Ò</h2>
+			<h2>OSChina.Net åšå®¢æ¬å®¶</h2>
 			<div class="search-control">
 				<form id="search-form" method="POST" action="/SpiderAction">
-					<input name="url"/>
-					<input name="user" value="javascript:getCookie('user')" style="display:none"/>
-					<!-- <a class="blue" id="submit" href="http://www.moveblog.com:8080/SpiderAction">×¥È¡</a> -->
-					<input class="blue" id="submit" type="submit" value="×¥È¡"/>
+					<input name="url" disabled="disabled"/>
+					<a class="blue" id="submit" href="javascript:void(0);">æŠ“å–</a>
 				</form>
 			</div>
 			<div class="blog-providers clearfix">
 				<ul>
-					<li class="cnblog">
+					<li class="cnblogs">
 						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/logo_small.gif"/>
 					</li>
 					<li class="iteye">
@@ -65,7 +45,7 @@
 						<label for="blog_123">
 							<input type="checkbox" id="blog_123" class="imported"/>
 							<span>
-								form radio & checkbox½â¾ö·½°¸
+								form radio & checkboxè§£å†³æ–¹æ¡ˆ
 							</span>
 						</label>
 					</li>
@@ -73,7 +53,7 @@
 						<label for="blog_12">
 							<input type="checkbox" id="blog_12"/>
 							<span>
-								form radio & checkbox½â¾ö·½°¸
+								form radio & checkboxè§£å†³æ–¹æ¡ˆ
 							</span>
 						</label>
 					</li>
@@ -81,7 +61,7 @@
 						<label for="blog_1">
 							<input type="checkbox" id="blog_1"/>
 							<span>
-								form radio & checkbox½â¾ö·½°¸
+								form radio & checkboxè§£å†³æ–¹æ¡ˆ
 							</span>
 						</label>
 					</li>
