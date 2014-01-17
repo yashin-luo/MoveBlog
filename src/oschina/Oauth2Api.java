@@ -26,12 +26,14 @@ public class Oauth2Api {
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
-		String token_href = AppConfigTool.osc_host
-				+AppConfigTool.oauth2_token
-				+"?client_secret="+AppConfigTool.client_secret
-				+"&client_id="+AppConfigTool.client_id
+		AppConfigTool configTool = new AppConfigTool();
+		
+		String token_href = configTool.getConfig("osc_host")
+				+configTool.getConfig("oauth2_token")
+				+"?client_secret="+configTool.getConfig("client_secret")
+				+"&client_id="+configTool.getConfig("client_id")
 				+"&grant_type=authorization_code"
-				+"&redirect_uri="+AppConfigTool.redirect_uri
+				+"&redirect_uri="+configTool.getConfig("redirect_uri")
 				+"&code="+code;
 
 		HttpMethod method = new GetMethod(token_href);

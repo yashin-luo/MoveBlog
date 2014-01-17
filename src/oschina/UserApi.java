@@ -30,7 +30,8 @@ public class UserApi {
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
-		PostMethod method = new PostMethod(AppConfigTool.osc_host+ AppConfigTool.openapi_user);
+		AppConfigTool configTool = new AppConfigTool();
+		PostMethod method = new PostMethod(configTool.getConfig("osc_host")+ configTool.getConfig("openapi_user"));
 		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
 		
 		NameValuePair access_token_ = new NameValuePair("access_token",access_token);  
