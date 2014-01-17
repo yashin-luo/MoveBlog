@@ -1,5 +1,9 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//WebContent/js/main.js=UTF-8
+=======
+encoding//WebContent/css/style.css=UTF-8
+>>>>>>> 20ff1b77ba1a0d60fc90b2a16f6ae9df63eb5728
 encoding//src/action/MoveBlogAction.java=UTF-8
 encoding//src/action/Oauth2Action.java=UTF-8
 encoding//src/action/SpiderAction.java=UTF-8

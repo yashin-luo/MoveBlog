@@ -1,6 +1,7 @@
 <!Doctype html>
 <html>
 	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>OSChina.Net 博客搬家</title>
 		<link rel="stylesheet" type="text/css" href="http://www.oschina.net/css/reset_y.css"/>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
@@ -8,6 +9,26 @@
 		<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery-plugins/jquery.form-2.82.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>		
 	</head>
+	
+	<script type="text/javascript">
+	
+	//读取COOKIES
+	function getCookie(name)
+	{
+		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+		if(arr=document.cookie.match(reg)) return unescape(arr[2]);
+		else return null;
+	}
+	
+	$(document).ready(function(){
+		
+		var username=decodeURIComponent(getCookie("username"));
+		var userhref=getCookie("href");
+		if(username != "null")
+			$("#cblue").replaceWith("<a href="+userhref+">已登录："+username+"</a>");
+	});
+	</script>
+	
 	<body>
 		<div class="content">
 			<div class="user-info">
@@ -17,7 +38,7 @@
 			</div>
 			<h2>OSChina.Net 博客搬家</h2>
 			<div class="search-control">
-				<form id="search-form" method="POST">
+				<form id="search-form" method="POST" action="/SpiderAction">
 					<input name="url" disabled="disabled"/>
 					<a class="blue" id="submit" href="javascript:void(0);">抓取</a>
 				</form>

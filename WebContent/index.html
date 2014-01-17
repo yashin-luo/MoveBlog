@@ -40,9 +40,8 @@
 				if(cur.is(":checked") && typeof(cur.attr("suc"))=='undefined'){
 					$("#import").attr("disabled",true);
 					var index=cur.attr("index");
-					var id = cur.attr("id");
-					cur.parent().append("<span class='loading msg' id='loading"+index+"'><img src='loading.gif'/>正在导入，请稍候...</span>");
-					$.post(capUrl,"id="+id,function(json){
+					cur.parent().append("<span class='loading msg' index='loading"+index+"'><img src='loading.gif'/>正在导入，请稍候...</span>");
+					$.post(capUrl,{indexx:index,user:username},function(json){
 						if(json){
 							json = eval("("+json+")");
 							if(json.msg){
@@ -70,12 +69,12 @@
 		});
 		
 		$(".links_btn").click(function(){
-			var url=$("#url").val();
+			var urls=$("#url").val();
 			$(".links_btn").attr("disabled","disabled");
 			$("#link_list").html("<span class='msg'><img src='loading.gif' />正在抓取，请稍候...</span>");
 			$("#extra_menu").remove();
 			$("#extra_menuh").remove();
-			$.post(linkUrl,"url="+url,function(json){
+			$.post(linkUrl,{url:urls,user:username},function(json){
 				if(json){
 					$("#menuh").append('<p id="extra_menuh"><input id="select_all" value="全选" state="none" type="button" class="links_btn"></p>');
 					

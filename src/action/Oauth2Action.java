@@ -3,6 +3,7 @@ package action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletConfig;
@@ -51,21 +52,21 @@ public class Oauth2Action extends HttpServlet {
 		
 		Users.put(Long.valueOf(user.getId()), access_token);
 		
-		//创建对象
+
         Cookie u = new Cookie("user",user.getId()) ;
-        //设定有效时间  以s为单位
         u.setMaxAge(600) ;
-        //设置Cookie路径和域名
         u.setPath("/") ;
         String userhref = user.getUrl();
-        //创建对象
         Cookie linkcookie = new Cookie("href",userhref) ;
-        //设定有效时间  以s为单位
-        linkcookie.setMaxAge(600) ;
-        //设置Cookie路径和域名
+        linkcookie.setMaxAge(600) ;    
         linkcookie.setPath("/") ;
-        //发送Cookie文件
+        Cookie username = new Cookie("username",URLEncoder.encode(user.getName(),"UTF-8")) ;
+        username.setMaxAge(600) ;    
+        username.setPath("/") ;
+        
+        response.addCookie(linkcookie) ;
         response.addCookie(u) ;
+        response.addCookie(username) ;
 		
 		response.sendRedirect("/index2.html");
 		

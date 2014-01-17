@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import java.util.concurrent.ConcurrentHashMap;  
 import beans.Blog;
 /**
  * 爬虫获取的博客列表
@@ -15,47 +15,41 @@ import beans.Blog;
  */
 public class BlogList {
 
-	private static long blogIndex=0;
-	private static Map<String,Blog> blogMap = new HashMap<String,Blog>();
+	//用户名，对应一个用户列表，如果用户为新用户则put新的列表
+	private static Map<String, ArrayList<Blog>> blogMap = new ConcurrentHashMap <String,ArrayList<Blog>>();
 	
-	public static void addBlog(Blog blog) {
-		String index=""+ blogIndex;
-		blog.setId(blogIndex);
-		blogIndex = blogIndex + 1;
-		blogMap.put(index, blog);
+	public static void addBlog(String user, Blog blog) {
+		
+		ArrayList<Blog> blogList;
+		
+		if(blogMap.containsKey(user)){
+			blogList= blogMap.get(user);
+		} else{
+			blogList = new ArrayList<Blog>();
+		}
+		
+		blogList.add(blog);
+		blogMap.put(user, blogList);
 	}
 	
-	public static void clearBlogList() {
-		blogIndex = 0;
-		blogMap.clear();
+	public static void clearBlogList(String user) {
+		blogMap.remove(user);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public static Blog getNextBlog() {
-		Iterator<Entry<String, Blog>> iter = blogMap.entrySet().iterator(); 
-		if (iter.hasNext()) { 
-		    Map.Entry entry = (Map.Entry) iter.next(); 
-		    return (Blog)entry.getValue();
-		} 
+	
+	public static List<Blog> getBlogList(String user) {
+		if(blogMap.containsKey(user)){
+			return blogMap.get(user);
+		}
+		
 		return null;
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public static List<Blog> getBlogList() {
-		List<Blog> blogList = new ArrayList<Blog>();
-		
-		Iterator<Entry<String, Blog>> iter = blogMap.entrySet().iterator(); 
-		while (iter.hasNext()) { 
-		    Map.Entry entry = (Map.Entry) iter.next(); 
-		    blogList.add((Blog)entry.getValue());
-		} 
-		
-		return blogList;
-	}
-	
-	public static Blog getBlog(long blogIndex) {
-		String index=""+ blogIndex;
-		return blogMap.get(index);
+	public static Blog getBlog(String user, int blogIndex) {
+		if(blogMap.containsKey(user)){
+			return blogMap.get(user).get(blogIndex);
+		}
+		return null;
 	}
 	
 }
