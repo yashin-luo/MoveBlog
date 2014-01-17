@@ -29,6 +29,10 @@ public class Blog {
 	private String link="";				//	原博客链接
 	private long id;					//	
 	
+	public Blog() {
+		
+	}
+	
 	public Blog(Map<String, Object> blogMap) throws Exception {
 		
 		Object title=blogMap.get("title");						//	true		博客标题	

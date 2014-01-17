@@ -15,12 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import beans.Blog;
+import beans.BlogLink;
 import spider.BlogList;
 import spider.BlogPipeline;
 import spider.CnBlogPageProcesser;
 import spider.CsdnBlogPageProcesser;
 import spider.IteyeBlogPageProcesser;
 import spider.CtoBlogPageProcesser;
+import spider.LinksList;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
@@ -40,7 +42,6 @@ public class SpiderAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String result="";
-		List<Blog> blogList;
 		
 		String url=request.getParameter("url");
 		
@@ -51,6 +52,7 @@ public class SpiderAction extends HttpServlet {
 			Cookie cook = cookie[i];
 			if(cook.getName().equalsIgnoreCase("user")){ //获取键 
 				user = cook.getValue().toString();
+				break;
 			}
 		}
 		
@@ -59,7 +61,7 @@ public class SpiderAction extends HttpServlet {
 			return;
 		}
 		
-		BlogList.clearBlogList(user); 	//清除原有列表
+		LinksList.clearLinkList(user);		//清除已抓取的博客列表
 		
 		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
 		if(null == pageProcessor){
@@ -72,8 +74,8 @@ public class SpiderAction extends HttpServlet {
         	.addUrl(url)
              .addPipeline(new BlogPipeline(user)).run();
         
-        blogList = BlogList.getBlogList(user);
-        result = new Gson().toJson(blogList);
+        List<BlogLink> linkList=LinksList.getLinkList(user);
+        result = new Gson().toJson(linkList);
 		json_out(result, response);
 	}
 	

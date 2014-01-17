@@ -29,5 +29,4 @@ public class UserAction extends HttpServlet {
 		User user = UserApi.getUser(access_token);
 		Oauth2Action.json_out(JSON.toJSONString(user), response);
 	}
-
 }

@@ -24,7 +24,7 @@
 			$("#usermenu").replaceWith("<a href="+userhref+">用户名："+username+"</span>");
 		
 		var linkUrl="action/spider?";
-		var capUrl="MoveBlogAction?";
+		var capUrl="action/moveblog?";
 		$(".import").click(function(){
 			$(".loading").remove();
 			var count=0;
@@ -39,9 +39,10 @@
 				var cur=$(this);
 				if(cur.is(":checked") && typeof(cur.attr("suc"))=='undefined'){
 					$("#import").attr("disabled",true);
+					var link=cur.attr("href");
 					var index=cur.attr("index");
 					cur.parent().append("<span class='loading msg' index='loading"+index+"'><img src='loading.gif'/>正在导入，请稍候...</span>");
-					$.post(capUrl,{indexx:index,user:username},function(json){
+					$.post(capUrl,{link:'http://blog.csdn.net/foxyaxin/article/details/18226735'},function(json){
 						if(json){
 							json = eval("("+json+")");
 							if(json.msg){
@@ -74,7 +75,7 @@
 			$("#link_list").html("<span class='msg'><img src='loading.gif' />正在抓取，请稍候...</span>");
 			$("#extra_menu").remove();
 			$("#extra_menuh").remove();
-			$.post(linkUrl,{url:urls,user:username},function(json){
+			$.post(linkUrl,{url:urls},function(json){
 				if(json){
 					$("#menuh").append('<p id="extra_menuh"><input id="select_all" value="全选" state="none" type="button" class="links_btn"></p>');
 					
