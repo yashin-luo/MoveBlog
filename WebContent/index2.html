@@ -9,26 +9,6 @@
 		<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery-plugins/jquery.form-2.82.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>		
 	</head>
-	
-	<script type="text/javascript">
-	
-	//读取COOKIES
-	function getCookie(name)
-	{
-		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-		if(arr=document.cookie.match(reg)) return unescape(arr[2]);
-		else return null;
-	}
-	
-	$(document).ready(function(){
-		
-		var username=decodeURIComponent(getCookie("username"));
-		var userhref=getCookie("href");
-		if(username != "null")
-			$("#cblue").replaceWith("<a href="+userhref+">已登录："+username+"</a>");
-	});
-	</script>
-	
 	<body>
 		<div class="content">
 			<div class="user-info">
