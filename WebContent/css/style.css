@@ -1,4 +1,4 @@
-html,body{width:100%;height:100%;font-size:14px;font-family: 寰蒋闆呴粦,Verdana,sans-serif,瀹嬩綋;}
+html,body{width:100%;height:100%;font-size:14px;font-family: 微软雅黑,Verdana,sans-serif,瀹嬩綋;}
 h2{font-size:20px;}
 
 .content{padding:20px;width:600px;}
@@ -10,22 +10,23 @@ h2{font-size:20px;}
 .user-info a.logout:hover{border-bottom: 1px solid #A00;}
 
 .search-control{padding:10px 0;}
-#search-form input{height:23px;width:400px;}
-#search-form #submit{border-radius:3px;width:80px; height:23px;display:inline-block;padding:2px 23px;margin:0 0 0 5px;border:0;color:#FFF;text-decoration:none;font-size:15px;}
+#search-form input{height:23px;width:400px;border: 1px solid #CCC;}
+.button{border-radius:3px;width:auto; height:23px;display:inline-block;padding:2px 23px;margin:0 0 0 5px;border:0;color:#FFF;text-decoration:none;font-size:15px;}
+a#cancel{margin-left:5px;background-color:#CCC;}
 #search-form .list-loaded{background:#F17725;}
 .loading{background:url('http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/loading.gif') no-repeat;background-position: 200px 20px;}
 
 
 .blog-providers{padding:10px;}
-.blog-providers ul li{float:left;margin-right:20px;height:30px;background-color:#F5F5F5;}
+.blog-providers ul li{float:left;margin-right:20px;height:30px;}
 .blog-providers ul li img{height:100%;}
 
-.blog-list{padding:10px;height:100px;width:90%;}
+.blog-list{padding:10px;height:100px;width:80%;}
 .blog-list li{padding:5px 0;}
 .blog-list input[type='checkbox']{
-	vertical-align:0;/*鏍规嵁涓嶅悓鐨刦ont-size璁剧疆涓嶅悓鐨勫叿浣撳�*/
-	*vertical-align:middle;/*ie7 ie6*/
-	_vertical-align:3px;/*ie6 鏍规嵁涓嶅悓鐨刦ont-size璁剧疆涓嶅悓鐨勫叿浣撳�*/
+	vertical-align:0;
+	*vertical-align:middle;
+	_vertical-align:3px;
 }
 
 .blog-list input.imported{background-color:#F17725;}
@@ -37,11 +38,13 @@ h2{font-size:20px;}
 .blue:hover{background-color:#357CAC;}
 .cblue{color:#3B94CF;}
 .cblue:hover{color:#357CAC;}
+.gray{background-color:#CCC;}
+.gray:hover{background-color:#BBB;}
 
 .cred{color:#A00;}
 .cred:hover{color:#A00;}
 
-.gray { 
+img.gray { 
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
     -ms-filter: grayscale(100%);

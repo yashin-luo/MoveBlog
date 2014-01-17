@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.gson.Gson;
 
 import beans.Blog;
@@ -42,7 +44,10 @@ public class SpiderAction extends HttpServlet {
 		String result="";
 		List<Blog> blogList;
 		
-		String url=request.getParameter("url");
+		String url = request.getParameter("url");
+		
+		if(StringUtils.isBlank(url))
+			return;
 		
 		String user="";
 		Cookie[] cookie = request.getCookies();
