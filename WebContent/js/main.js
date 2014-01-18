@@ -164,7 +164,8 @@ $(function(){
 		$blog_list = $('.blog-list');
 		$submit = $('#submit'),
 		$cancel = $('#cancel'),
-		$import = $('#import');
+		$import = $('#import'),
+		$select_all = $('#select-all');
 	
 	//查询 login user 信息
 	Api.user(function(user){
@@ -220,6 +221,7 @@ $(function(){
 			$submit.hide();
 			$cancel.show();
 			$import.show();
+			$select_all.show();
 			if(list!=null){
 				$blog_list.html(Api.blog_list_tpl(list));
 			}
@@ -232,6 +234,7 @@ $(function(){
 		$(this).hide();
 		$submit.show();
 		$import.hide();
+		$select_all.hide();
 		$blog_list.html('');
 		$input_url.removeAttr('disabled');
 		$input_url.focus();
@@ -249,7 +252,6 @@ $(function(){
 			var input = import_tasks.eq(index);
 			var li = input.parents('li');
 			li.attr('class','loading');
-			console.log('start:',index,url);
 		},function(data,url,index){
 			var input = import_tasks.eq(index);
 			var li = input.parents('li');
@@ -259,7 +261,6 @@ $(function(){
 			}else{
 				li.attr('class','imported');
 				input.remove();
-				console.log('finished:',index,data,url);
 			}
 		});
 	});
@@ -275,6 +276,18 @@ $(function(){
 			}
 			event.preventDefault();
 			return false;
+		}
+	});
+	
+	$select_all.on('click',function(){
+		var inputs = $blog_list.find('input[type="checkbox"]');
+		var checked = $blog_list.find('input[type="checkbox"]:checked');
+		if(inputs.length==checked.length && inputs.length!=0){
+			$select_all.html('全选');
+			inputs.removeAttr('checked');
+		}else if(inputs.length!=0){
+			$select_all.html('取消全选');
+			inputs.attr('checked',true);
 		}
 	});
 	
