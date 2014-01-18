@@ -74,11 +74,12 @@ public class MoveBlogAction extends HttpServlet {
 	        blog=BlogList.getBlog(link);
 		}
 		
-		if(null == blog){
-			JsonMsg.json_out(JsonMsg.jsonError("链接有误或抓取超时!"),response);
+		if(blog==null){
+			JsonMsg.json_out(JsonMsg.jsonError("抓取失败，你懂的，稍后再试！"), response);
+			return;
 		}
-		
-		
+
+
 		/**
 		 * 可设置blog非必要参数：
 		 *	save_as_draft=0;	//	false		保存到草稿 是：1 否：0	0

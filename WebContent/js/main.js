@@ -23,9 +23,11 @@ var Api = (function(conf,$){
 	var blog_tpl = [
 		'<li>',
 			'<label for="blog_{id}">',
+				'<img class="import_loading" src="img/loading2.gif">',
+				'<img class="import_ok" src="img/ok.png" style="height:10px;">',
 				'<input type="checkbox" id="blog_{id}" data-url="{link}"/>',
 				'<span>',
-					'{title}',
+					'<a href="{link}" target="_blank">{title}</a>',
 				'</span>',
 			'</label>',
 		'</li>'
@@ -55,11 +57,27 @@ var Api = (function(conf,$){
 			async:typeof async === 'undefined' ? true : async,
 			data:data,
 			success:function(response){
-				var data = typeof response === "object" ? response : JSON.parse(response);
-				callback && callback(data);
+				if(response==null)
+					return;
+				var data = typeof response === "object" ? response : eval('('+response+')');
+				ajaxErrorHandler(data,callback);
 			},
 			error:callback
 		}).responseText;
+	};
+	
+	var ajaxErrorHandler = function(data,callback){
+		if(data.status == 500){
+			alert('500 服务器内部错误');
+			return;
+		}
+		if(data.error && data.code == 1){
+			alert(data.error);
+			delCookie('user');
+			location.reload();
+			return;
+		}
+		callback && callback(data);
 	};
 	
 	var getUserInfo = function(callback){
@@ -106,13 +124,15 @@ var Api = (function(conf,$){
 		return ul;
 	};
 	
-	var importBlog = function(arr,callback){
-		if(arr.length==0)
+	var importBlog = function(arr,len,before,callback){
+		var length = arr.length;
+		if(length==0)
 			return;
 		var url = arr.shift();
+		before && before(url,len-length);
 		return ajax(uri.import_list,function(data){
-			callback && callback(data,url);
-			importBlog(arr,callback);
+			callback && callback(data,url,len-length);
+			importBlog(arr,len,before,callback);
 		},{
 			link:url
 		});
@@ -183,8 +203,12 @@ $(function(){
 	
 	//爬取博客列表
 	$submit.on('click',function(){
-		if(!Api.logined())
+		if(!Api.logined()){
+			if(confirm('OSChina未授权，需刷新页面，并重新登录！')){
+				location.reload();
+			}
 			return;
+		}
 		var url = $input_url.val();
 		if(url.length == 0)
 			return;
@@ -221,9 +245,37 @@ $(function(){
 			return;
 		}
 		var urls = import_tasks.map(function(){return $(this).data('url');}).toArray();
-		Api.import(urls,function(data,url){
-			console.log(data,url);
+		Api.import(urls,urls.length,function(url,index){
+			var input = import_tasks.eq(index);
+			var li = input.parents('li');
+			li.attr('class','loading');
+			console.log('start:',index,url);
+		},function(data,url,index){
+			var input = import_tasks.eq(index);
+			var li = input.parents('li');
+			if(data.error && data.code==0){
+				alert(data.error);
+				li.removeAttr('class');
+			}else{
+				li.attr('class','imported');
+				input.remove();
+				console.log('finished:',index,data,url);
+			}
 		});
+	});
+	
+	$blog_list.on('click','a',function(event){
+		if(!event.ctrlKey){
+			var self = $(this);
+			var input = self.parent().siblings('input');
+			if(input.is(':checked')){
+				input.removeAttr('checked');
+			}else{
+				input.attr('checked',true);
+			}
+			event.preventDefault();
+			return false;
+		}
 	});
 	
 });
