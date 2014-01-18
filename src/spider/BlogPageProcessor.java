@@ -22,7 +22,8 @@ public class BlogPageProcessor implements PageProcessor{
 	protected String url;
 	protected String blogFlag;			//博客url的内容标志域
 	protected String name;				//博客原url 的名字域
-	protected List<String> codeRex=new ArrayList<String>();			//代码过滤正则表达式
+	protected List<String> codeBeginRex; 		//代码过滤正则表达式
+	protected List<String> codeEndRex; 		//代码过滤正则表达式
 	
 	protected String linksRex;			//链接列表过滤表达式
 	protected String titlesRex;			//title列表过滤表达式
@@ -80,12 +81,12 @@ public class BlogPageProcessor implements PageProcessor{
         	return;
         }
         
-        if(StringUtils.isBlank(tags)){
+        if(!StringUtils.isBlank(tags)){
         	tags = tags.substring(tags.indexOf("[")+1,tags.indexOf("]"));
         }
 
         OscBlogReplacer oscReplacer= new OscBlogReplacer(hashtable);	//设置工具类映射关系
-    	String oscContent = oscReplacer.replace(codeRex,content);		//处理代码格式
+    	String oscContent = oscReplacer.replace(codeBeginRex, codeEndRex, content);		//处理代码格式
     	
         page.putField("content", oscContent);
         page.putField("title", title);

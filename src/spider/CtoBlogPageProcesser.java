@@ -17,7 +17,7 @@ public class CtoBlogPageProcesser extends BlogPageProcessor{
 		site.setSleepTime(1);
 		
 		blogFlag="/\\d+/";																		//博客原url 的名字域
-		codeRex.add("<pre\\.+?class=\"brush:(\\.+?);\\.*?\"\\.*?>");											//代码过滤正则表达式
+		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.*?\".*?>");											//代码过滤正则表达式
 		
 		linksRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href";	//链接列表过滤表达式
 		titlesRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()";	//title列表过滤表达式

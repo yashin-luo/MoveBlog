@@ -37,6 +37,10 @@ public class BlogPipeline implements Pipeline{
     		List<String> titles = (ArrayList<String>)fields.get("titles");
     		List<String> links = (ArrayList<String>)fields.get("links");
     		
+    		if(null == titles || null == links){
+    			return;
+    		}
+    		
     		List<BlogLink> linklist = new ArrayList<BlogLink>();
     		
     		for(int i=0; i<titles.size(); ++i){
