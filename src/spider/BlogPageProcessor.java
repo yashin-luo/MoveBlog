@@ -22,8 +22,8 @@ public class BlogPageProcessor implements PageProcessor{
 	protected String url;
 	protected String blogFlag;			//博客url的内容标志域
 	protected String name;				//博客原url 的名字域
-	protected List<String> codeBeginRex; 		//代码过滤正则表达式
-	protected List<String> codeEndRex; 		//代码过滤正则表达式
+	protected List<String> codeBeginRex = new ArrayList<String>(); 		//代码过滤正则表达式
+	protected List<String> codeEndRex = new ArrayList<String>(); 		//代码过滤正则表达式
 	
 	protected String linksRex;			//链接列表过滤表达式
 	protected String titlesRex;			//title列表过滤表达式
