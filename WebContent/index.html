@@ -1,152 +1,50 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!Doctype html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>博客爬虫</title>
-
-<script type="text/javascript" src="http://oschina.net/js/2012/jquery-1.7.1.min.js"></script>
-<script type="text/javascript">
-	
-	//读取COOKIES
-	function getCookie(name)
-	{
-		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-		if(arr=document.cookie.match(reg)) return unescape(arr[2]);
-		else return null;
-	}
-	
-
-	$(document).ready(function(){
-		
-		var username=getCookie("user");
-		var userhref=getCookie("href");
-		if(username != null)
-			$("#usermenu").replaceWith("<a href="+userhref+">用户名："+username+"</span>");
-		
-		var linkUrl="action/spider?";
-		var capUrl="action/moveblog?";
-		$(".import").click(function(){
-			$(".loading").remove();
-			var count=0;
-			$(".cb").each(function(){
-				if($(this).attr("checked")==true){
-					count++;	
-				}
-			});
-			
-			var time1= new Date();
-			$(".cb").each(function(){
-				var cur=$(this);
-				if(cur.is(":checked") && typeof(cur.attr("suc"))=='undefined'){
-					$("#import").attr("disabled",true);
-					var link=cur.attr("href");
-					var index=cur.attr("index");
-					cur.parent().append("<span class='loading msg' index='loading"+index+"'><img src='loading.gif'/>正在导入，请稍候...</span>");
-					$.post(capUrl,{link:'http://blog.csdn.net/foxyaxin/article/details/18226735'},function(json){
-						if(json){
-							json = eval("("+json+")");
-							if(json.msg){
-								$("#loading"+index).replaceWith("<span class='loading msg'>"+json.msg+"</span>");
-							}else{
-								$("#loading"+index).replaceWith("<span class='loading msg'>[导入成功]</span>");
-								cur.attr("suc","suc");
-							}
-						}else{
-							$("#loading"+index).replaceWith("<span class='loading msg'>请先认证!</span>");
-						}
-						count--;
-						if(count==0){
-							$("#import").removeAttr("disabled");
-							alert("操作完成(用时:"+(new Date()-time1)+"ms)");
-						}
-					});
-				}
-			});
-			
-			
-			if(idxs=""){
-				alert("请勾选需要导入的文章！");
-			}
-		});
-		
-		$(".links_btn").click(function(){
-			var urls=$("#url").val();
-			$(".links_btn").attr("disabled","disabled");
-			$("#link_list").html("<span class='msg'><img src='loading.gif' />正在抓取，请稍候...</span>");
-			$("#extra_menu").remove();
-			$("#extra_menuh").remove();
-			$.post(linkUrl,{url:urls},function(json){
-				if(json){
-					$("#menuh").append('<p id="extra_menuh"><input id="select_all" value="全选" state="none" type="button" class="links_btn"></p>');
-					
-					$("#link_list").html("");
-					var size=json.length;
-					for(var i=0;i<size;i++){
-						var art=json[i];
-						$("#link_list").append('<li>'+(i+1)+'.<input type="checkbox" class="cb" index="'+i+'"><a href="'+art.link+'" target="_blank" class="text1">'+art.title+'</a></li>');
-					}
-					
-					if(size>50){
-						$("#return2top").css("display","block");
-					}
-					if(size>0){
-						$("#menu").append('<p id="extra_menu"><input id="select_all" value="全选" state="none" type="button" class="links_btn"><a class="links_btn" href="#top">Top</a></p>');
-						$("#select_all").click(function(){
-							var s=$(this).attr("state");
-							if(s=="none"){
-								$(".cb").attr("checked",true);
-								$(this).attr("state","all");
-								$(this).val("取消全选");
-							}else{
-								$(".cb").removeAttr("checked");
-								$(this).attr("state","none");
-								$(this).val("全选");
-							}
-						});
-					}
-				}else{
-					$("#link_list").html("抓取失败，请检查地址和用户id是否正确!");
-				}
-				$(".links_btn").removeAttr("disabled");
-			});
-		});
-		
-		$('.links_btn').live("mouseover", function(){
-		    $(this).addClass("mouseover");
-		});
-		$('.links_btn').live("mouseout",function(){
-			$(this).removeClass("mouseover");
-		})
-		
-		$("#url").focus(function(){
-			$(this).select();
-		});
-	});
-</script>
-</head>
-<body id="top" >
-
-	<div id="usermenu">
-	<a href="http://www.oschina.com/action/oauth2/authorize?response_type=code&client_id=yKqX3IQWBvft0W8JXz0k&redirect_uri=http://www.moveblog.com:8080/Oauth2Action">oschina认证</a>
-	
-	</div>	
-	
-	<p><span class="text1">1：填写要抓取的博客地址:</span><input  name="url" type="text" id="url" value="" class="input"><span class="msg">即博客主页的地址，类似于:	http://blog.csdn.net/foxyaxin</span></p>
-	<p><input class="links_btn" value="抓取列表"  type="button"></p>
-	<p><input class="import" value="导入本人博客" type="button"></p>
-	
-	
-	<div id="menuh">
-		
-	</div>
-	<ul id="link_list">
-	</ul>
-	<div id="menu">
-		
-	</div>
-	<p id="return2top" style="display:none;"><a href="#top" class="text1" >返回顶部</a></p>
-</body>
-<script type="text/javascript">
-
-</script>
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>OSChina.Net 博客搬家</title>
+		<link rel="stylesheet" type="text/css" href="http://www.oschina.net/css/reset_y.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery-plugins/jquery.form-2.82.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>		
+	</head>
+	<body>
+		<div class="content">
+			<div class="user-info">
+				<img src="img/osc_logo.png"/>
+				<a class="cblue login" href="javascript:Api.login();">使用 OSCHINA 帐号登录</a>
+				<a class="cred logout" href="javascript:Api.logout();" style="display:none;margin-left:10px;">退出登录</a>
+			</div>
+			<h2>OSChina.Net 博客搬家</h2>
+			<div class="search-control">
+				<form id="search-form" method="POST" action="/SpiderAction">
+					<input name="url" disabled="disabled"/>
+					<a class="blue button" id="submit" href="javascript:void(0);">抓取</a>
+					<a id="cancel" class="gray button" href="javascript:void(0);" style="display:none;">取消</a>
+				</form>
+			</div>
+			<div class="blog-providers clearfix">
+				<ul>
+					<li class="cnblogs">
+						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/logo_small.gif"/>
+					</li>
+					<li class="iteye">
+						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/logo.gif"/>
+					</li>
+					<li class="51cto">
+						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/Logo (1).gif"/>
+					</li>
+					<li class="csdn">
+						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/logo.png"/>
+					</li>
+					<li>
+						<a id="import" class="blue button" href="javascript:void(0);" style="display:none;">导入</a>
+					</li>
+				</ul>
+			</div>
+			<div class="blog-list clearfix">
+			</div>
+		</div>
+	</body>
 </html>

@@ -68,7 +68,7 @@ public class Oauth2Action extends HttpServlet {
         username.setMaxAge(600) ;    
         username.setPath("/") ;
         response.addCookie(u) ;
-		response.sendRedirect("/index2.html");
+		response.sendRedirect("/index.html");
 		
 		//String reString = user.toString();
 		//json_out(reString,response);
