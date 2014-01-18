@@ -17,10 +17,11 @@ public class IteyeBlogPageProcesser  extends BlogPageProcessor{
 		site.setSleepTime(1);
 		
 		blogFlag="/blog/";															//博客原url 的名字域
-		codeRex = "<pre\\s*.*\\s*class=\"(.*)\".*>"; 								//代码过滤正则表达式
+		codeRex.add("<pre\\.\\+\\?class=\"(\\.\\+\\?)\"\\.\\*\\?>"); 							//代码过滤正则表达式
+		
 		
 		linksRex="//div[@class='blog_main']/div[@class='blog_title']/h3/a/@href";	//链接列表过滤表达式
-		titlesRex="//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()";//title列表过滤表达式
+		titlesRex="//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()"; //title列表过滤表达式
 		
 		contentRex="div.blog_content";												//内容过滤表达式
 		titleRex="//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()";	//title过滤表达式
@@ -55,5 +56,6 @@ public class IteyeBlogPageProcesser  extends BlogPageProcessor{
 		hashtable.put("csharp", "c#");
 		hashtable.put("javascript", "js");
 		hashtable.put("objc", "cpp");
+		hashtable.put("diff", "cpp");
 	}
 }

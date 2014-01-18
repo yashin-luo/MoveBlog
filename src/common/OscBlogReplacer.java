@@ -2,6 +2,7 @@ package common;
 
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * 将爬取的博客代码部分转换为oschina博客代码类型
@@ -22,16 +23,19 @@ public class OscBlogReplacer {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public String replace(String rex, String csdn) {
-		String osc=csdn;
+	public String replace(List<String> rex, String oldString) {
+		String osc=oldString;
 		
 		//2.一致的css属性替换
-		osc=osc.replaceAll(rex,"<pre class=\"brush:$1;toolbar:false\">");  
+		for(int i=0; i<rex.size(); ++i){
+			osc=osc.replaceAll(rex.get(i),"<pre class=\"brush:$1;toolbar:true\">");  
+		}
+		
 		//1.不一致的css属性替换
 		for(Iterator itr = hashtable.keySet().iterator(); itr.hasNext();){ 
 			String key = (String) itr.next(); 
 			String value = (String) hashtable.get(key); 
-			osc=osc.replaceAll("<pre class=\"brush:"+key+";toolbar:false\">", "<pre class=\"brush:"+value+";toolbar:false\">");
+			osc=osc.replaceAll("<pre class=\"brush:"+key+";toolbar:true\">", "<pre class=\"brush:"+value+";toolbar:true\">");
 		} 
 		
 		return osc;

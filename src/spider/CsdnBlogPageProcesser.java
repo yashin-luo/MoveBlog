@@ -18,7 +18,9 @@ public class CsdnBlogPageProcesser extends BlogPageProcessor{
 		site.setSleepTime(1);
 		
 		blogFlag="/article/details/";																	//博客原url 的名字域
-		codeRex = "<pre\\s*.*\\s*class=\"(.*)\">"; 														//代码过滤正则表达式
+		codeRex.add("<pre\\.\\*\\?class=\"(\\.\\+\\?)\"\\.\\*\\?>"); 									//代码过滤正则表达式
+		//<textarea class="java" cols="50" rows="15" name="code">
+		codeRex.add("<textarea\\.*?class=\"(\\.+?)\"\\.*>" );
 		
 		linksRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href";	//链接列表过滤表达式
 		titlesRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()";//title列表过滤表达式

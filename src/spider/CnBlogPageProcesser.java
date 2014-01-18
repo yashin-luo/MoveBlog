@@ -18,7 +18,7 @@ public CnBlogPageProcesser(String url) {
 		site.setSleepTime(1);
 		
 		blogFlag="/p/";																//博客原url 的名字域
-		codeRex = "<pre\\s*class=\"brush:(.*);.*\">"; 								//代码过滤正则表达式
+		codeRex.add("<pre\\.+?class=\"brush:(\\.+?);\\.+?\">"); 							//代码过滤正则表达式
 		
 		linksRex="//div[@class='postTitle']/a/@href";								//链接列表过滤表达式
 		titlesRex="//div[@class='postTitle']/a/text()";								//title列表过滤表达式
