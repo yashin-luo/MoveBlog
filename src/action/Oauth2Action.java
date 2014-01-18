@@ -65,11 +65,7 @@ public class Oauth2Action extends HttpServlet {
         Cookie username = new Cookie("username",URLEncoder.encode(user.getName(),"UTF-8")) ;
         username.setMaxAge(600) ;    
         username.setPath("/") ;
-        
-        response.addCookie(linkcookie) ;
         response.addCookie(u) ;
-        response.addCookie(username) ;
-		
 		response.sendRedirect("/index2.html");
 		
 		//String reString = user.toString();
@@ -82,10 +78,10 @@ public class Oauth2Action extends HttpServlet {
 		super.init(config);
 	}
 	
-	public static String getAccess_token(long user){
-		if(Users.contains(user)){
-			return Users.get(user);
+	public static ConcurrentHashMap<Long, String> Users(){
+		if(Users==null){
+			Users = new ConcurrentHashMap<Long,String>();
 		}
-		return null;
+		return Users;
 	}
 }

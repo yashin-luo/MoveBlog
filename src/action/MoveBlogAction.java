@@ -87,7 +87,7 @@ public class MoveBlogAction extends HttpServlet {
 		*	as_top=0;			//	false		非置顶：0、置顶：1	0
 		 */
 		long key = Long.valueOf(user);
-		String token = Oauth2Action.Users.get(key);
+		String token = Oauth2Action.Users().get(key);
 		String reString = BlogApi.pubBlog(blog,token);	//根据access_token 导入blog
 		
 		JsonMsg.json_out(reString,response);
