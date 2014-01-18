@@ -52,7 +52,7 @@ public class Oauth2Action extends HttpServlet {
 		//根据access_token 获取User
 		User user = UserApi.getUser(access_token);
 		
-		Users.put(Long.valueOf(user.getId()), access_token);
+		Users().put(Long.valueOf(user.getId()), access_token);
 		
         Cookie u = new Cookie("user",user.getId()) ;
         u.setMaxAge(600) ;
