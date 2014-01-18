@@ -2,7 +2,6 @@
 package action;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import common.JsonMsg;
 
-import beans.Blog;
 import beans.BlogLink;
-import spider.BlogList;
 import spider.BlogPipeline;
 import spider.CnBlogPageProcesser;
 import spider.CsdnBlogPageProcesser;
@@ -57,7 +55,7 @@ public class SpiderAction extends HttpServlet {
 		}
 		
 		if(user.isEmpty()){//授权码获取失败
-			json_out("请先授权!",response);
+			JsonMsg.json_out(JsonMsg.jsonError("请先授权!"),response);
 			return;
 		}
 		
@@ -65,7 +63,7 @@ public class SpiderAction extends HttpServlet {
 		
 		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
 		if(null == pageProcessor){
-			json_out("暂不支持该博客网站!",response);
+			JsonMsg.json_out(JsonMsg.jsonError("暂不支持该博客网站!"),response);
 			return;
 		}
 		
@@ -76,7 +74,7 @@ public class SpiderAction extends HttpServlet {
         
         List<BlogLink> linkList=LinksList.getLinkList(user);
         result = new Gson().toJson(linkList);
-		json_out(result, response);
+        JsonMsg.json_out(result, response);
 	}
 	
 	/**
@@ -84,7 +82,7 @@ public class SpiderAction extends HttpServlet {
 	 * @param url
 	 * @return
 	 */
-	private PageProcessor getBlogSitePageProcessor(String url){
+	public static PageProcessor getBlogSitePageProcessor(String url){
 		if(url.contains("www.cnblogs.com")){
 			
 			return new CnBlogPageProcesser(url);
@@ -97,7 +95,7 @@ public class SpiderAction extends HttpServlet {
 			
 			return new CtoBlogPageProcesser(url);
 		
-		}else if(url.contains("www.iteye.com")){
+		}else if(url.contains("iteye.com")){
 			
 			return new IteyeBlogPageProcesser(url);
 		
@@ -107,14 +105,6 @@ public class SpiderAction extends HttpServlet {
 		}
 	}
 	
-	private void json_out(String json,HttpServletResponse response) throws IOException{
-		response.setContentType("application/json;charset=utf-8");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("expires", "0");
-		PrintWriter out = response.getWriter();
-		response.setCharacterEncoding("utf-8");
-		out.print(json);
-	}
+
 	
 }

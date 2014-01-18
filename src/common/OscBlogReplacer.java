@@ -11,14 +11,18 @@ import java.util.Iterator;
 public class OscBlogReplacer {
 	
 	//csdn, osc	不一致的css属性的对应关系
-	private static Hashtable<String, String> hashtable = null;
+	private Hashtable<String, String> hashtable = null;
 	
-	public static void setHashtable(Hashtable<String, String> hash){
+	public OscBlogReplacer(Hashtable<String, String> hashtable) {
+		this.hashtable = hashtable;
+	}
+	
+	public void setHashtable(Hashtable<String, String> hash){
 		hashtable = hash;
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static String replace(String rex, String csdn) {
+	public String replace(String rex, String csdn) {
 		String osc=csdn;
 		
 		//2.一致的css属性替换

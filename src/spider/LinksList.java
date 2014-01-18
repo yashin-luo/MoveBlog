@@ -48,19 +48,9 @@ public class LinksList {
 		ConcurrentHashMap<String, BlogLink> hash;
 		if(linkMap.containsKey(user)){
 			hash = linkMap.get(user);
-			
-			//hash to list
-			List<BlogLink> linkList = new ArrayList<BlogLink>(hash.values());
-			return linkList;
+			return new ArrayList<BlogLink>(hash.values());	//hash to list
 		}
 		
-		return null;
-	}
-	
-	public static BlogLink getLink(String user, int blogIndex) {
-		if(linkMap.containsKey(user)){
-			return linkMap.get(user).get(blogIndex);
-		}
 		return null;
 	}
 	
