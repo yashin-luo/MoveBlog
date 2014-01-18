@@ -16,8 +16,21 @@ var Api = (function(conf,$){
 				'?response_type=' + conf.response_type + 
 				'&client_id=' + conf.client_id +
 				'&redirect_uri=' + encodeURIComponent(conf.redirect_uri),
-		'blog_list':'/action/spider'
+		'blog_list':'/action/spider',
+		'import_list':'/action/moveblog'
 	};
+	
+	var blog_tpl = [
+		'<li>',
+			'<label for="blog_{id}">',
+				'<input type="checkbox" id="blog_{id}" data-url="{link}"/>',
+				'<span>',
+					'{title}',
+				'</span>',
+			'</label>',
+		'</li>'
+	].join('\n');
+	
 	
 	var getCookie = function (name,value){
 		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
@@ -80,6 +93,31 @@ var Api = (function(conf,$){
 		}).join('');
 	};
 	
+	var generateBlogList = function(arr){
+		var ul = $('<ul>');
+		for(var i=0;i<arr.length;i++){
+			var blog = arr[i];
+			var li = blog_tpl
+					.replace(/\{link\}/ig,blog.link)
+					.replace(/\{id\}/ig,i)
+					.replace(/\{title\}/ig,blog.title);
+			ul.append(li);
+		}
+		return ul;
+	};
+	
+	var importBlog = function(arr,callback){
+		if(arr.length==0)
+			return;
+		var url = arr.shift();
+		return ajax(uri.import_list,function(data){
+			callback && callback(data,url);
+			importBlog(arr,callback);
+		},{
+			link:url
+		});
+	};
+	
 	api.ajax = ajax;
 	api.cookie = getCookie;
 	api.rcookie = delCookie;
@@ -91,6 +129,8 @@ var Api = (function(conf,$){
 	
 	api.blog_list = getBlogList;
 	api.blog_type = detectBlogType;
+	api.blog_list_tpl = generateBlogList;
+	api.import = importBlog;
 	
 	return api;
 	
@@ -141,17 +181,6 @@ $(function(){
 		}
 	});
 	
-	var blog_tpl = [
-					'<li>',
-						'<label for="blog_12">',
-							'<input type="checkbox" id="blog_12"/>',
-							'<span>',
-								'${}',
-							'</span>',
-						'</label>',
-					'</li>'
-	                ].join('\n');
-	
 	//爬取博客列表
 	$submit.on('click',function(){
 		if(!Api.logined())
@@ -162,12 +191,14 @@ $(function(){
 		$blog_list.html('');
 		$blog_list.addClass('loading');
 		Api.blog_list(url,function(list){
-			$blog_list.html(list);
 			$blog_list.removeClass('loading');
 			$input_url.attr('disabled','disabled');
 			$submit.hide();
 			$cancel.show();
 			$import.show();
+			if(list!=null){
+				$blog_list.html(Api.blog_list_tpl(list));
+			}
 		});
 	});
 	
@@ -178,14 +209,21 @@ $(function(){
 		$submit.show();
 		$import.hide();
 		$blog_list.html('');
-		$input_url.val('');
 		$input_url.removeAttr('disabled');
 		$input_url.focus();
 	});
 	
 	//开始导入所选博客
 	$import.on('click',function(){
-		
+		var import_tasks = $('.blog-list input[type="checkbox"]:checked');
+		if(import_tasks.length==0){
+			alert('先选定一篇博客吧！');
+			return;
+		}
+		var urls = import_tasks.map(function(){return $(this).data('url');}).toArray();
+		Api.import(urls,function(data,url){
+			console.log(data,url);
+		});
 	});
 	
 });

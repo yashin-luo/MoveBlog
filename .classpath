@@ -14,7 +14,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/httpcore-4.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/webmagic-core-0.4.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/webmagic-core-0.4.2.jar" sourcepath="/webmagic-core/src"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/webmagic-extension-0.4.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jedis-2.0.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/junit-4.7.jar"/>

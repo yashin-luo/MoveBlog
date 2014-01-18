@@ -94,4 +94,11 @@ public class Oauth2Action extends HttpServlet {
 		Users = new ConcurrentHashMap<Long,String>();
 		super.init(config);
 	}
+	
+	public static ConcurrentHashMap<Long, String> Users(){
+		if(Users==null){
+			Users = new ConcurrentHashMap<Long,String>();
+		}
+		return Users;
+	}
 }

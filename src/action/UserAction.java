@@ -25,9 +25,8 @@ public class UserAction extends HttpServlet {
 		String user_id = request.getParameter("user_id");
 		if(!StringUtils.isNumeric(user_id))
 			return;
-		String access_token =  Oauth2Action.Users.get(Long.valueOf(user_id));
+		String access_token =  Oauth2Action.Users().get(Long.valueOf(user_id));
 		User user = UserApi.getUser(access_token);
 		Oauth2Action.json_out(JSON.toJSONString(user), response);
 	}
-
 }

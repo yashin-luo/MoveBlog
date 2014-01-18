@@ -1,5 +1,6 @@
 package spider;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -16,13 +17,17 @@ import us.codecraft.webmagic.processor.PageProcessor;
 public class CsdnBlogPageProcesser implements PageProcessor{
 	
 	private Site site = Site.me().setDomain("blog.csdn.net");
+	private String url="";
 	private String name="";															//博客原url 的名字域
 	private String codeRex = "<pre\\s*.*\\s*class=\"(.*)\">"; 						//代码过滤正则表达式
 	private Hashtable<String, String> hashtable = new Hashtable<String,String>();	//代码class映射关系
 	
 	public CsdnBlogPageProcesser(String url) {
 		this.site.setSleepTime(10);
-		name = url.split("/")[url.split("/").length - 1];
+		this.url = url;
+		if(!url.contains("/article/details/")){
+			name = url.split("/")[url.split("/").length - 1];
+		}
 	}
 	
 	/**
@@ -30,9 +35,54 @@ public class CsdnBlogPageProcesser implements PageProcessor{
 	 */
 	@Override
     public void process(Page page) {
+        if(url.contains("/article/details/")){
+        	getPage(page);
+        	page.putField("getlinks", false);
+        } else {
+			getLinks(page);
+			page.putField("getlinks", true);
+		}
+	}
+	
+	/**
+	 * 抓取链接列表
+	 * @param page
+	 */
+	private void getLinks(Page page) {
+		List<String> links = page.getHtml().xpath("//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href").all();
+        List<String> titles = page.getHtml().xpath("//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()").all();
         
-        List<String> links = page.getHtml().links().regex("http://blog\\.csdn\\.net/"+name+"/article/details/\\d+").all();
-        page.addTargetRequests(links);
+        page.putField("titles", titles);
+        page.putField("links", links);
+        
+        String thisLink=page.getUrl().toString();
+        		
+        if(thisLink.endsWith(name)){
+	        List<String> Pagelinks=page.getHtml().xpath("//div[@class='pagelist']/a/@href").all();   
+	        
+	        if(Pagelinks.isEmpty()){
+	        	return;
+	        }
+	        
+	        String end=Pagelinks.get(Pagelinks.size()-1);       
+	        String endnum = end.split("/")[end.split("/").length-1];
+	        List<String> tegerlinks = new ArrayList<String>();
+	        thisLink=thisLink + "/article/list/";
+	        
+	        for(int i=2; i <= Integer.parseInt(endnum); ++i){
+	        	tegerlinks.add(thisLink+i);
+	        }
+	        
+	        page.addTargetRequests(tegerlinks);		//获取分页link去爬即可
+        }
+        
+	}
+
+	/**
+	 * 抓取博客内容
+	 * @param page
+	 */
+	private void getPage(Page page){
         
         String title = page.getHtml().xpath("//div[@class='details']/div[@class='article_title']/h3/span/a/text()").toString();
         String oldContent = page.getHtml().$("div.article_content").toString();
@@ -54,6 +104,7 @@ public class CsdnBlogPageProcesser implements PageProcessor{
         page.putField("title", title);
         page.putField("tags", tags);
 	}
+	
 
     @Override
     public Site getSite() {
