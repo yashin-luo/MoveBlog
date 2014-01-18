@@ -2,8 +2,6 @@
 package action;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -11,13 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.JsonMsg;
+
 import oschina.BlogApi;
 import spider.BlogList;
 import spider.BlogPipeline;
-import spider.CnBlogPageProcesser;
-import spider.CsdnBlogPageProcesser;
-import spider.CtoBlogPageProcesser;
-import spider.IteyeBlogPageProcesser;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import beans.Blog;
@@ -50,31 +46,30 @@ public class MoveBlogAction extends HttpServlet {
 		}
 		
 		if(user.isEmpty()){//授权码获取失败
-			json_out("请先授权!",response);
+			JsonMsg.json_out(JsonMsg.jsonError("请先授权!"),response);
 			return;
 		}
 		
 		String link = request.getParameter("link");
 		
 		if(link.isEmpty()){//id获取失败
-			json_out("link获取失败",response);
+			JsonMsg.json_out(JsonMsg.jsonError("link获取失败"),response);
 			return;
 		}
 		
-		PageProcessor pageProcessor = getBlogSitePageProcessor(link);
-		if(null == pageProcessor){
-			json_out("暂不支持该博客网站!",response);
-			return;
-		}
-		
-		Blog blog=BlogList.getBlog(user); //已存在，不用抓取
+		Blog blog=BlogList.getBlog(link); //已存在，不用抓取
 		
 		if(null == blog){
+			PageProcessor pageProcessor = SpiderAction.getBlogSitePageProcessor(link);
+			if(null == pageProcessor){
+				JsonMsg.json_out(JsonMsg.jsonError("暂不支持该博客网站!"),response);
+				return;
+			}
 			//爬取博客，结果存放在BLogList中
 	        Spider.create(pageProcessor)
 	        	.addUrl(link)
 	             .addPipeline(new BlogPipeline(user)).run();
-	        blog=BlogList.getBlog(user);
+	        blog=BlogList.getBlog(link);
 		}
 		
 
@@ -95,51 +90,7 @@ public class MoveBlogAction extends HttpServlet {
 		String token = Oauth2Action.Users().get(key);
 		String reString = BlogApi.pubBlog(blog,token);	//根据access_token 导入blog
 		
-		json_out(reString,response);
-	}
-	
-	/**
-	 * //根据url选择博客类型
-	 * @param url
-	 * @return
-	 */
-	private PageProcessor getBlogSitePageProcessor(String url){
-		if(url.contains("www.cnblogs.com")){
-			
-			return new CnBlogPageProcesser(url);
-			
-		}else if(url.contains("blog.csdn.net")){
-			
-			return new CsdnBlogPageProcesser(url);
-			
-		}else if(url.contains("blog.51cto.com")){
-			
-			return new CtoBlogPageProcesser(url);
-		
-		}else if(url.contains("www.iteye.com")){
-			
-			return new IteyeBlogPageProcesser(url);
-		
-		}else {
-			
-			return null;
-		}
+		JsonMsg.json_out(reString,response);
 	}
 
-	/**
-	 * 以json返回action结果
-	 * @param json
-	 * @param response
-	 * @throws IOException
-	 */
-	private void json_out(String json,HttpServletResponse response) throws IOException{
-		response.setContentType("application/json;charset=utf-8");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("expires", "0");
-		PrintWriter out = response.getWriter();
-		response.setCharacterEncoding("utf-8");
-		out.print(json);
-	}
-	
 }

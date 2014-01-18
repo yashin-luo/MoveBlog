@@ -27,7 +27,8 @@ public class BlogPipeline implements Pipeline{
 		this.user = user;
 	}
 	
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void process(ResultItems resultItems, Task task) {
 
     	fields = resultItems.getAll();
@@ -58,7 +59,7 @@ public class BlogPipeline implements Pipeline{
 				return ;
 			}
 	
-	    	BlogList.addBlog(user,oscBlog);
+	    	BlogList.addBlog(oscBlog);
 	    	List<BlogLink> links=new ArrayList<BlogLink>();
 	    	BlogLink blogLink = new BlogLink();
 	    	blogLink.setLink(oscBlog.getLink());

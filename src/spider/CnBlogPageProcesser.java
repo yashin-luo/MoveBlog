@@ -1,64 +1,52 @@
 package spider;
 
 import java.util.Hashtable;
-import java.util.List;
-
-import common.OscBlogReplacer;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.processor.PageProcessor;
 
 /**
  * cnblogs博客爬虫逻辑
  * @author oscfox
  * @date 20140114
  */
-public class CnBlogPageProcesser implements PageProcessor{
+public class CnBlogPageProcesser extends BlogPageProcessor{
 	
-	private Site site = Site.me().setDomain("www.cnblogs.com");
-	private String name="";															//博客原url 的名字域
-	//<pre class="brush:java;gutter:true;"> 
-	private String codeRex = "<pre\\s*class=\"brush:(.*);.*\">"; 					//代码过滤正则表达式
-	private Hashtable<String, String> hashtable = new Hashtable<String,String>();	//代码class映射关系
 	
-	public CnBlogPageProcesser(String url) {
-		this.site.setSleepTime(10);
-		name = url.split("/")[url.split("/").length - 1];	//获取博主名字域
+public CnBlogPageProcesser(String url) {
+		
+		site = Site.me().setDomain("www.cnblogs.com");
+		site.setSleepTime(1);
+		
+		blogFlag="/p/";																//博客原url 的名字域
+		codeRex = "<pre\\s*class=\"brush:(.*);.*\">"; 								//代码过滤正则表达式
+		
+		linksRex="//div[@class='postTitle']/a/@href";								//链接列表过滤表达式
+		titlesRex="//div[@class='postTitle']/a/text()";								//title列表过滤表达式
+		
+		
+		contentRex="div.cnblogs_post_body";											//内容过滤表达式
+		titleRex="//a[@id='cb_post_title_url']/text()";								//title过滤表达式
+		tagsRex="//div[@id='EntryTagad']/a/text()";									//tags过滤表达式
+		
+		
+		this.url=url;
+		
+		if(!url.contains(blogFlag)){
+			name = url.split("/")[url.split("/").length - 1];
+		}
+		//http://www.cnblogs.com/hadoopdev/default.html?page=3
+		PagelinksRex="http://www\\.cnblogs\\.com/"+name+"/default.html?page=\\d+";	//分页链接
+		initMap();		
 	}
 	
-	/**
-	 * 爬博客内容等，并将博客内容中有代码的部分转换为oschina博客代码格式
-	 */
 	@Override
     public void process(Page page) {
-		//http://www.cnblogs.com/scgw/
-        List<String> links = page.getHtml().links().regex("http://www\\.cnblogs\\.com/"+name+"/p/.*\\.html").all();
-        page.addTargetRequests(links);
-        
-        String title = page.getHtml().xpath("//a[@id='cb_post_title_url']/text()").toString();//title 标签不唯一，有的能抓有的不能抓
-        String oldContent = page.getHtml().xpath("//div[@id='cnblogs_post_body']").toString();
-        String tags = page.getHtml().xpath("//div[@id='EntryTagad']/a/text()").all().toString();	//cnblogs中tags不在网页源码中，获取不了
-        
-        if(null == oldContent || null == title){
-        	return;
-        }
-        
-        if(null != tags){
-        	tags = tags.substring(tags.indexOf("[")+1,tags.indexOf("]"));
-        }
-        
-        initMap();														//初始化映射关系
-		OscBlogReplacer.setHashtable(hashtable);						//设置工具类映射关系
-    	String oscContent = OscBlogReplacer.replace(codeRex,oldContent);//处理代码格式
-
-    	page.putField("title", title);	
-        page.putField("content", oscContent);
-        page.putField("tags",tags); 
+		super.process(page);
 	}
 
     @Override
     public Site getSite() {
-        return site;
+        return super.getSite();
     }
 
     /**
@@ -66,6 +54,7 @@ public class CnBlogPageProcesser implements PageProcessor{
      * 分别为:cnblogs， osc
      */
 	private void initMap() {
+		hashtable = new Hashtable<String,String>();	//代码class映射关系
 		/*hashtable.put("csharp", "c#");
 		hashtable.put("javascript", "js");
 		hashtable.put("objc", "cpp");*/
