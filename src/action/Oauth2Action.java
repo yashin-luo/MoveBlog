@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import common.JsonMsg;
 
 import oschina.Oauth2Api;
@@ -45,7 +47,7 @@ public class Oauth2Action extends HttpServlet {
 		
 		//根据oschina authorization_code 回调的code请求 access_token
 		String access_token= Oauth2Api.getAccess_token(code);
-		if(access_token.isEmpty()){//授权码获取失败
+		if(StringUtils.isBlank(access_token)){//授权码获取失败
 			JsonMsg.json_out(JsonMsg.jsonError("access_token获取失败"),response);
 			return;
 		}

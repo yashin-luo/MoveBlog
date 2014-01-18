@@ -9,8 +9,15 @@ import com.google.gson.Gson;
 
 public class JsonMsg {
 	
+	public static byte ERROR_CODE_GENERAL = 0;
+	public static byte ERROR_CODE_AUTH = 1;
+	
 	public static String jsonError(String json){
-		return new Gson().toJson("{err:'"+json+"'}");
+		return new Gson().toJson("{error:'"+json+"',code:'0'}");
+	}
+	
+	public static String jsonError(String json,int code){
+		return new Gson().toJson("{error:'"+json+"',code:'"+code+"'}");
 	}
 	
 	public static String jsonSuccess(String json){

@@ -14,24 +14,30 @@ h2{font-size:20px;}
 .button{border-radius:3px;width:auto; height:23px;display:inline-block;padding:2px 23px;margin:0 0 0 5px;border:0;color:#FFF;text-decoration:none;font-size:15px;}
 a#cancel{margin-left:5px;background-color:#CCC;}
 #search-form .list-loaded{background:#F17725;}
-.loading{background:url('http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/loading.gif') no-repeat;background-position: 200px 20px;}
-
 
 .blog-providers{padding:10px;}
 .blog-providers ul li{float:left;margin-right:20px;height:30px;}
 .blog-providers ul li img{height:100%;}
 
 .blog-list{padding:10px;height:100px;width:80%;}
+.blog-list.loading{background:url('http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/loading.gif') no-repeat;background-position: 200px 20px;}
 .blog-list li{padding:5px 0;}
 .blog-list input[type='checkbox']{
 	vertical-align:0;
 	*vertical-align:middle;
 	_vertical-align:3px;
 }
+.blog-list li img.import_loading,
+.blog-list li img.import_ok{display:none;}
+.blog-list li.loading img.import_loading{display:inline;}
+.blog-list li.imported img.import_ok{display:inline;}
+.blog-list li.loading input,.blog-list li.imported input{display:none;}
+
 
 .blog-list input.imported{background-color:#F17725;}
 .blog-list label{color:#3B94CF;cursor:pointer;}
 .blog-list label span:hover{border-bottom:1px solid #3B94CF;}
+.blog-list a{text-decoration: none;color:#3B94CF;}
 
 /*color*/
 .blue{background-color:#3B94CF;}

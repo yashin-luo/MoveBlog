@@ -26,7 +26,7 @@ public class OscBlogReplacer {
 		String osc=csdn;
 		
 		//2.一致的css属性替换
-		osc=osc.replaceAll(rex,"<pre class=\"brush:$1;toolbar:false\">");  
+		osc=osc.replaceAll(rex,"<pre class=\"brush:$1;toolbar:true\">");  
 		//1.不一致的css属性替换
 		for(Iterator itr = hashtable.keySet().iterator(); itr.hasNext();){ 
 			String key = (String) itr.next(); 

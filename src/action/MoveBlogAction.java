@@ -72,6 +72,10 @@ public class MoveBlogAction extends HttpServlet {
 	        blog=BlogList.getBlog(link);
 		}
 		
+		if(blog==null){
+			JsonMsg.json_out(JsonMsg.jsonError("抓取失败，你懂的，稍后再试！"), response);
+			return;
+		}
 
 		/**
 		 * 可设置blog非必要参数：
