@@ -4,29 +4,29 @@ import java.util.Map;
 
 
 /**
- * ²©¿Í beans
+ * åšå®¢ beans
  * @author oscfox
  *
  */
 public class Blog {
 	
-	//private String access_token="";	//	true	oauth2_token»ñÈ¡µÄaccess_token	
+	//private String access_token="";	//	true	oauth2_tokenè·å–çš„access_token	
 	
-	private String 	title="";			//	true		²©¿Í±êÌâ	
-	private String 	content="";			//	true		²©¿ÍÄÚÈİ	
-	private String 	classification="418860";//	true		ÏµÍ³²©¿Í·ÖÀà
-	private String 	save_as_draft="0";	//	false		±£´æµ½²İ¸å ÊÇ£º1 ·ñ£º0	0
-	private String 	catalog;			//	false		²©¿Í·ÖÀà	
-	private String 	abstracts="";		//	false		²©¿ÍÕªÒª	
-	private String 	tags="";			//	false		²©¿Í±êÇ©£¬ÓÃ¶ººÅ¸ô¿ª	
-	private String 	type="1";			//	false		Ô­´´£º1¡¢×ªÔØ£º4	1
-	private String 	origin_url="";		//	false		×ªÔØµÄÔ­ÎÄÁ´½Ó	
-	private String 	privacy="0";		//	false		¹«¿ª£º0¡¢Ë½ÓĞ£º1	0
-	private String 	deny_comment="0";	//	false		ÔÊĞíÆÀÂÛ£º0¡¢½ûÖ¹ÆÀÂÛ£º1	0
-	private String 	auto_content="0";	//	false		×Ô¶¯Éú³ÉÄ¿Â¼£º0¡¢²»×Ô¶¯Éú³ÉÄ¿Â¼£º1	0
-	private String 	as_top="0";			//	false		·ÇÖÃ¶¥£º0¡¢ÖÃ¶¥£º1	0
+	private String 	title="";			//	true		åšå®¢æ ‡é¢˜	
+	private String 	content="";			//	true		åšå®¢å†…å®¹	
+	private String 	classification="418860";//	true		ç³»ç»Ÿåšå®¢åˆ†ç±»
+	private String 	save_as_draft="0";	//	false		ä¿å­˜åˆ°è‰ç¨¿ æ˜¯ï¼š1 å¦ï¼š0	0
+	private String 	catalog;			//	false		åšå®¢åˆ†ç±»	
+	private String 	abstracts="";		//	false		åšå®¢æ‘˜è¦	
+	private String 	tags="";			//	false		åšå®¢æ ‡ç­¾ï¼Œç”¨é€—å·éš”å¼€	
+	private String 	type="1";			//	false		åŸåˆ›ï¼š1ã€è½¬è½½ï¼š4	1
+	private String 	origin_url="";		//	false		è½¬è½½çš„åŸæ–‡é“¾æ¥	
+	private String 	privacy="0";		//	false		å…¬å¼€ï¼š0ã€ç§æœ‰ï¼š1	0
+	private String 	deny_comment="0";	//	false		å…è®¸è¯„è®ºï¼š0ã€ç¦æ­¢è¯„è®ºï¼š1	0
+	private String 	auto_content="0";	//	false		è‡ªåŠ¨ç”Ÿæˆç›®å½•ï¼š0ã€ä¸è‡ªåŠ¨ç”Ÿæˆç›®å½•ï¼š1	0
+	private String 	as_top="0";			//	false		éç½®é¡¶ï¼š0ã€ç½®é¡¶ï¼š1	0
 	
-	private String link="";				//	Ô­²©¿ÍÁ´½Ó
+	private String link="";				//	åŸåšå®¢é“¾æ¥
 	private long id;					//	
 	
 	public Blog() {
@@ -35,24 +35,24 @@ public class Blog {
 	
 	public Blog(Map<String, Object> blogMap) throws Exception {
 		
-		Object title=blogMap.get("title");						//	true		²©¿Í±êÌâ	
-		Object content=blogMap.get("content");					//	true		²©¿ÍÄÚÈİ	
-		Object classification = blogMap.get("classification");	//	true		ÏµÍ³²©¿Í·ÖÀà
-		Object save_as_draft = blogMap.get("save_as_draft");	//	false		±£´æµ½²İ¸å ÊÇ£º1 ·ñ£º0	0
-		Object catalog = blogMap.get("catalog");				//	false		²©¿Í·ÖÀà	
-		Object abstracts = blogMap.get("abstracts");			//	false		²©¿ÍÕªÒª	
-		Object tags = blogMap.get("tags");						//	false		²©¿Í±êÇ©£¬ÓÃ¶ººÅ¸ô¿ª	
-		Object type = blogMap.get("type");						//	false		Ô­´´£º1¡¢×ªÔØ£º4	1
-		Object origin_url = blogMap.get("origin_url");			//	false		×ªÔØµÄÔ­ÎÄÁ´½Ó	
-		Object privacy = blogMap.get("privacy");				//	false		¹«¿ª£º0¡¢Ë½ÓĞ£º1	0
-		Object deny_comment = blogMap.get("deny_comment");		//	false		ÔÊĞíÆÀÂÛ£º0¡¢½ûÖ¹ÆÀÂÛ£º1	0
-		Object auto_content = blogMap.get("auto_content");		//	false		×Ô¶¯Éú³ÉÄ¿Â¼£º0¡¢²»×Ô¶¯Éú³ÉÄ¿Â¼£º1	0
-		Object as_top = blogMap.get("as_top");					//	false		·ÇÖÃ¶¥£º0¡¢ÖÃ¶¥£º1	0
-		Object link = blogMap.get("link");						//	Ô­²©¿ÍÁ´½Ó
+		Object title=blogMap.get("title");						//	true		åšå®¢æ ‡é¢˜	
+		Object content=blogMap.get("content");					//	true		åšå®¢å†…å®¹	
+		Object classification = blogMap.get("classification");	//	true		ç³»ç»Ÿåšå®¢åˆ†ç±»
+		Object save_as_draft = blogMap.get("save_as_draft");	//	false		ä¿å­˜åˆ°è‰ç¨¿ æ˜¯ï¼š1 å¦ï¼š0	0
+		Object catalog = blogMap.get("catalog");				//	false		åšå®¢åˆ†ç±»	
+		Object abstracts = blogMap.get("abstracts");			//	false		åšå®¢æ‘˜è¦	
+		Object tags = blogMap.get("tags");						//	false		åšå®¢æ ‡ç­¾ï¼Œç”¨é€—å·éš”å¼€	
+		Object type = blogMap.get("type");						//	false		åŸåˆ›ï¼š1ã€è½¬è½½ï¼š4	1
+		Object origin_url = blogMap.get("origin_url");			//	false		è½¬è½½çš„åŸæ–‡é“¾æ¥	
+		Object privacy = blogMap.get("privacy");				//	false		å…¬å¼€ï¼š0ã€ç§æœ‰ï¼š1	0
+		Object deny_comment = blogMap.get("deny_comment");		//	false		å…è®¸è¯„è®ºï¼š0ã€ç¦æ­¢è¯„è®ºï¼š1	0
+		Object auto_content = blogMap.get("auto_content");		//	false		è‡ªåŠ¨ç”Ÿæˆç›®å½•ï¼š0ã€ä¸è‡ªåŠ¨ç”Ÿæˆç›®å½•ï¼š1	0
+		Object as_top = blogMap.get("as_top");					//	false		éç½®é¡¶ï¼š0ã€ç½®é¡¶ï¼š1	0
+		Object link = blogMap.get("link");						//	åŸåšå®¢é“¾æ¥
 		Object id = blogMap.get("id");							//	
 		
 		if(null == content || null == title){
-			throw new Exception("blogÈ±·¦±ØÒª²ÎÊı");
+			throw new Exception("blogç¼ºä¹å¿…è¦å‚æ•°");
 		}
 
 		this.setContent(content.toString());

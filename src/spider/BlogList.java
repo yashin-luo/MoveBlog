@@ -4,19 +4,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;  
 import beans.Blog;
 /**
- * ÅÀ³æ»ñÈ¡µÄ²©¿ÍÁĞ±í
+ * çˆ¬è™«è·å–çš„åšå®¢åˆ—è¡¨
  * @author oscfox
  *
  */
 public class BlogList {
 
-	//ÓÃ»§Ãû£¬¶ÔÓ¦Ò»¸öÓÃ»§ÁĞ±í£¬Èç¹ûÓÃ»§ÎªĞÂÓÃ»§ÔòputĞÂµÄÁĞ±í
+	//ç”¨æˆ·åï¼Œå¯¹åº”ä¸€ä¸ªç”¨æˆ·åˆ—è¡¨ï¼Œå¦‚æœç”¨æˆ·ä¸ºæ–°ç”¨æˆ·åˆ™putæ–°çš„åˆ—è¡¨
 	private static Map<String, Blog> blogMap = new ConcurrentHashMap <String,Blog>();
 	
 	public static void addBlog(Blog blog) {
 		
 		if(blogMap.containsKey(blog.getLink())){
-			//ÒÑ´æÔÚ²©¿Í£¬ÓĞÒì³££¬Ã»´¦Àí
+			//å·²å­˜åœ¨åšå®¢ï¼Œæœ‰å¼‚å¸¸ï¼Œæ²¡å¤„ç†
 			blogMap.put(blog.getLink(), blog);
 		} else{
 			blogMap.put(blog.getLink(), blog);

@@ -5,13 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * ½«ÅÀÈ¡µÄ²©¿Í´úÂë²¿·Ö×ª»»Îªoschina²©¿Í´úÂëÀàĞÍ
+ * å°†çˆ¬å–çš„åšå®¢ä»£ç éƒ¨åˆ†è½¬æ¢ä¸ºoschinaåšå®¢ä»£ç ç±»å‹
  * @author oscfox
  *
  */
 public class OscBlogReplacer {
 	
-	//csdn, osc	²»Ò»ÖÂµÄcssÊôĞÔµÄ¶ÔÓ¦¹ØÏµ
+	//csdn, osc	ä¸ä¸€è‡´çš„csså±æ€§çš„å¯¹åº”å…³ç³»
 	private Hashtable<String, String> hashtable = null;
 	
 	public OscBlogReplacer(Hashtable<String, String> hashtable) {
@@ -26,18 +26,18 @@ public class OscBlogReplacer {
 	public String replace(List<String> rexBegin, List<String> rexEnd, String oldString) {
 		String osc=oldString;
 		
-		//±êÇ©Í·
+		//æ ‡ç­¾å¤´
 		for(int i=0; i<rexBegin.size(); ++i){
 			osc=osc.replaceAll(rexBegin.get(i),"<pre class=\"brush:$1;toolbar:true\">");  
 		}
 		
-		//±êÇ©Î²
+		//æ ‡ç­¾å°¾
 		for(int i=0; i<rexEnd.size(); ++i){
 			osc=osc.replaceAll(rexEnd.get(i),"</pre>");  
 		}
 		
 		
-		//1.²»Ò»ÖÂµÄcssÊôĞÔÌæ»»
+		//1.ä¸ä¸€è‡´çš„csså±æ€§æ›¿æ¢
 		for(Iterator itr = hashtable.keySet().iterator(); itr.hasNext();){ 
 			String key = (String) itr.next(); 
 			String value = (String) hashtable.get(key); 

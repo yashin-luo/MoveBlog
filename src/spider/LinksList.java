@@ -7,13 +7,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import beans.BlogLink;
 /**
- * ÅÀ³æ»ñÈ¡µÄ²©¿ÍÁĞ±í
+ * çˆ¬è™«è·å–çš„åšå®¢åˆ—è¡¨
  * @author oscfox
  *
  */
 public class LinksList {
 
-	//ÓÃ»§Ãû£¬¶ÔÓ¦Ò»¸öÓÃ»§ÁĞ±í£¬Èç¹ûÓÃ»§ÎªĞÂÓÃ»§ÔòputĞÂµÄÁĞ±í
+	//ç”¨æˆ·åï¼Œå¯¹åº”ä¸€ä¸ªç”¨æˆ·åˆ—è¡¨ï¼Œå¦‚æœç”¨æˆ·ä¸ºæ–°ç”¨æˆ·åˆ™putæ–°çš„åˆ—è¡¨
 	private static Map<String, ConcurrentHashMap<String, BlogLink>> linkMap = new ConcurrentHashMap <String,ConcurrentHashMap<String, BlogLink>>();
 	
 	public static void addLinks(String user, List<BlogLink> links) {
@@ -26,11 +26,11 @@ public class LinksList {
 			linkList = new ConcurrentHashMap<String,BlogLink>();
 		}
 		
-		//put links È¥ÖØ¸´
+		//put links å»é‡å¤
 		for(int i=0; i<links.size(); ++i){
 			String key = links.get(i).getLink();
 			
-			if(linkList.containsKey(key)){	//ÖØ¸´£¬²»Ìá½»
+			if(linkList.containsKey(key)){	//é‡å¤ï¼Œä¸æäº¤
 				continue;
 			}
 			

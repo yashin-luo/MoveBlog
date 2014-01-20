@@ -13,7 +13,7 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 
 
 /**
- * 成功blog并保存至BlogList
+ * 鎴愬姛blog骞朵繚瀛樿嚦BlogList
  * @author oscfox
  * @date 
  */

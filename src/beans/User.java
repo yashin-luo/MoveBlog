@@ -1,7 +1,7 @@
 package beans;
 
 /**
- * oschina 用户信息
+ * oschina 鐢ㄦ埛淇℃伅
  * @author oscfox
  *
  */
@@ -9,10 +9,10 @@ public class User {
 	
 	private String id="";			//: 899**,
 	private String email="";		//: "****@gmail.com",
-	private String name="";			//: "彭博",
+	private String name="";			//: "褰崥",
 	private String gender="";		//: "male",
 	private String avatar="";		//: "http://www.oschina.net/uploads/user/****",
-	private String location="";		//: "广东 深圳",
+	private String location="";		//: "骞夸笢 娣卞湷",
 	private String url="";			//: "http://home.oschina.net/****"
 	
     @Override

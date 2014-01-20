@@ -10,13 +10,13 @@ import com.google.gson.Gson;
 import common.AppConfigTool;
 
 /**
- * oschinaÑéÖ¤api
+ * oschinaéªŒè¯api
  * @author oscfox
  *
  */
 public class Oauth2Api {
 	/**
-	 * ¸ù¾İcode»ñÈ¡oschinaµÄ token
+	 * æ ¹æ®codeè·å–oschinaçš„ token
 	 * @param code
 	 * @return
 	 */
@@ -66,11 +66,11 @@ public class Oauth2Api {
 	}
 	
 	/**
-	 * oschina·µ»ØµÄaccess_token
+	 * oschinaè¿”å›çš„access_token
 	 * @author oscfox
 	 *
 	 */
-    class JsonData//·µ»Ø²ÎÊı£¬±£»¤access_token
+    class JsonData//è¿”å›å‚æ•°ï¼Œä¿æŠ¤access_token
     {
         private String access_token;
         private String token_type;

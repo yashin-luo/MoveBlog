@@ -11,13 +11,13 @@ import com.google.gson.Gson;
 import common.AppConfigTool;
 
 /**
- * oschina 获取博客api
+ * oschina 鑾峰彇鍗氬api
  * @author oscfox
  *
  */
 public class BlogApi {
 	/**
-	 * 将博客导入oschina
+	 * 灏嗗崥瀹㈠鍏schina
 	 * @param blog
 	 * @param access_token
 	 * @return
@@ -44,7 +44,7 @@ public class BlogApi {
 	}
 	
 	/**
-	 * 将博客导入oschina
+	 * 灏嗗崥瀹㈠鍏schina
 	 * @param access_token
 	 * @param title
 	 * @param content

@@ -6,7 +6,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 
 /**
- * csdn²©¿ÍÅÀ³æÂß¼­
+ * csdnåšå®¢çˆ¬è™«é€»è¾‘
  * @author oscfox
  * @date 20140114
  */
@@ -17,19 +17,19 @@ public class CsdnBlogPageProcesser extends BlogPageProcessor{
 		site = Site.me().setDomain("blog.csdn.net");
 		site.setSleepTime(1);
 		
-		blogFlag="/article/details/";																	//²©¿ÍÔ­url µÄÃû×ÖÓò
-		codeBeginRex.add("<pre.*?class=\"(.+?)\".*?>"); 												//´úÂë¹ıÂËÕıÔò±í´ïÊ½
+		blogFlag="/article/details/";																	//åšå®¢åŸurl çš„åå­—åŸŸ
+		codeBeginRex.add("<pre.*?class=\"(.+?)\".*?>"); 												//ä»£ç è¿‡æ»¤æ­£åˆ™è¡¨è¾¾å¼
 		
 		//<textarea class="java" cols="50" rows="15" name="code">
 		codeBeginRex.add("<textarea.*?class=\"(.+?)\".*?>" );
 		codeEndRex.add("</textarea>");		//</textarea>
 		
-		linksRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href";	//Á´½ÓÁĞ±í¹ıÂË±í´ïÊ½
-		titlesRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()";//titleÁĞ±í¹ıÂË±í´ïÊ½
+		linksRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href";	//é“¾æ¥åˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
+		titlesRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()";//titleåˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
 		
-		contentRex="div.article_content";																//ÄÚÈİ¹ıÂË±í´ïÊ½
-		titleRex="//div[@class='details']/div[@class='article_title']/h3/span/a/text()";				//title¹ıÂË±í´ïÊ½
-		tagsRex="//div[@class='tag2box']/a/text()";														//tags¹ıÂË±í´ïÊ½
+		contentRex="div.article_content";																//å†…å®¹è¿‡æ»¤è¡¨è¾¾å¼
+		titleRex="//div[@class='details']/div[@class='article_title']/h3/span/a/text()";				//titleè¿‡æ»¤è¡¨è¾¾å¼
+		tagsRex="//div[@class='tag2box']/a/text()";														//tagsè¿‡æ»¤è¡¨è¾¾å¼
 		
 		this.url=url;
 		
@@ -38,7 +38,7 @@ public class CsdnBlogPageProcesser extends BlogPageProcessor{
 		}
 		
 		//http://blog.csdn.net/cxhzqhzq/article/list/2
-		PagelinksRex="http://blog\\.csdn\\.net/"+name+"/article/list/\\d+";								//Àà±ğÒ³ÁĞ±í¹ıÂË±í´ïÊ½
+		PagelinksRex="http://blog\\.csdn\\.net/"+name+"/article/list/\\d+";								//ç±»åˆ«é¡µåˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
 		
 		initMap();		
 	}
@@ -54,11 +54,11 @@ public class CsdnBlogPageProcesser extends BlogPageProcessor{
     }
     
     /**
-     * ³õÊ¼»¯Ó³Éä¹ØÏµ£¬Ö»³õÊ¼»¯´úÂëÀàĞÍÍ¬Ñù¶øclassÊôĞÔ²»Ò»ÑùµÄ¡£
-     * ·Ö±ğÎª:csdn£¬ osc
+     * åˆå§‹åŒ–æ˜ å°„å…³ç³»ï¼Œåªåˆå§‹åŒ–ä»£ç ç±»å‹åŒæ ·è€Œclasså±æ€§ä¸ä¸€æ ·çš„ã€‚
+     * åˆ†åˆ«ä¸º:csdnï¼Œ osc
      */
 	private void initMap() {
-		hashtable = new Hashtable<String,String>();	//´úÂëclassÓ³Éä¹ØÏµ
+		hashtable = new Hashtable<String,String>();	//ä»£ç classæ˜ å°„å…³ç³»
 		hashtable.put("csharp", "c#");
 		hashtable.put("javascript", "js");
 		hashtable.put("objc", "cpp");

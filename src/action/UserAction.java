@@ -17,6 +17,7 @@ import oschina.UserApi;
 import beans.User;
 
 
+
 @WebServlet("/action/user")
 public class UserAction extends HttpServlet {
 	
@@ -30,7 +31,7 @@ public class UserAction extends HttpServlet {
 		String access_token =  Oauth2Action.Users().get(Long.valueOf(user_id));
 	
 		if(null == access_token){
-			JsonMsg.json_out(JsonMsg.jsonError("请再次认证！",JsonMsg.ERROR_CODE_AUTH), response);
+			JsonMsg.json_out(JsonMsg.jsonError("璇蜂粠鏂拌璇侊紒",JsonMsg.ERROR_CODE_AUTH), response);
 			return;
 		}
 		

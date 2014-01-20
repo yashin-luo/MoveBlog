@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+/**
+ * json 工具类
+ * @author oscfox
+ *
+ */
 public class JsonMsg {
 	
 	public static byte ERROR_CODE_GENERAL = 0;

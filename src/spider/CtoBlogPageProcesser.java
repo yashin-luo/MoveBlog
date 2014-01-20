@@ -5,7 +5,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 
 /**
- * 51cto²©¿ÍÅÀ³æÂß¼­
+ * 51ctoåšå®¢çˆ¬è™«é€»è¾‘
  * @author oscfox
  * @date 20140114
  */
@@ -16,15 +16,15 @@ public class CtoBlogPageProcesser extends BlogPageProcessor{
 		site = Site.me().setDomain("blog.51cto.com");
 		site.setSleepTime(1);
 		
-		blogFlag="/\\d+/";																		//²©¿ÍÔ­url µÄÃû×ÖÓò
-		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.*?\".*?>");											//´úÂë¹ıÂËÕıÔò±í´ïÊ½
+		blogFlag="/\\d+/";																		//åšå®¢åŸurl çš„åå­—åŸŸ
+		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.*?\".*?>");											//ä»£ç è¿‡æ»¤æ­£åˆ™è¡¨è¾¾å¼
 		
-		linksRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href";	//Á´½ÓÁĞ±í¹ıÂË±í´ïÊ½
-		titlesRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()";	//titleÁĞ±í¹ıÂË±í´ïÊ½
+		linksRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href";	//é“¾æ¥åˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
+		titlesRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()";	//titleåˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
 		
-		contentRex="div.showContent";																	//ÄÚÈİ¹ıÂË±í´ïÊ½
-		titleRex="//div[@class='showTitleBOx']/div[@class='showTitle']/text()";							//title¹ıÂË±í´ïÊ½
-		tagsRex="//div[@class='showTags']/a/text()";													//tags¹ıÂË±í´ïÊ½
+		contentRex="div.showContent";																	//å†…å®¹è¿‡æ»¤è¡¨è¾¾å¼
+		titleRex="//div[@class='showTitleBOx']/div[@class='showTitle']/text()";							//titleè¿‡æ»¤è¡¨è¾¾å¼
+		tagsRex="//div[@class='showTags']/a/text()";													//tagsè¿‡æ»¤è¡¨è¾¾å¼
 		
 		this.url=url;
 		String urlString = url.split("//")[1];
@@ -47,11 +47,11 @@ public class CtoBlogPageProcesser extends BlogPageProcessor{
 
 
     /**
-     * ³õÊ¼»¯Ó³Éä¹ØÏµ£¬Ö»³õÊ¼»¯´úÂëÀàĞÍÍ¬Ñù¶øclassÊôĞÔ²»Ò»ÑùµÄ¡£
-     * ·Ö±ğÎª:iteye£¬ osc
+     * åˆå§‹åŒ–æ˜ å°„å…³ç³»ï¼Œåªåˆå§‹åŒ–ä»£ç ç±»å‹åŒæ ·è€Œclasså±æ€§ä¸ä¸€æ ·çš„ã€‚
+     * åˆ†åˆ«ä¸º:iteyeï¼Œ osc
      */
 	private void initMap() {
-		hashtable = new Hashtable<String,String>();	//´úÂëclassÓ³Éä¹ØÏµ
+		hashtable = new Hashtable<String,String>();	//ä»£ç classæ˜ å°„å…³ç³»
 		hashtable.put("bash", "shell");
 		hashtable.put("delphi", "pascal");
 		hashtable.put("pl", "perl");

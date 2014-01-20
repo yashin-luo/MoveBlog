@@ -12,7 +12,7 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 /**
- * csdn²©¿ÍÅÀ³æÂß¼­
+ * csdnåšå®¢çˆ¬è™«é€»è¾‘
  * @author oscfox
  * @date 20140114
  */
@@ -20,25 +20,25 @@ public class BlogPageProcessor implements PageProcessor{
 	
 	protected Site site = new Site();
 	protected String url;
-	protected String blogFlag;			//²©¿ÍurlµÄÄÚÈİ±êÖ¾Óò
-	protected String name;				//²©¿ÍÔ­url µÄÃû×ÖÓò
-	protected List<String> codeBeginRex = new ArrayList<String>(); 		//´úÂë¹ıÂËÕıÔò±í´ïÊ½
-	protected List<String> codeEndRex = new ArrayList<String>(); 		//´úÂë¹ıÂËÕıÔò±í´ïÊ½
+	protected String blogFlag;			//åšå®¢urlçš„å†…å®¹æ ‡å¿—åŸŸ
+	protected String name;				//åšå®¢åŸurl çš„åå­—åŸŸ
+	protected List<String> codeBeginRex = new ArrayList<String>(); 		//ä»£ç è¿‡æ»¤æ­£åˆ™è¡¨è¾¾å¼
+	protected List<String> codeEndRex = new ArrayList<String>(); 		//ä»£ç è¿‡æ»¤æ­£åˆ™è¡¨è¾¾å¼
 	
-	protected String linksRex;			//Á´½ÓÁĞ±í¹ıÂË±í´ïÊ½
-	protected String titlesRex;			//titleÁĞ±í¹ıÂË±í´ïÊ½
-	protected String PagelinksRex;		//Àà±ğÒ³ÁĞ±í¹ıÂË±í´ïÊ½
+	protected String linksRex;			//é“¾æ¥åˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
+	protected String titlesRex;			//titleåˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
+	protected String PagelinksRex;		//ç±»åˆ«é¡µåˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
 		
-	protected String contentRex;		//ÄÚÈİ¹ıÂË±í´ïÊ½
-	protected String titleRex;			//title¹ıÂË±í´ïÊ½
-	protected String tagsRex;			//tags¹ıÂË±í´ïÊ½
+	protected String contentRex;		//å†…å®¹è¿‡æ»¤è¡¨è¾¾å¼
+	protected String titleRex;			//titleè¿‡æ»¤è¡¨è¾¾å¼
+	protected String tagsRex;			//tagsè¿‡æ»¤è¡¨è¾¾å¼
 	
 	
-	protected Hashtable<String, String> hashtable;	//´úÂëclassÓ³Éä¹ØÏµ
+	protected Hashtable<String, String> hashtable;	//ä»£ç classæ˜ å°„å…³ç³»
 	
 	
 	/**
-	 * ×¥È¡²©¿ÍÄÚÈİµÈ£¬²¢½«²©¿ÍÄÚÈİÖĞÓĞ´úÂëµÄ²¿·Ö×ª»»Îªoschina²©¿Í´úÂë¸ñÊ½
+	 * æŠ“å–åšå®¢å†…å®¹ç­‰ï¼Œå¹¶å°†åšå®¢å†…å®¹ä¸­æœ‰ä»£ç çš„éƒ¨åˆ†è½¬æ¢ä¸ºoschinaåšå®¢ä»£ç æ ¼å¼
 	 */
 	@Override
     public void process(Page page) {
@@ -52,7 +52,7 @@ public class BlogPageProcessor implements PageProcessor{
 	}
 	
 	/**
-	 * ×¥È¡Á´½ÓÁĞ±í
+	 * æŠ“å–é“¾æ¥åˆ—è¡¨
 	 * @param page
 	 */
 	private void getLinks(Page page) {
@@ -68,7 +68,7 @@ public class BlogPageProcessor implements PageProcessor{
 	}
 
 	/**
-	 * ×¥È¡²©¿ÍÄÚÈİ
+	 * æŠ“å–åšå®¢å†…å®¹
 	 * @param page
 	 */
 	private void getPage(Page page){
@@ -85,8 +85,8 @@ public class BlogPageProcessor implements PageProcessor{
         	tags = tags.substring(tags.indexOf("[")+1,tags.indexOf("]"));
         }
 
-        OscBlogReplacer oscReplacer= new OscBlogReplacer(hashtable);	//ÉèÖÃ¹¤¾ßÀàÓ³Éä¹ØÏµ
-    	String oscContent = oscReplacer.replace(codeBeginRex, codeEndRex, content);		//´¦Àí´úÂë¸ñÊ½
+        OscBlogReplacer oscReplacer= new OscBlogReplacer(hashtable);	//è®¾ç½®å·¥å…·ç±»æ˜ å°„å…³ç³»
+    	String oscContent = oscReplacer.replace(codeBeginRex, codeEndRex, content);		//å¤„ç†ä»£ç æ ¼å¼
     	
         page.putField("content", oscContent);
         page.putField("title", title);

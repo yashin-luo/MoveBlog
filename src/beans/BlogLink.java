@@ -2,16 +2,16 @@ package beans;
 
 
 /**
- * ²©¿ÍÁ´½Ó beans
+ * åšå®¢é“¾æ¥ beans
  * @author oscfox
  *
  */
 public class BlogLink {
 	
-	//private String access_token="";	//	true	oauth2_token»ñÈ¡µÄaccess_token	
+	//private String access_token="";	//	true	oauth2_tokenè·å–çš„access_token	
 	
-	private String 	title="";			//	true		²©¿Í±êÌâ	
-	private String link="";				//	Ô­²©¿ÍÁ´½Ó
+	private String 	title="";			//	true		åšå®¢æ ‡é¢˜	
+	private String link="";				//	åŸåšå®¢é“¾æ¥
 	private long id;					//	
 	
 	

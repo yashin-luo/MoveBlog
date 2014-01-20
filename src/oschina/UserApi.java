@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import common.AppConfigTool;
 
 /**
- * oschina 获取用户信息api
+ * oschina 鑾峰彇鐢ㄦ埛淇℃伅api
  * @author oscfox
  *
  */
@@ -20,7 +20,7 @@ public class UserApi {
 	private static String type="json";
 	
 	/**
-	 * 根据access_token 获取用户信息
+	 * 鏍规嵁access_token 鑾峰彇鐢ㄦ埛淇℃伅
 	 * @param access_token
 	 * @return
 	 */

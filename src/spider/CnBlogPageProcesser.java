@@ -5,7 +5,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 
 /**
- * cnblogs²©¿ÍÅÀ³æÂß¼­
+ * cnblogsåšå®¢çˆ¬è™«é€»è¾‘
  * @author oscfox
  * @date 20140114
  */
@@ -17,17 +17,17 @@ public CnBlogPageProcesser(String url) {
 		site = Site.me().setDomain("www.cnblogs.com");
 		site.setSleepTime(1);
 		
-		blogFlag="/p/";																//²©¿ÍÔ­url µÄÃû×ÖÓò
+		blogFlag="/p/";																//åšå®¢åŸurl çš„åå­—åŸŸ
 		
-		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.+?\".*?>"); 					//´úÂë¹ıÂËÕıÔò±í´ïÊ½
+		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.+?\".*?>"); 					//ä»£ç è¿‡æ»¤æ­£åˆ™è¡¨è¾¾å¼
 		
-		linksRex="//div[@class='postTitle']/a/@href";								//Á´½ÓÁĞ±í¹ıÂË±í´ïÊ½
-		titlesRex="//div[@class='postTitle']/a/text()";								//titleÁĞ±í¹ıÂË±í´ïÊ½
+		linksRex="//div[@class='postTitle']/a/@href";								//é“¾æ¥åˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
+		titlesRex="//div[@class='postTitle']/a/text()";								//titleåˆ—è¡¨è¿‡æ»¤è¡¨è¾¾å¼
 		
 		
-		contentRex="div.cnblogs_post_body";											//ÄÚÈİ¹ıÂË±í´ïÊ½
-		titleRex="//a[@id='cb_post_title_url']/text()";								//title¹ıÂË±í´ïÊ½
-		tagsRex="//div[@id='EntryTagad']/a/text()";									//tags¹ıÂË±í´ïÊ½
+		contentRex="div.cnblogs_post_body";											//å†…å®¹è¿‡æ»¤è¡¨è¾¾å¼
+		titleRex="//a[@id='cb_post_title_url']/text()";								//titleè¿‡æ»¤è¡¨è¾¾å¼
+		tagsRex="//div[@id='EntryTagad']/a/text()";									//tagsè¿‡æ»¤è¡¨è¾¾å¼
 		
 		
 		this.url=url;
@@ -36,7 +36,7 @@ public CnBlogPageProcesser(String url) {
 			name = url.split("/")[url.split("/").length - 1];
 		}
 		//http://www.cnblogs.com/hadoopdev/default.html?page=3
-		PagelinksRex="http://www\\.cnblogs\\.com/"+name+"/default.html?page=\\d+";	//·ÖÒ³Á´½Ó
+		PagelinksRex="http://www\\.cnblogs\\.com/"+name+"/default.html?page=\\d+";	//åˆ†é¡µé“¾æ¥
 		initMap();		
 	}
 	
@@ -51,11 +51,11 @@ public CnBlogPageProcesser(String url) {
     }
 
     /**
-     * ³õÊ¼»¯Ó³Éä¹ØÏµ£¬Ö»³õÊ¼»¯´úÂëÀàĞÍÍ¬Ñù¶øclassÊôĞÔ²»Ò»ÑùµÄ¡£
-     * ·Ö±ğÎª:cnblogs£¬ osc
+     * åˆå§‹åŒ–æ˜ å°„å…³ç³»ï¼Œåªåˆå§‹åŒ–ä»£ç ç±»å‹åŒæ ·è€Œclasså±æ€§ä¸ä¸€æ ·çš„ã€‚
+     * åˆ†åˆ«ä¸º:cnblogsï¼Œ osc
      */
 	private void initMap() {
-		hashtable = new Hashtable<String,String>();	//´úÂëclassÓ³Éä¹ØÏµ
+		hashtable = new Hashtable<String,String>();	//ä»£ç classæ˜ å°„å…³ç³»
 		/*hashtable.put("csharp", "c#");
 		hashtable.put("javascript", "js");
 		hashtable.put("objc", "cpp");*/
