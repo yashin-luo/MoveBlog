@@ -13,8 +13,9 @@ public class CtoBlogPageProcesser extends BlogPageProcessor{
 	
 	public CtoBlogPageProcesser(String url) {
 		
-		site = Site.me().setDomain("blog.51cto.com");
+		site = Site.me().setDomain("http://blog.51cto.com/");
 		site.setSleepTime(1);
+		site.setCharset("gb2312");
 		
 		blogFlag="/\\d+/";																		//博客原url 的名字域
 		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.*?\".*?>");											//代码过滤正则表达式
