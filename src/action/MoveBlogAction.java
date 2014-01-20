@@ -2,6 +2,7 @@
 package action;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -9,8 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import common.JsonMsg;
+import org.apache.commons.lang3.StringUtils;
 
+import common.JsonMsg;
 import oschina.BlogApi;
 import spider.BlogList;
 import spider.BlogPipeline;
@@ -45,14 +47,14 @@ public class MoveBlogAction extends HttpServlet {
 			}
 		}
 		
-		if(user.isEmpty()){//授权码获取失败
+		if(StringUtils.isBlank(user)){//授权码获取失败
 			JsonMsg.json_out(JsonMsg.jsonError("请先授权!"),response);
 			return;
 		}
 		
 		String link = request.getParameter("link");
 		
-		if(link.isEmpty()){//id获取失败
+		if(StringUtils.isBlank(link)){//id获取失败
 			JsonMsg.json_out(JsonMsg.jsonError("link获取失败"),response);
 			return;
 		}
@@ -76,6 +78,7 @@ public class MoveBlogAction extends HttpServlet {
 			JsonMsg.json_out(JsonMsg.jsonError("抓取失败，你懂的，稍后再试！"), response);
 			return;
 		}
+
 
 		/**
 		 * 可设置blog非必要参数：

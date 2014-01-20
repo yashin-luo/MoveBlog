@@ -28,7 +28,7 @@ public class UserAction extends HttpServlet {
 			return;
 
 		String access_token =  Oauth2Action.Users().get(Long.valueOf(user_id));
-		
+	
 		if(null == access_token){
 			JsonMsg.json_out(JsonMsg.jsonError("请再次认证！",JsonMsg.ERROR_CODE_AUTH), response);
 			return;

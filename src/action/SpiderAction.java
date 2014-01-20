@@ -45,8 +45,13 @@ public class SpiderAction extends HttpServlet {
 		
 		String url = request.getParameter("url");
 		
+
 		if(StringUtils.isBlank(url))
 			return;
+		
+		if(!url.contains("http://")){
+			url="http://"+url;
+		}
 		
 		String user="";
 		Cookie[] cookie = request.getCookies();
@@ -59,7 +64,7 @@ public class SpiderAction extends HttpServlet {
 			}
 		}
 		
-		if(user.isEmpty()){//授权码获取失败
+		if(StringUtils.isBlank(user)){//授权码获取失败
 			JsonMsg.json_out(JsonMsg.jsonError("请先授权!"),response);
 			return;
 		}
@@ -78,6 +83,9 @@ public class SpiderAction extends HttpServlet {
              .addPipeline(new BlogPipeline(user)).run();
         
         List<BlogLink> linkList=LinksList.getLinkList(user);
+        if(null == linkList){
+        	JsonMsg.json_out(JsonMsg.jsonError("链接有误或抓取超时！"), response);
+        }
         result = new Gson().toJson(linkList);
         JsonMsg.json_out(result, response);
 	}
@@ -89,19 +97,27 @@ public class SpiderAction extends HttpServlet {
 	 */
 	public static PageProcessor getBlogSitePageProcessor(String url){
 		if(url.contains("www.cnblogs.com")){
-			
+			if(url.equals("http://www.cnblogs.com")){
+				return null;
+			}
 			return new CnBlogPageProcesser(url);
 			
 		}else if(url.contains("blog.csdn.net")){
-			
+			if(url.equals("http://blog.csdn.net")){
+				return null;
+			}
 			return new CsdnBlogPageProcesser(url);
 			
 		}else if(url.contains("blog.51cto.com")){
-			
+			if(url.equals("http://blog.51cto.com")){
+				return null;
+			}
 			return new CtoBlogPageProcesser(url);
 		
 		}else if(url.contains("iteye.com")){
-			
+			if(url.equals("http://www.iteye.com")){
+				return null;
+			}
 			return new IteyeBlogPageProcesser(url);
 		
 		}else {

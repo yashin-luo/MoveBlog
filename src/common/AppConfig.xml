@@ -1,17 +1,17 @@
 <config>　　
 	<appconfig>
 	
-		<osc_host>http://www.oschina.com</osc_host>						<!-- //oschina域名- 测试 -->
+		<osc_host>http://www.oschina.com</osc_host>								<!-- //oschina域名- 测试 -->
 		<!-- <osc_host>http://www.oschina.net</osc_host>						//oschina域名 -->
 		
 		<!-- //oschina open api应用信息: 需要申请！ -->
 		<client_secret>FJLnihKY54W8p8z68gI9RraErpk5dFpY</client_secret>			<!-- //应用私钥 -->
-		<client_id>yKqX3IQWBvft0W8JXz0k</client_id>							<!-- //应用id -->
+		<client_id>yKqX3IQWBvft0W8JXz0k</client_id>								<!-- //应用id -->
 		<redirect_uri>http://www.moveblog.com:8080/Oauth2Action</redirect_uri>	<!-- //回调地址 -->
 		
 		<!-- //api 接口 -->
-		<oauth2_token>/action/openapi/token</oauth2_token>					<!-- //oauth2_token api -->
-		<blog_pub>/action/openapi/blog_pub</blog_pub>						<!-- //blog_pub api -->
+		<oauth2_token>/action/openapi/token</oauth2_token>						<!-- //oauth2_token api -->
+		<blog_pub>/action/openapi/blog_pub</blog_pub>							<!-- //blog_pub api -->
 		<openapi_user>/action/openapi/user</openapi_user>						<!-- //user api -->
 	
 	</appconfig>

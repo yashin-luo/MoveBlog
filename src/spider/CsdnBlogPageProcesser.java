@@ -18,7 +18,11 @@ public class CsdnBlogPageProcesser extends BlogPageProcessor{
 		site.setSleepTime(1);
 		
 		blogFlag="/article/details/";																	//博客原url 的名字域
-		codeRex = "<pre\\s*.*\\s*class=\"(.*)\">"; 														//代码过滤正则表达式
+		codeBeginRex.add("<pre.*?class=\"(.+?)\".*?>"); 												//代码过滤正则表达式
+		
+		//<textarea class="java" cols="50" rows="15" name="code">
+		codeBeginRex.add("<textarea.*?class=\"(.+?)\".*?>" );
+		codeEndRex.add("</textarea>");		//</textarea>
 		
 		linksRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href";	//链接列表过滤表达式
 		titlesRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()";//title列表过滤表达式
@@ -34,7 +38,7 @@ public class CsdnBlogPageProcesser extends BlogPageProcessor{
 		}
 		
 		//http://blog.csdn.net/cxhzqhzq/article/list/2
-		PagelinksRex="http://blog\\.csdn\\.net/"+name+"/article/list/\\d+";												//类别页列表过滤表达式
+		PagelinksRex="http://blog\\.csdn\\.net/"+name+"/article/list/\\d+";								//类别页列表过滤表达式
 		
 		initMap();		
 	}

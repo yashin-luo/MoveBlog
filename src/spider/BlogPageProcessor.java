@@ -1,7 +1,10 @@
 package spider;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 import common.OscBlogReplacer;
 import us.codecraft.webmagic.Page;
@@ -19,7 +22,8 @@ public class BlogPageProcessor implements PageProcessor{
 	protected String url;
 	protected String blogFlag;			//博客url的内容标志域
 	protected String name;				//博客原url 的名字域
-	protected String codeRex;			//代码过滤正则表达式
+	protected List<String> codeBeginRex = new ArrayList<String>(); 		//代码过滤正则表达式
+	protected List<String> codeEndRex = new ArrayList<String>(); 		//代码过滤正则表达式
 	
 	protected String linksRex;			//链接列表过滤表达式
 	protected String titlesRex;			//title列表过滤表达式
@@ -61,28 +65,6 @@ public class BlogPageProcessor implements PageProcessor{
         List<String> Pagelinks = page.getHtml().links().regex(PagelinksRex).all();
         page.addTargetRequests(Pagelinks);
         
-       /* 
-        String thisLink=page.getUrl().toString();
-        		
-        if(thisLink.endsWith(name)){
-	        List<String> Pagelinks=page.getHtml().xpath(PagelinksRex).all();   
-	        
-	        if(Pagelinks.isEmpty()){
-	        	return;
-	        }
-	        
-	        String end=Pagelinks.get(Pagelinks.size()-1);       
-	        String endnum = end.split(pageNumRex)[end.split(pageNumRex).length-1];
-	        List<String> tegerlinks = new ArrayList<String>();
-	        thisLink=thisLink + blogFlag;
-	        
-	        for(int i=2; i <= Integer.parseInt(endnum); ++i){
-	        	tegerlinks.add(thisLink+i);
-	        }
-	        
-	        page.addTargetRequests(tegerlinks);		//获取分页link去爬即可
-        }*/
-        
 	}
 
 	/**
@@ -95,16 +77,16 @@ public class BlogPageProcessor implements PageProcessor{
         String content = page.getHtml().$(contentRex).toString();
         String tags = page.getHtml().xpath(tagsRex).all().toString();
         
-        if(null == content || null == title){
+        if(StringUtils.isBlank(content) || StringUtils.isBlank(title)){
         	return;
         }
         
-        if(null != tags){
+        if(!StringUtils.isBlank(tags)){
         	tags = tags.substring(tags.indexOf("[")+1,tags.indexOf("]"));
         }
 
         OscBlogReplacer oscReplacer= new OscBlogReplacer(hashtable);	//设置工具类映射关系
-    	String oscContent = oscReplacer.replace(codeRex,content);		//处理代码格式
+    	String oscContent = oscReplacer.replace(codeBeginRex, codeEndRex, content);		//处理代码格式
     	
         page.putField("content", oscContent);
         page.putField("title", title);
