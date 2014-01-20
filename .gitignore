@@ -6,3 +6,4 @@
 *.ear
 /build
 /.settings
+/WebContent/WEB-INF/classes
