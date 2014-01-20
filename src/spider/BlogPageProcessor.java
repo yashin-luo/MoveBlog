@@ -42,7 +42,7 @@ public class BlogPageProcessor implements PageProcessor{
 	 */
 	@Override
     public void process(Page page) {
-        if(java.util.regex.Pattern.matches(blogFlag, url)){
+        if(url.contains(blogFlag)){
         	getPage(page);
         	page.putField("getlinks", false);
         } else {
