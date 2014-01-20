@@ -1,9 +1,9 @@
 var Conf = {
-	'host':'http://www.oschina.com',
+	'host':'http://www.oschina.net',
 	'auth_uri':'/action/oauth2/authorize',
 	'response_type':'code',
-	'client_id':'yKqX3IQWBvft0W8JXz0k',
-	'redirect_uri':'http://www.moveblog.com:8080/Oauth2Action'
+	'client_id':'c39L0n9Am23s5wTW10dC',
+	'redirect_uri':'http://move.pengbo.us/Oauth2Action'
 };
 
 var Api = (function(conf,$){

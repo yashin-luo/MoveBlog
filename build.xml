@@ -1,24 +1,31 @@
-<project name = "BlogSpider" default = "build" basedir = ".">
-        <property name = "build.classes.dir" value="WebContent/WEB-INF/classes"/>
-        <property name = "lib.dir" value = "WebContent/WEB-INF/lib"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MoveBlog" default="build" basedir=".">
+	<property name="debug" value="true"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	<property name="encoding" value="UTF-8"/>
+	<property name="build.classes.dir" value="WebContent/WEB-INF/classes" />
+	<property name="lib.dir" value="WebContent/WEB-INF/lib" />
 
-        <path id = "spider.classpath">
-                <pathelement location = "${build.classes.dir}"/>
-                <fileset dir="${lib.dir}" includes = "*.jar"/>
-        </path>
+	<path id="spider.classpath">
+		<pathelement location="${build.classes.dir}" />
+		<fileset dir="${lib.dir}" includes="*.jar" />
+	</path>
 
-        <target name = "clean">
-                <delete dir="${basedir}/WebContent/classes"/>
-        </target>
+	<target name="clean">
+		<delete dir="${basedir}/${build.classes.dir}" />
+	</target>
 
-        <target name = "build" depends = "clean">
-                <mkdir dir = "${basedir}/${build.classes.dir}"/>
-		<copy includeemptydirs = "false" todir = "${build.class.dir}">
-			<fileset dir = "src" excludes = "**/*.java"/>
+	<target name="build" depends="clean">
+		<mkdir dir="${basedir}/${build.classes.dir}" />
+		<copy includeemptydirs="false" todir="${build.classes.dir}">
+			<fileset dir="src" excludes="**/*.java" />
+			<fileset dir="src" excludes="**/*.xml" />
 		</copy>
-                <javac srcdir = "${basedir}/src" destdir = "${basedir}/${build.classes.dir}">
-			<src path = "src"/>
-			<classpath refid = "spider.classpath"/>
+		<javac srcdir="${basedir}/src" destdir="${basedir}/${build.classes.dir}">
+			<compilerarg line="-encoding UTF-8 " />
+			<src path="src" />
+			<classpath refid="spider.classpath" />
 		</javac>
-        </target>
+	</target>
 </project>
