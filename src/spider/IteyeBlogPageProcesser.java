@@ -20,12 +20,12 @@ public class IteyeBlogPageProcesser  extends BlogPageProcessor{
 		codeBeginRex.add("<pre.+?class=\"(.+?)\".*?>"); 							//代码过滤正则表达式
 		
 		
-		linksRex="//div[@class='blog_main']/div[@class='blog_title']/h3/a/@href";	//链接列表过滤表达式
-		titlesRex="//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()"; //title列表过滤表达式
+		linksXpath="//div[@class='blog_main']/div[@class='blog_title']/h3/a/@href";	//链接列表过滤表达式
+		titlesXpath="//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()"; //title列表过滤表达式
 		
-		contentRex="div.blog_content";												//内容过滤表达式
-		titleRex="//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()";	//title过滤表达式
-		tagsRex="//div[@class='news_tag']/a/text()";								//tags过滤表达式
+		contentXpath="//div[@class='blog_content']/html()";												//内容过滤表达式
+		titleXpath="//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()";	//title过滤表达式
+		tagsXpath="//div[@class='news_tag']/a/text()";								//tags过滤表达式
 		
 		this.url=url;
 		String urlString = url.split("//")[1];

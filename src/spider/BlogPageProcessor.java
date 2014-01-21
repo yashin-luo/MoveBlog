@@ -27,13 +27,13 @@ public class BlogPageProcessor implements PageProcessor{
 	protected List<String> codeBeginRex = new ArrayList<String>(); 		//代码过滤正则表达式
 	protected List<String> codeEndRex = new ArrayList<String>(); 		//代码过滤正则表达式
 	
-	protected String linksRex;			//链接列表过滤表达式
-	protected String titlesRex;			//title列表过滤表达式
+	protected String linksXpath;			//链接列表过滤表达式
+	protected String titlesXpath;			//title列表过滤表达式
 	protected String PagelinksRex;		//类别页列表过滤表达式
 		
-	protected String contentRex;		//内容过滤表达式
-	protected String titleRex;			//title过滤表达式
-	protected String tagsRex;			//tags过滤表达式
+	protected String contentXpath;		//内容过滤表达式
+	protected String titleXpath;			//title过滤表达式
+	protected String tagsXpath;			//tags过滤表达式
 	
 	
 	protected Hashtable<String, String> hashtable;	//代码class映射关系
@@ -63,8 +63,8 @@ public class BlogPageProcessor implements PageProcessor{
 	 * @param page
 	 */
 	private void getLinks(Page page) {
-		List<String> links = page.getHtml().xpath(linksRex).all();
-        List<String> titles = page.getHtml().xpath(titlesRex).all();
+		List<String> links = page.getHtml().xpath(linksXpath).all();
+        List<String> titles = page.getHtml().xpath(titlesXpath).all();
         
         page.putField("titles", titles);
         page.putField("links", links);
@@ -80,9 +80,9 @@ public class BlogPageProcessor implements PageProcessor{
 	 */
 	private void getPage(Page page){
         
-        String title = page.getHtml().xpath(titleRex).toString();
-        String content = page.getHtml().$(contentRex).toString();
-        String tags = page.getHtml().xpath(tagsRex).all().toString();
+        String title = page.getHtml().xpath(titleXpath).toString();
+        String content = page.getHtml().xpath(contentXpath).toString();
+        String tags = page.getHtml().xpath(tagsXpath).all().toString();
         
         if(StringUtils.isBlank(content) || StringUtils.isBlank(title)){
         	return;

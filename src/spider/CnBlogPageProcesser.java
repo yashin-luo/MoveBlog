@@ -21,13 +21,13 @@ public CnBlogPageProcesser(String url) {
 		
 		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.+?\".*?>"); 					//代码过滤正则表达式
 		
-		linksRex="//div[@class='postTitle']/a/@href";								//链接列表过滤表达式
-		titlesRex="//div[@class='postTitle']/a/text()";								//title列表过滤表达式
+		linksXpath="//div[@class='postTitle']/a/@href";								//链接列表过滤表达式
+		titlesXpath="//div[@class='postTitle']/a/text()";								//title列表过滤表达式
 		
 		
-		contentRex="div.cnblogs_post_body";											//内容过滤表达式
-		titleRex="//a[@id='cb_post_title_url']/text()";								//title过滤表达式
-		tagsRex="//div[@id='EntryTagad']/a/text()";									//tags过滤表达式
+		contentXpath="//div[@id='cnblogs_post_body']/html()";											//内容过滤表达式
+		titleXpath="//a[@id='cb_post_title_url']/text()";								//title过滤表达式
+		tagsXpath="//div[@id='EntryTagad']/a/text()";									//tags过滤表达式
 		
 		
 		this.url=url;

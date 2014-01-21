@@ -20,12 +20,12 @@ public class CtoBlogPageProcesser extends BlogPageProcessor{
 		blogFlag="/\\d+/";																		//博客原url 的名字域
 		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.*?\".*?>");											//代码过滤正则表达式
 		
-		linksRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href";	//链接列表过滤表达式
-		titlesRex="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()";	//title列表过滤表达式
+		linksXpath="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href";	//链接列表过滤表达式
+		titlesXpath="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()";	//title列表过滤表达式
 		
-		contentRex="div.showContent";																	//内容过滤表达式
-		titleRex="//div[@class='showTitleBOx']/div[@class='showTitle']/text()";							//title过滤表达式
-		tagsRex="//div[@class='showTags']/a/text()";													//tags过滤表达式
+		contentXpath="//div[@class='showContent']/html()";																	//内容过滤表达式
+		titleXpath="//div[@class='showTitleBOx']/div[@class='showTitle']/text()";							//title过滤表达式
+		tagsXpath="//div[@class='showTags']/a/text()";													//tags过滤表达式
 		
 		this.url=url;
 		String urlString = url.split("//")[1];

@@ -6,6 +6,15 @@ var Conf = {
 	'redirect_uri':'http://move.pengbo.us/Oauth2Action'
 };
 
+/*var Conf = {
+		'host':'http://www.oschina.com',
+		'auth_uri':'/action/oauth2/authorize',
+		'response_type':'code',
+		'client_id':'yKqX3IQWBvft0W8JXz0k',
+		'redirect_uri':'http://www.moveblog.com:8080/Oauth2Action'
+	};
+*/
+
 var Api = (function(conf,$){
 	
 	var api = {};

@@ -24,12 +24,12 @@ public class CsdnBlogPageProcesser extends BlogPageProcessor{
 		codeBeginRex.add("<textarea.*?class=\"(.+?)\".*?>" );
 		codeEndRex.add("</textarea>");		//</textarea>
 		
-		linksRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href";	//链接列表过滤表达式
-		titlesRex="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()";//title列表过滤表达式
+		linksXpath="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href";	//链接列表过滤表达式
+		titlesXpath="//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()";//title列表过滤表达式
 		
-		contentRex="div.article_content";																//内容过滤表达式
-		titleRex="//div[@class='details']/div[@class='article_title']/h3/span/a/text()";				//title过滤表达式
-		tagsRex="//div[@class='tag2box']/a/text()";														//tags过滤表达式
+		contentXpath="//div[@class='article_content']/html()";																//内容过滤表达式
+		titleXpath="//div[@class='details']/div[@class='article_title']/h3/span/a/text()";				//title过滤表达式
+		tagsXpath="//div[@class='tag2box']/a/text()";														//tags过滤表达式
 		
 		this.url=url;
 		
