@@ -69,8 +69,6 @@ public class SpiderAction extends HttpServlet {
 			return;
 		}
 		
-		LinksList.clearLinkList(user);		//清除已抓取的博客列表
-		
 		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
 		if(null == pageProcessor){
 			JsonMsg.json_out(JsonMsg.jsonError("暂不支持该博客网站!"),response);

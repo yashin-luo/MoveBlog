@@ -40,14 +40,10 @@ public class LinksList {
 		linkMap.put(user, linkList);
 	}
 	
-	public static void clearLinkList(String user) {
-		linkMap.remove(user);
-	}
-	
 	public static List<BlogLink> getLinkList(String user) {
 		ConcurrentHashMap<String, BlogLink> hash;
 		if(linkMap.containsKey(user)){
-			hash = linkMap.get(user);
+			hash = linkMap.remove(user);
 			return new ArrayList<BlogLink>(hash.values());	//hash to list
 		}
 		
