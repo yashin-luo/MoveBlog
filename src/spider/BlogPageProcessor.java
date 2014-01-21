@@ -3,6 +3,8 @@ package spider;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,7 +44,12 @@ public class BlogPageProcessor implements PageProcessor{
 	 */
 	@Override
     public void process(Page page) {
-        if(url.contains(blogFlag)){
+		
+		Pattern p=Pattern.compile(blogFlag);
+		Matcher m=p.matcher(url);
+		boolean result=m.find();
+		
+        if(result){
         	getPage(page);
         	page.putField("getlinks", false);
         } else {
