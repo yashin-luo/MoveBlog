@@ -18,6 +18,8 @@ a#cancel{margin-left:5px;background-color:#CCC;}
 .blog-providers{padding:10px;}
 .blog-providers ul li{float:left;margin-right:20px;height:30px;}
 .blog-providers ul li img{height:100%;}
+.blog-providers ul li.wordpress img{cursor:pointer;border:1px solid #CCC;}
+.blog-providers ul li.wordpress img:hover{border:1px dashed #000;}
 
 .blog-list{padding:10px;height:100px;width:80%;}
 .blog-list.loading{background:url('http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/loading.gif') no-repeat;background-position: 200px 20px;}

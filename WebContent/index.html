@@ -19,9 +19,12 @@
 			<h2>OSChina.Net 博客搬家</h2>
 			<div class="search-control">
 				<div id="search-form">
-					<input name="url" disabled="disabled"/>
-					<a class="blue button" id="submit" href="javascript:void(0);">抓取</a>
-					<a id="cancel" class="gray button" href="javascript:void(0);" style="display:none;">取消</a>
+					<form action="/action/upload" method="POST">
+						<input name="url" disabled="disabled"/>
+						<input name="file" type="file" style="display:none;"/>
+						<a class="blue button" id="submit" href="javascript:void(0);">抓取</a>
+						<a id="cancel" class="gray button" href="javascript:void(0);" style="display:none;">取消</a>
+					</form>
 				</div>
 			</div>
 			<div class="blog-providers clearfix">
@@ -37,6 +40,9 @@
 					</li>
 					<li class="csdn">
 						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/logo.png"/>
+					</li>
+					<li class="wordpress">
+						<img class="gray" src="img/wordpress-logo.jpg"/>
 					</li>
 					<li>
 						<a id="import" class="blue button" href="javascript:void(0);" style="display:none;">导入</a>
