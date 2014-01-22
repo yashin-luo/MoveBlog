@@ -110,7 +110,7 @@ public class UploadAction extends HttpServlet {
 			FileItem item = (FileItem) items.get(0);
 			String fileName = item.getName();
 			
-			if(fileName.endsWith(".xml")){
+			if(!fileName.endsWith(".xml")){
 	        	return null;
 			}
 			
