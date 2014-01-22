@@ -2,6 +2,9 @@ package beans;
 
 import java.util.Map;
 
+import org.dom4j.Element;
+import org.dom4j.Node;
+
 
 /**
  * 博客 beans
@@ -31,6 +34,12 @@ public class Blog {
 	
 	public Blog() {
 		
+	}
+	
+	public Blog(Node itemNode) {
+		title = itemNode.selectSingleNode("title").getText();
+        link = itemNode.selectSingleNode("link").getText();
+        content = itemNode.selectSingleNode("content:encoded").getText();
 	}
 	
 	public Blog(Map<String, Object> blogMap) throws Exception {

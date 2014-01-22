@@ -1,6 +1,6 @@
 package spider;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 
@@ -10,34 +10,85 @@ import us.codecraft.webmagic.Site;
  * @date 20140114
  */
 public class CnBlogPageProcesser extends BlogPageProcessor{
-	
-	
-public CnBlogPageProcesser(String url) {
+	/**
+	 * 初始化 代码替换正则
+	 */
+	protected void initCodeRex(){
+		super.initCodeRex();
 		
+		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.+?\".*?>"); 
+	}
+	
+	/**
+	 * 初始化 获取链接列表xpath
+	 */
+	protected void initLinkXpath(){
+		super.initLinkXpath();
+		
+		LinkXpath linkXpath = new LinkXpath();
+		linkXpath.linksXpath="//div[@class='postTitle']/a/@href";
+		linkXpath.titlesXpath="//div[@class='postTitle']/a/text()";
+		
+		linkXpaths.add(linkXpath);
+		
+		linkXpath = new LinkXpath();
+		linkXpath.linksXpath="//div[@class='post']/h2/a/@href";
+		linkXpath.titlesXpath="//div[@class='post']/h2/a/text()";
+		
+		linkXpaths.add(linkXpath);
+	}
+	
+	/**
+	 * 初始化
+	 */
+	protected void initArticleXpath(){
+		super.initArticleXpath();
+		
+		ArticleXpath aXpath = new ArticleXpath();
+		aXpath.contentXpath = "//div[@id='cnblogs_post_body']/html()";
+		aXpath.tagsXpath = "//div[@id='EntryTagad']/a/text()";
+		aXpath.titleXpath = "//a[@id='cb_post_title_url']/text()";
+		
+		articleXpath.add(aXpath);
+		
+		aXpath = new ArticleXpath();
+		aXpath.contentXpath = "//div[@id='cnblogs_post_body']/html()";
+		aXpath.tagsXpath = "//div[@id='EntryTagad']/a/text()";
+		aXpath.titleXpath = "//div[@class='post']/h2/a/text()";
+		
+		articleXpath.add(aXpath);
+	}
+	
+	protected void initCodeHash(){
+		super.initCodeHash();
+	}
+
+	protected void init() {
+		initCodeRex();
+		initLinkXpath();
+		initArticleXpath();
+		initCodeHash();
+		
+		PagelinksRex = new ArrayList<String>();			//类别页列表过滤表达式
+		//http://www.cnblogs.com/hadoopdev/default.html?page=3
+		PagelinksRex.add("http://www\\.cnblogs\\.com/"+name+"/default\\.html\\?page=\\d+");	//分页链接
+		PagelinksRex.add("http://www\\.cnblogs\\.com/"+name+"/default\\.aspx\\?page=\\d+");	//分页链接
+		
+	}
+	
+	public CnBlogPageProcesser(String url) {
+	
 		site = Site.me().setDomain("www.cnblogs.com");
 		site.setSleepTime(1);
 		
-		blogFlag="/p/";																//博客原url 的名字域
-		
-		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.+?\".*?>"); 					//代码过滤正则表达式
-		
-		linksXpath="//div[@class='postTitle']/a/@href";								//链接列表过滤表达式
-		titlesXpath="//div[@class='postTitle']/a/text()";								//title列表过滤表达式
-		
-		
-		contentXpath="//div[@id='cnblogs_post_body']/html()";											//内容过滤表达式
-		titleXpath="//a[@id='cb_post_title_url']/text()";								//title过滤表达式
-		tagsXpath="//div[@id='EntryTagad']/a/text()";									//tags过滤表达式
-		
-		
+		blogFlag="/p/|/archive/";																	//博客原url 的名字域		
 		this.url=url;
 		
 		if(!url.contains(blogFlag)){
 			name = url.split("/")[url.split("/").length - 1];
 		}
-		//http://www.cnblogs.com/hadoopdev/default.html?page=3
-		PagelinksRex="http://www\\.cnblogs\\.com/"+name+"/default.html?page=\\d+";	//分页链接
-		initMap();		
+		
+		init();		
 	}
 	
 	@Override
@@ -50,14 +101,4 @@ public CnBlogPageProcesser(String url) {
         return super.getSite();
     }
 
-    /**
-     * 初始化映射关系，只初始化代码类型同样而class属性不一样的。
-     * 分别为:cnblogs， osc
-     */
-	private void initMap() {
-		hashtable = new Hashtable<String,String>();	//代码class映射关系
-		/*hashtable.put("csharp", "c#");
-		hashtable.put("javascript", "js");
-		hashtable.put("objc", "cpp");*/
-	}
 }

@@ -1,6 +1,6 @@
 package spider;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 
@@ -10,6 +10,66 @@ import us.codecraft.webmagic.Site;
  * @date 20140114
  */
 public class CtoBlogPageProcesser extends BlogPageProcessor{
+	/**
+	 * 初始化 代码替换正则
+	 */
+	protected void initCodeRex(){
+		super.initCodeRex();
+		
+		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.*?\".*?>");		//代码过滤正则表达式
+	}
+	
+	/**
+	 * 初始化 获取链接列表xpath
+	 */
+	protected void initLinkXpath(){
+		super.initLinkXpath();
+		
+		LinkXpath linkXpath = new LinkXpath();
+		linkXpath.linksXpath="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href";
+		linkXpath.titlesXpath="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()";
+		
+		linkXpaths.add(linkXpath);
+		
+	}
+	
+	/**
+	 * 初始化
+	 */
+	protected void initArticleXpath(){
+		super.initArticleXpath();
+		
+		ArticleXpath aXpath = new ArticleXpath();
+		aXpath.contentXpath = "//div[@class='showContent']/html()";
+		aXpath.tagsXpath = "//div[@class='showTags']/a/text()";
+		aXpath.titleXpath = "//div[@class='showTitleBOx']/div[@class='showTitle']/text()";
+		
+		articleXpath.add(aXpath);
+	}
+	
+	protected void initCodeHash(){
+		super.initCodeHash();
+		codeHashtable.put("bash", "shell");
+		codeHashtable.put("delphi", "pascal");
+		codeHashtable.put("pl", "perl");
+		codeHashtable.put("ps", "shell");
+		codeHashtable.put("plain", "lua");
+		codeHashtable.put("cf", "cpp");
+		codeHashtable.put("diff", "shell");
+		codeHashtable.put("erlang", "lua");
+		codeHashtable.put("jfx", "js");
+	}
+
+	protected void init() {
+		initCodeRex();
+		initLinkXpath();
+		initArticleXpath();
+		initCodeHash();
+		
+		PagelinksRex = new ArrayList<String>();			//类别页列表过滤表达式
+		//http://tongcheng.blog.51cto.com/6214144/p-3
+		PagelinksRex.add("http://"+name+"\\.blog\\.51cto\\.com/\\d+/p-\\d+");	
+	}
 	
 	public CtoBlogPageProcesser(String url) {
 		
@@ -18,22 +78,12 @@ public class CtoBlogPageProcesser extends BlogPageProcessor{
 		site.setCharset("gb2312");
 		
 		blogFlag="/\\d+/";																		//博客原url 的名字域
-		codeBeginRex.add("<pre.+?class=\"brush:(.+?);.*?\".*?>");											//代码过滤正则表达式
-		
-		linksXpath="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href";	//链接列表过滤表达式
-		titlesXpath="//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()";	//title列表过滤表达式
-		
-		contentXpath="//div[@class='showContent']/html()";																	//内容过滤表达式
-		titleXpath="//div[@class='showTitleBOx']/div[@class='showTitle']/text()";							//title过滤表达式
-		tagsXpath="//div[@class='showTags']/a/text()";													//tags过滤表达式
 		
 		this.url=url;
 		String urlString = url.split("//")[1];
 		name = urlString.split("\\.")[0];
 		
-		//http://tongcheng.blog.51cto.com/6214144/p-3
-		PagelinksRex="http://"+name+"\\.blog\\.51cto\\.com/\\d+/p-\\d+";	
-		initMap();		
+		init();		
 	}
 	
 	@Override
@@ -46,21 +96,4 @@ public class CtoBlogPageProcesser extends BlogPageProcessor{
         return super.getSite();
     }
 
-
-    /**
-     * 初始化映射关系，只初始化代码类型同样而class属性不一样的。
-     * 分别为:iteye， osc
-     */
-	private void initMap() {
-		hashtable = new Hashtable<String,String>();	//代码class映射关系
-		hashtable.put("bash", "shell");
-		hashtable.put("delphi", "pascal");
-		hashtable.put("pl", "perl");
-		hashtable.put("ps", "shell");
-		hashtable.put("plain", "lua");
-		hashtable.put("cf", "cpp");
-		hashtable.put("diff", "shell");
-		hashtable.put("erlang", "lua");
-		hashtable.put("jfx", "js");
-	}
 }

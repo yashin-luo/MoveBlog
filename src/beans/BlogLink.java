@@ -14,6 +14,12 @@ public class BlogLink {
 	private String link="";				//	原博客链接
 	private long id;					//	
 	
+	public BlogLink(Blog blog){
+		title = blog.getTitle();
+		link = blog.getLink();
+	}
+	
+	public BlogLink(){}
 	
 	public String getLink() {
 		return link;
