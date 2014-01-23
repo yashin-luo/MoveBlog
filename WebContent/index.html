@@ -17,22 +17,14 @@
 				<a class="cred logout" href="javascript:Api.logout();" style="display:none;margin-left:10px;">退出登录</a>
 			</div>
 			<h2>OSChina.Net 博客搬家</h2>
-			
-			<form id="uploadfile" name="uploadfile" method="post" action="action/upload" enctype="multipart/form-data">
-				<table border="0" align="center">  
-					<tr>
-						<td>上传文件：</td>
-						<td><input name="file" type="file" id="input_file" size="20" ></td>
-						<td><input type="submit" id="upload" value="上传"></td>
-					</tr>
-				</table>
-			</form>
-			
 			<div class="search-control">
 				<div id="search-form">
-					<input name="url" disabled="disabled"/>
-					<a class="blue button" id="submit" href="javascript:void(0);">抓取</a>
-					<a id="cancel" class="gray button" href="javascript:void(0);" style="display:none;">取消</a>
+					<form action="/action/upload" method="POST">
+						<input name="url" disabled="disabled"/>
+						<input name="file" type="file" style="display:none;"/>
+						<a class="blue button" id="submit" href="javascript:void(0);">抓取</a>
+						<a id="cancel" class="gray button" href="javascript:void(0);" style="display:none;">取消</a>
+					</form>
 				</div>
 			</div>
 			<div class="blog-providers clearfix">
@@ -48,6 +40,9 @@
 					</li>
 					<li class="csdn">
 						<img class="gray" src="http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/logo.png"/>
+					</li>
+					<li class="wordpress">
+						<img class="gray" src="img/wordpress-logo.jpg"/>
 					</li>
 					<li>
 						<a id="import" class="blue button" href="javascript:void(0);" style="display:none;">导入</a>

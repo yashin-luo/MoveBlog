@@ -4,8 +4,10 @@
 	'response_type':'code',
 	'client_id':'c39L0n9Am23s5wTW10dC',
 	'redirect_uri':'http://move.pengbo.us/Oauth2Action'
+<<<<<<< HEAD
 };
 */
+
 var Conf = {
 		'host':'http://www.oschina.com',
 		'auth_uri':'/action/oauth2/authorize',
@@ -36,7 +38,7 @@ var Api = (function(conf,$){
 				'<img class="import_ok" src="img/ok.png" style="height:10px;">',
 				'<input type="checkbox" id="blog_{id}" data-url="{link}"/>',
 				'<span>',
-					'<a href="{link}" target="_blank">{title}</a>',
+					'<a href="{link}" title="按住Ctrl点击在新页查看《{title}》" target="_blank">{title}</a>',
 				'</span>',
 			'</label>',
 		'</li>'
@@ -68,23 +70,30 @@ var Api = (function(conf,$){
 			success:function(response){
 				if(response==null)
 					return;
-				var data = typeof response === "object" ? response : eval('('+response+')');
-				ajaxErrorHandler(data,callback);
+				ajaxErrorHandler(response,callback);
 			},
 			error:callback
 		}).responseText;
 	};
 	
-	var ajaxErrorHandler = function(data,callback){
+	var ajaxErrorHandler = function(response,callback,onError){
+		var data = typeof response === "object" ? response : eval('('+response+')');
 		if(data.status == 500){
 			alert('500 服务器内部错误');
 			return;
 		}
-		if(data.error && data.code == 1){
-			alert(data.error);
-			delCookie('user');
-			location.reload();
-			return;
+		if(data.error){
+			if(onError){
+				return onError(data);
+			}
+			if(data.code == 0){
+				alert(data.error);
+				return;
+			}else if(data.code == 1){
+				delCookie('user');
+				location.reload();
+				return;
+			}
 		}
 		callback && callback(data);
 	};
@@ -160,6 +169,7 @@ var Api = (function(conf,$){
 	api.blog_type = detectBlogType;
 	api.blog_list_tpl = generateBlogList;
 	api.import = importBlog;
+	api.on_error = ajaxErrorHandler;
 	
 	return api;
 	
@@ -174,7 +184,10 @@ $(function(){
 		$submit = $('#submit'),
 		$cancel = $('#cancel'),
 		$import = $('#import'),
-		$select_all = $('#select-all');
+		$select_all = $('#select-all'),
+		$wp_image = $('.blog-providers ul li.wordpress img'),
+		$upload_form = $('#search-form form'),
+		$input_file = $('input[name="file"]');
 	
 	//查询 login user 信息
 	Api.user(function(user){
@@ -219,6 +232,11 @@ $(function(){
 			}
 			return;
 		}
+		var is_upload = !$input_file.attr('disabled') && $input_file.val().length>0;
+		if(is_upload){
+			$upload_form.submit();
+			return;
+		}
 		var url = $input_url.val();
 		if(url.length == 0)
 			return;
@@ -239,6 +257,11 @@ $(function(){
 	
 	//取消爬取的博客列表
 	$cancel.on('click',function(){
+		var is_upload = !$input_file.attr('disabled') && $input_file.val().length>0;
+		if(is_upload){
+			location.reload();
+			return;
+		}
 		$blog_list.removeClass('loading');
 		$(this).hide();
 		$submit.show();
@@ -246,6 +269,7 @@ $(function(){
 		$select_all.hide();
 		$blog_list.html('');
 		$input_url.removeAttr('disabled');
+		$input_file.removeAttr('disabled');
 		$input_url.focus();
 	});
 	
@@ -274,6 +298,7 @@ $(function(){
 		});
 	});
 	
+	//点击博客列表选定或取消，按住ctrl点击查看对应博客
 	$blog_list.on('click','a',function(event){
 		if(!event.ctrlKey){
 			var self = $(this);
@@ -288,6 +313,7 @@ $(function(){
 		}
 	});
 	
+	//全选或取消全选
 	$select_all.on('click',function(){
 		var inputs = $blog_list.find('input[type="checkbox"]');
 		var checked = $blog_list.find('input[type="checkbox"]:checked');
@@ -300,4 +326,42 @@ $(function(){
 		}
 	});
 	
+	//选择导入wordpress存档文件
+	$wp_image.on('click',function(){
+		var self = $(this);
+		if(self.is('.gray')){
+			$input_file.show().removeAttr('disabled');
+			$input_url.hide().attr('disabled','disabled');
+		}else{
+			$input_file.hide().attr('disabled','disabled');;
+			$input_url.show().removeAttr('disabled');;
+		}
+		self.toggleClass('gray');
+	});
+	
+	$upload_form.ajaxForm({
+		dataType:'json',
+		beforeSubmit:function(){
+			$blog_list.html('');
+			$blog_list.addClass('loading');
+		},
+		success:function(data){
+			Api.on_error(data,function(list){
+				$blog_list.removeClass('loading');
+				$submit.hide();
+				$cancel.show();
+				$import.show();
+				$select_all.show();
+				if(list!=null){
+					$blog_list.html(Api.blog_list_tpl(list));
+				}
+			},function(data){
+				alert(data.error);
+				$blog_list.removeClass('loading');
+			});
+		},
+		error:function(xhr){
+			Api.on_error(xhr);
+		}
+	});
 });
