@@ -78,6 +78,11 @@ var Api = (function(conf,$){
 	
 	var ajaxErrorHandler = function(response,callback,onError){
 		var data = typeof response === "object" ? response : eval('('+response+')');
+		
+		if(data == null){
+			return;
+		}
+		
 		if(data.status == 500){
 			alert('500 服务器内部错误');
 			return;

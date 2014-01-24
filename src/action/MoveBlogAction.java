@@ -16,6 +16,7 @@ import common.JsonMsg;
 import oschina.BlogApi;
 import spider.BlogList;
 import spider.BlogPipeline;
+import spider.BlogPageProcessor;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import beans.Blog;
@@ -62,8 +63,11 @@ public class MoveBlogAction extends HttpServlet {
 		Blog blog=BlogList.getBlog(link); //已存在，不用抓取
 		
 		if(null == blog){
-			PageProcessor pageProcessor = SpiderAction.getBlogSitePageProcessor(link);
-			if(null == pageProcessor){
+			PageProcessor pageProcessor = null;
+			try {
+				pageProcessor = new BlogPageProcessor(link);
+			} catch (Exception e) {
+				e.printStackTrace();
 				JsonMsg.json_out(JsonMsg.jsonError("暂不支持该博客网站!"),response);
 				return;
 			}
@@ -78,7 +82,6 @@ public class MoveBlogAction extends HttpServlet {
 			JsonMsg.json_out(JsonMsg.jsonError("抓取失败，你懂的，稍后再试！"), response);
 			return;
 		}
-
 
 		/**
 		 * 可设置blog非必要参数：

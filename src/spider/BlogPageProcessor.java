@@ -7,8 +7,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.dom4j.Node;
 
 import common.OscBlogReplacer;
+import common.SpiderConfigTool;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -20,59 +22,149 @@ import us.codecraft.webmagic.processor.PageProcessor;
  */
 public class BlogPageProcessor implements PageProcessor{
 	
-	class LinkXpath{
+	public class LinkXpath{
 		public String linksXpath;	//链接列表过滤表达式
 		public String titlesXpath;	//title列表过滤表达式
 	}
 	
-	class ArticleXpath{
+	public class ArticleXpath{
 		public String contentXpath;	//内容过滤表达式
 		public String titleXpath;	//title过滤表达式
 		public String tagsXpath; 	//tags过滤表达式
 	}
 	
-	protected Site site = new Site();
-	protected String url;
-	protected String blogFlag;				//博客url的内容标志域
-	protected String name;					//博客原url 的名字域
-	protected List<String> codeBeginRex; 	//代码过滤正则表达式
-	protected List<String> codeEndRex; 		//代码过滤正则表达式
+	private Site site = new Site();
+	private String url;
+	private String blogFlag;				//博客url的内容标志域
+	private List<String> codeBeginRex; 	//代码过滤正则表达式
+	private List<String> codeEndRex; 		//代码过滤正则表达式
+	private List<LinkXpath> linkXpaths;		//获取链接表达式
+	private List<ArticleXpath> articleXpaths;	//获取文件表达式
+	private List<String> PagelinksRex;				//类别页列表过滤表达式
+	private Hashtable<String, String> codeHashtable;	//代码class映射关系
+	private SpiderConfigTool spiderConfig; 
+
+	public BlogPageProcessor(String url) throws Exception{
+		if(url.endsWith("/")){
+			url = url.substring(0, url.length()-1);
+		}
+		this.url=url;
+		
+		String spiderName="";	//切割域名 ：类似：csdn.net, 51cto.com, cnblogs.com, iteye.com
+		
+		Pattern p=Pattern.compile("\\.([a-zA-Z0-9]+\\.[a-zA-Z]+)");
+		Matcher m=p.matcher(url);
+		
+		if(m.find()){
+			spiderName = m.group(1);
+		} else {
+			throw new Exception("不支持的网站！");
+		}
+		
+		spiderConfig = new SpiderConfigTool(spiderName);
+		
+		init();
+	}
 	
-	protected List<LinkXpath> linkXpaths;		//获取链接表达式
-	protected List<ArticleXpath> articleXpath;	//获取文件表达式
-	
-	protected List<String> PagelinksRex;			//类别页列表过滤表达式
-			
-	protected Hashtable<String, String> codeHashtable;	//代码class映射关系
-	
+	private void init(){
+		String domain = spiderConfig.getSpiderNode().selectSingleNode("domain").getText();
+		site = Site.me().setDomain(domain);
+		String charset = spiderConfig.getSpiderNode().selectSingleNode("charset").getText();
+		site.setCharset(charset);
+		site.setSleepTime(1);
+		
+		blogFlag = spiderConfig.getSpiderNode().selectSingleNode("blog-flag").getText();
+		
+		initPageRex();
+		initCodeRex();
+		initLinkXpath();
+		initArticleXpath();
+		initCodeHash();
+	}
 	
 	/**
 	 * 初始化 代码替换正则
 	 */
-	protected void initCodeRex(){
+	@SuppressWarnings("unchecked")
+	private void initCodeRex(){
 		codeBeginRex = new ArrayList<String>(); 		//代码过滤正则表达式
 		codeEndRex  = new ArrayList<String>(); 			//代码过滤正则表达式
+		
+		List<Node> list = spiderConfig.getSpiderNode().selectNodes("code-begin-rex");
+		for(Node n:list){
+			codeBeginRex.add(n.getText());
+		}
+		
+		list = spiderConfig.getSpiderNode().selectNodes("code-end-rex");
+		for(Node n:list){
+			codeEndRex.add(n.getText());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void initPageRex(){
+		PagelinksRex = new ArrayList<String>();
+		//page-links-rex
+		List<Node> list = spiderConfig.getSpiderNode().selectNodes("page-links-rex");
+		for(Node pagelink:list){
+			String page = pagelink.getText();
+			String string=url.replaceAll("\\.", "\\\\\\.");
+			String temString= string+page;
+			PagelinksRex.add(temString);
+		}
 	}
 	
 	/**
 	 * 初始化 获取链接列表xpath
 	 */
-	protected void initLinkXpath(){
+	@SuppressWarnings("unchecked")
+	private void initLinkXpath(){
 		linkXpaths = new ArrayList<LinkXpath>();		//获取链接表达式
+		
+		List<Node> list = spiderConfig.getSpiderNode().selectNodes("link-xpath");
+		for(Node node : list){
+			String link = node.selectSingleNode("links-xpath").getText();
+			String title = node.selectSingleNode("titles-xpath").getText();
+			LinkXpath linkXpath = new LinkXpath();
+			linkXpath.linksXpath=link;
+			linkXpath.titlesXpath=title;
+			linkXpaths.add(linkXpath);
+		}
 	}
 	
 	/**
 	 * 初始化
 	 */
-	protected void initArticleXpath(){
-		articleXpath = new ArrayList<ArticleXpath>();	//获取文件表达式
+	@SuppressWarnings("unchecked")
+	private void initArticleXpath(){
+		articleXpaths = new ArrayList<ArticleXpath>();	//获取文件表达式
+		
+		List<Node> list = spiderConfig.getSpiderNode().selectNodes("article-xpath");
+		for(Node node : list){
+			String content = node.selectSingleNode("content-xpath").getText();
+			String title = node.selectSingleNode("title-xpath").getText();
+			String tags = node.selectSingleNode("tags-xpath").getText();
+			ArticleXpath articleXpath = new ArticleXpath();
+			articleXpath.contentXpath=content;
+			articleXpath.titleXpath=title;
+			articleXpath.tagsXpath = tags;
+			
+			articleXpaths.add(articleXpath);
+		}
 	}
 	
-	protected void initCodeHash(){
+	@SuppressWarnings("unchecked")
+	private void initCodeHash(){
 		codeHashtable = new Hashtable<String, String>();
+		
+		List<Node> list = spiderConfig.getSpiderNode().selectNodes("code-hashtable");
+		for(Node node : list){
+			String key = node.selectSingleNode("key").getText();
+			String osc = node.selectSingleNode("osc").getText();
+			codeHashtable.put(key, osc);
+		}
 	}
 
-	
 	/**
 	 * 抓取博客内容等，并将博客内容中有代码的部分转换为oschina博客代码格式
 	 */
@@ -108,6 +200,7 @@ public class BlogPageProcessor implements PageProcessor{
         page.putField("titles", titles);
         page.putField("links", links);
         
+        List<String> alllinks = page.getHtml().links().all();
         List<String> Pagelinks = page.getHtml().links().regex(PagelinksRex.get(0)).all();
         
         for(int i=1; i < PagelinksRex.size() && Pagelinks.size() == 0; ++i){
@@ -123,16 +216,15 @@ public class BlogPageProcessor implements PageProcessor{
 	 */
 	private void getPage(Page page){
         
-        String title = page.getHtml().xpath(articleXpath.get(0).titleXpath).toString();
-        String content = page.getHtml().xpath(articleXpath.get(0).contentXpath).toString();
-        String tags = page.getHtml().xpath(articleXpath.get(0).tagsXpath).all().toString();
+        String title = page.getHtml().xpath(articleXpaths.get(0).titleXpath).toString();
+        String content = page.getHtml().xpath(articleXpaths.get(0).contentXpath).toString();
+        String tags = page.getHtml().xpath(articleXpaths.get(0).tagsXpath).all().toString();
         
-        for(int i=1; i < PagelinksRex.size() && null == title; ++i){
-        	title = page.getHtml().xpath(articleXpath.get(i).titleXpath).toString();
-        	content = page.getHtml().xpath(articleXpath.get(i).contentXpath).toString();
-            tags = page.getHtml().xpath(articleXpath.get(i).tagsXpath).all().toString();
+        for(int i=1; i < articleXpaths.size() && null == title; ++i){
+        	title = page.getHtml().xpath(articleXpaths.get(i).titleXpath).toString();
+        	content = page.getHtml().xpath(articleXpaths.get(i).contentXpath).toString();
+            tags = page.getHtml().xpath(articleXpaths.get(i).tagsXpath).all().toString();
         }
-        
         
         if(StringUtils.isBlank(content) || StringUtils.isBlank(title)){
         	return;
@@ -150,11 +242,8 @@ public class BlogPageProcessor implements PageProcessor{
         page.putField("tags", tags);
 	}
 	
-
     @Override
     public Site getSite() {
         return site;
     }
-    
-
 }

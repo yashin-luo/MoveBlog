@@ -1,5 +1,7 @@
 package beans;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Element;
@@ -36,10 +38,22 @@ public class Blog {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Blog(Node itemNode) {
 		title = itemNode.selectSingleNode("title").getText();
         link = itemNode.selectSingleNode("link").getText();
         content = itemNode.selectSingleNode("content:encoded").getText();
+        
+        List<String> tagslist = new ArrayList<String>();
+        List<Node> nodes=itemNode.selectNodes("category[@domain='post_tag']");
+        
+        for(Node n : nodes){
+        	tagslist.add(n.getText());
+        }
+        
+        tags = tagslist.toString();
+        if(tags != null)
+        	tags = tags.substring(1, tags.length()-1);
 	}
 	
 	public Blog(Map<String, Object> blogMap) throws Exception {

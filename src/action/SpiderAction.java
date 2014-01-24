@@ -3,25 +3,18 @@ package action;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
-
 import com.google.gson.Gson;
 import common.JsonMsg;
-
 import beans.BlogLink;
 import spider.BlogPipeline;
-import spider.CnBlogPageProcesser;
-import spider.CsdnBlogPageProcesser;
-import spider.IteyeBlogPageProcesser;
-import spider.CtoBlogPageProcesser;
+import spider.BlogPageProcessor;
 import spider.LinksList;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -45,7 +38,6 @@ public class SpiderAction extends HttpServlet {
 		
 		String url = request.getParameter("url");
 		
-
 		if(StringUtils.isBlank(url))
 			return;
 		
@@ -69,12 +61,15 @@ public class SpiderAction extends HttpServlet {
 			return;
 		}
 		
-		PageProcessor pageProcessor = getBlogSitePageProcessor(url);
-		if(null == pageProcessor){
+		PageProcessor pageProcessor=null;
+		try {
+			pageProcessor = new BlogPageProcessor(url);
+		} catch (Exception e) {
+			e.printStackTrace();
 			JsonMsg.json_out(JsonMsg.jsonError("暂不支持该博客网站!"),response);
 			return;
 		}
-		
+		LinksList.clearList(user);
 		//爬取博客，结果存放在BLogList中
         Spider.create(pageProcessor)
         	.addUrl(url)
@@ -87,43 +82,4 @@ public class SpiderAction extends HttpServlet {
         result = new Gson().toJson(linkList);
         JsonMsg.json_out(result, response);
 	}
-	
-	/**
-	 * //根据url选择博客类型
-	 * @param url
-	 * @return
-	 */
-	public static PageProcessor getBlogSitePageProcessor(String url){
-		if(url.contains("www.cnblogs.com")){
-			if(url.equals("http://www.cnblogs.com")){
-				return null;
-			}
-			return new CnBlogPageProcesser(url);
-			
-		}else if(url.contains("blog.csdn.net")){
-			if(url.equals("http://blog.csdn.net")){
-				return null;
-			}
-			return new CsdnBlogPageProcesser(url);
-			
-		}else if(url.contains("blog.51cto.com")){
-			if(url.equals("http://blog.51cto.com")){
-				return null;
-			}
-			return new CtoBlogPageProcesser(url);
-		
-		}else if(url.contains("iteye.com")){
-			if(url.equals("http://www.iteye.com")){
-				return null;
-			}
-			return new IteyeBlogPageProcesser(url);
-		
-		}else {
-			
-			return null;
-		}
-	}
-	
-
-	
 }
