@@ -54,6 +54,10 @@ public class Oauth2Action extends HttpServlet {
 		
 		//根据access_token 获取User
 		User user = UserApi.getUser(access_token);
+		if(null == user){
+			JsonMsg.json_out(JsonMsg.jsonError("user获取失败"),response);
+			return;
+		}
 		
 		Users().put(Long.valueOf(user.getId()), access_token);
 		
@@ -70,8 +74,6 @@ public class Oauth2Action extends HttpServlet {
         response.addCookie(u) ;
 		response.sendRedirect("/index.html");
 		
-		//String reString = user.toString();
-		//json_out(reString,response);
 	}
 
 	@Override

@@ -40,6 +40,11 @@ public class MoveBlogAction extends HttpServlet {
 		String user="";
 		Cookie[] cookie = request.getCookies();
 
+		if(cookie == null){
+			JsonMsg.json_out(JsonMsg.jsonError("请先授权!"),response);
+			return;
+		}
+		
 		for (int i = 0; i < cookie.length; i++) {
 			Cookie cook = cookie[i];
 			if(cook.getName().equalsIgnoreCase("user")){ //获取键 
