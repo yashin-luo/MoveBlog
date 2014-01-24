@@ -4,7 +4,9 @@
 	'response_type':'code',
 	'client_id':'c39L0n9Am23s5wTW10dC',
 	'redirect_uri':'http://move.pengbo.us/Oauth2Action'
-};*/
+<<<<<<< HEAD
+};
+*/
 
 var Conf = {
 		'host':'http://www.oschina.com',
@@ -76,6 +78,11 @@ var Api = (function(conf,$){
 	
 	var ajaxErrorHandler = function(response,callback,onError){
 		var data = typeof response === "object" ? response : eval('('+response+')');
+		
+		if(data == null){
+			return;
+		}
+		
 		if(data.status == 500){
 			alert('500 服务器内部错误');
 			return;

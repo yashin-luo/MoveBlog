@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+	<!-- CSND -->
+	<spider-cofig>
+		<domain>blog.csdn.net</domain>
+		<charset>utf-8</charset>
+		<name>csdn.net</name>							<!--//博客域名: 用于匹配博客spider配置  -->
+		<blog-flag>/article/details/</blog-flag>			<!--//博客url的内容标志域  -->
+		
+		<link-xpath>							<!--//获取链接表达式  -->
+			<links-xpath><![CDATA[//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href]]></links-xpath>
+			<titles-xpath><![CDATA[//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()]]></titles-xpath>
+		</link-xpath>
+		
+		<article-xpath>							<!--//获取文章表达式  -->
+			<content-xpath><![CDATA[//div[@class='article_content']/html()]]></content-xpath>
+			<title-xpath><![CDATA[//div[@class='details']/div[@class='article_title']/h3/span/a/text()]]></title-xpath>
+			<tags-xpath><![CDATA[//div[@class='tag2box']/a/text()]]></tags-xpath>
+		</article-xpath>
+		
+		<code-begin-rex><![CDATA[<pre.*?class=\"(.+?)\".*?>]]></code-begin-rex>		<!--//代码过滤正则表达式-头  -->
+		<code-begin-rex><![CDATA[<textarea.*?class=\"(.+?)\".*?>]]></code-begin-rex>
+		<code-end-rex><![CDATA[</textarea>]]></code-end-rex>			<!--//代码过滤正则表达式-尾  -->
+		
+		<!--//列表页url过滤表达式 -->
+		<page-links-rex><![CDATA[/article/list/\d+]]></page-links-rex>		
+		
+		<!--//代码class映射关系 -->
+		<code-hashtable>						
+			<key>csharp</key>
+			<osc>c#</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>javascript</key>
+			<osc>js</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>objc</key>
+			<osc>cpp</osc>
+		</code-hashtable>
+	</spider-cofig>
+	
+	<!-- ITeye -->
+	<spider-cofig>
+		<domain>www.iteye.com</domain>
+		<charset>utf-8</charset>
+		<name>iteye.com</name>							<!--//博客域名: 用于匹配博客spider配置  -->
+		<blog-flag>/blog/</blog-flag>			<!--//博客url的内容标志域  -->
+		
+		<link-xpath>							<!--//获取链接表达式  -->
+			<links-xpath><![CDATA[//div[@class='blog_main']/div[@class='blog_title']/h3/a/@href]]></links-xpath>
+			<titles-xpath><![CDATA[//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()]]></titles-xpath>
+		</link-xpath>
+		
+		<article-xpath>							<!--//获取文章表达式  -->
+			<content-xpath><![CDATA[//div[@class='blog_content']/html()]]></content-xpath>
+			<title-xpath><![CDATA[//div[@class='blog_main']/div[@class='blog_title']/h3/a/text()]]></title-xpath>
+			<tags-xpath><![CDATA[//div[@class='news_tag']/a/text()]]></tags-xpath>
+		</article-xpath>
+		
+		<code-begin-rex><![CDATA[<pre.+?class=\"(.+?)\".*?>]]></code-begin-rex>		<!--//代码过滤正则表达式-头  -->
+		
+		<!--//列表页url过滤表达式 -->
+		<page-links-rex><![CDATA[/\?page=\d+]]></page-links-rex>		
+		
+		<!--//代码class映射关系 -->
+		<code-hashtable>						
+			<key>csharp</key>
+			<osc>c#</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>javascript</key>
+			<osc>js</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>objc</key>
+			<osc>cpp</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>diff</key>
+			<osc>html</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>lisp</key>
+			<osc>lua</osc>
+		</code-hashtable>
+	</spider-cofig>
+	
+	<!-- Cnblog -->
+	<spider-cofig>
+		<domain>www.cnblogs.com</domain>
+		<charset>utf-8</charset>
+		<name>cnblogs.com</name>							<!--//博客域名: 用于匹配博客spider配置  -->
+		<blog-flag>/p/|/archive/</blog-flag>			<!--//博客url的内容标志域  -->
+		
+		<link-xpath>							<!--//获取链接表达式  -->
+			<links-xpath><![CDATA[//div[@class='postTitle']/a/@href]]></links-xpath>
+			<titles-xpath><![CDATA[//div[@class='postTitle']/a/text()]]></titles-xpath>
+		</link-xpath>
+		
+		<link-xpath>							<!--//获取链接表达式  -->
+			<links-xpath><![CDATA[//div[@class='post']/h2/a/@href]]></links-xpath>
+			<titles-xpath><![CDATA[//div[@class='post']/h2/a/text()]]></titles-xpath>
+		</link-xpath>
+		
+		<article-xpath>							<!--//获取文章表达式  -->
+			<content-xpath><![CDATA[//div[@id='cnblogs_post_body']/html()]]></content-xpath>
+			<title-xpath><![CDATA[//a[@id='cb_post_title_url']/text()]]></title-xpath>
+			<tags-xpath><![CDATA[//div[@id='EntryTagad']/a/text()]]></tags-xpath>
+		</article-xpath>
+		
+		<article-xpath>							<!--//获取文章表达式  -->
+			<content-xpath><![CDATA[//div[@id='cnblogs_post_body']/html()]]></content-xpath>
+			<title-xpath><![CDATA[//div[@class='post']/h2/a/text()]]></title-xpath>
+			<tags-xpath><![CDATA[//div[@id='EntryTagad']/a/text()]]></tags-xpath>
+		</article-xpath>
+		
+		<code-begin-rex><![CDATA[<pre.+?class=\"brush:(.+?);.+?\".*?>]]></code-begin-rex>		<!--//代码过滤正则表达式-头  -->
+		
+		<!--//列表页url过滤表达式 -->
+		<page-links-rex><![CDATA[/default\.aspx\?page=\d+]]></page-links-rex>		
+		<page-links-rex><![CDATA[/default\.html\?page=\d+]]></page-links-rex>	
+		
+		
+	</spider-cofig>
+	
+	<!-- 51CTO -->
+	<spider-cofig>
+		<domain>blog.51cto.com</domain>
+		<name>51cto.com</name>							<!--//博客域名: 用于匹配博客spider配置  -->
+		<charset>gb2312</charset>
+		<blog-flag>/\d+/</blog-flag>			<!--//博客url的内容标志域  -->
+		
+		<link-xpath>							<!--//获取链接表达式  -->
+			<links-xpath><![CDATA[//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/@href]]></links-xpath>
+			<titles-xpath><![CDATA[//div[@class='blogList']/div[@class='artHead']/div/h3[@class='artTitle']/a/text()]]></titles-xpath>
+		</link-xpath>
+		
+		<article-xpath>							<!--//获取文章表达式  -->
+			<content-xpath><![CDATA[//div[@class='showContent']/html()]]></content-xpath>
+			<title-xpath><![CDATA[//div[@class='showTitleBOx']/div[@class='showTitle']/text()]]></title-xpath>
+			<tags-xpath><![CDATA[//div[@class='showTags']/a/text()]]></tags-xpath>
+		</article-xpath>
+		
+		<code-begin-rex><![CDATA[<pre.+?class=\"brush:(.+?);.*?\".*?>]]></code-begin-rex>		<!--//代码过滤正则表达式-头  -->
+		
+		<!--//列表页url过滤表达式 -->
+		<page-links-rex><![CDATA[/\d+/p-\d+]]></page-links-rex>		
+		
+		<!--//代码class映射关系 -->
+		<code-hashtable>						
+			<key>bash</key>
+			<osc>shell</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>delphi</key>
+			<osc>pascal</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>pl</key>
+			<osc>perl</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>ps</key>
+			<osc>shell</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>plain</key>
+			<osc>lua</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>cf</key>
+			<osc>cpp</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>diff</key>
+			<osc>shell</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>erlang</key>
+			<osc>lua</osc>
+		</code-hashtable>
+		<code-hashtable>						
+			<key>jfx</key>
+			<osc>js</osc>
+		</code-hashtable>
+	</spider-cofig>
+	
+	<spider-cofig>
+		<name>wordpress</name>	
+		<code-begin-rex><![CDATA[<pre class=\"brush:([a-zA-Z]+)\">]]></code-begin-rex>		<!--//代码过滤正则表达式-头  -->
+	</spider-cofig>
+</config>

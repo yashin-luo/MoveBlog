@@ -16,6 +16,10 @@ public class LinksList {
 	//用户名，对应一个用户列表，如果用户为新用户则put新的列表
 	private static Map<String, ConcurrentHashMap<String, BlogLink>> linkMap = new ConcurrentHashMap <String,ConcurrentHashMap<String, BlogLink>>();
 	
+	public static void clearList(String user){
+		linkMap.remove(user);
+	}
+	
 	public static void addLinks(String user, List<BlogLink> links) {
 		
 		ConcurrentHashMap<String,BlogLink> linkList;

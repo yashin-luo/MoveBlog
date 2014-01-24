@@ -4,6 +4,7 @@ package action;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,12 +19,15 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
 import com.google.gson.Gson;
 
 import common.JsonMsg;
+import common.OscBlogReplacer;
+import common.SpiderConfigTool;
 import beans.Blog;
 import beans.BlogLink;
 import spider.BlogList;
@@ -39,6 +43,32 @@ import spider.LinksList;
 public class UploadAction extends HttpServlet {
 
 	private String savePath="/xmlfile";
+	private OscBlogReplacer oscReplacer = new OscBlogReplacer(new Hashtable<String, String>());
+	private List<String> rexBegin=new ArrayList<String>(),rexEnd=new ArrayList<String>();
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void init() throws ServletException{
+		super.init();
+    	
+    	SpiderConfigTool config=null;
+		try {
+			config = new SpiderConfigTool("wordpress");
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	List<Node> list = config.getSpiderNode().selectNodes("code-begin-rex");
+    	for(Node node : list){
+    		rexBegin.add(node.getText());
+    	}
+    	
+    	list = config.getSpiderNode().selectNodes("code-end-rex");
+    	for(Node node : list){
+    		rexEnd.add(node.getText());
+    	}
+	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.doPost(request, response);
@@ -115,7 +145,6 @@ public class UploadAction extends HttpServlet {
 			}
 			
 			File tempFile = new File(item.getName());
-
 			File file = new File(path, tempFile.getName());	//上传文件的保存路径
 			item.write(file);								//保存文件
 			
@@ -133,6 +162,7 @@ public class UploadAction extends HttpServlet {
 	 * @param file
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean analyzeXml(String user, File file){
 		try {
 			//读取xml
@@ -151,6 +181,8 @@ public class UploadAction extends HttpServlet {
             List<BlogLink> links=new ArrayList<BlogLink>();		//生成该用户博客列表
             for(Node i : itemList){
             	Blog blog = new Blog(i);
+            	String conent = oscReplacer.replace(rexBegin, rexEnd, blog.getContent()); 
+            	blog.setContent(conent);
             	BlogList.addBlog(blog);
                 links.add(new BlogLink(blog));
             }
