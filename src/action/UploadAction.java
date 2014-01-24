@@ -19,6 +19,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
@@ -50,7 +51,13 @@ public class UploadAction extends HttpServlet {
 	public void init() throws ServletException{
 		super.init();
     	
-    	SpiderConfigTool config=new SpiderConfigTool("wordpress");
+    	SpiderConfigTool config=null;
+		try {
+			config = new SpiderConfigTool("wordpress");
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	List<Node> list = config.getSpiderNode().selectNodes("code-begin-rex");
     	for(Node node : list){

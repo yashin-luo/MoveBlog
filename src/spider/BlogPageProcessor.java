@@ -16,9 +16,9 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 /**
- * csdn博客爬虫逻辑
+ * 博客爬虫抓取逻辑
  * @author oscfox
- * @date 20140114
+ * @date 20140124
  */
 public class BlogPageProcessor implements PageProcessor{
 	
@@ -35,12 +35,12 @@ public class BlogPageProcessor implements PageProcessor{
 	
 	private Site site = new Site();
 	private String url;
-	private String blogFlag;				//博客url的内容标志域
-	private List<String> codeBeginRex; 	//代码过滤正则表达式
-	private List<String> codeEndRex; 		//代码过滤正则表达式
-	private List<LinkXpath> linkXpaths;		//获取链接表达式
-	private List<ArticleXpath> articleXpaths;	//获取文件表达式
-	private List<String> PagelinksRex;				//类别页列表过滤表达式
+	private String blogFlag;							//博客url的内容标志域
+	private List<String> codeBeginRex; 					//代码过滤正则表达式
+	private List<String> codeEndRex; 					//代码过滤正则表达式
+	private List<LinkXpath> linkXpaths;					//获取链接表达式
+	private List<ArticleXpath> articleXpaths;			//获取文件表达式
+	private List<String> PagelinksRex;					//类别页列表过滤表达式
 	private Hashtable<String, String> codeHashtable;	//代码class映射关系
 	private SpiderConfigTool spiderConfig; 
 
@@ -63,9 +63,16 @@ public class BlogPageProcessor implements PageProcessor{
 		
 		spiderConfig = new SpiderConfigTool(spiderName);
 		
+		if(spiderConfig == null){
+			throw new Exception("不支持的网站！");
+		}
+		
 		init();
 	}
 	
+	/**
+	 * 初始化
+	 */
 	private void init(){
 		String domain = spiderConfig.getSpiderNode().selectSingleNode("domain").getText();
 		site = Site.me().setDomain(domain);
@@ -101,6 +108,9 @@ public class BlogPageProcessor implements PageProcessor{
 		}
 	}
 	
+	/**
+	 * 初始化 分页链接
+	 */
 	@SuppressWarnings("unchecked")
 	private void initPageRex(){
 		PagelinksRex = new ArrayList<String>();
@@ -133,7 +143,7 @@ public class BlogPageProcessor implements PageProcessor{
 	}
 	
 	/**
-	 * 初始化
+	 * 初始化 文章规则
 	 */
 	@SuppressWarnings("unchecked")
 	private void initArticleXpath(){
@@ -153,6 +163,9 @@ public class BlogPageProcessor implements PageProcessor{
 		}
 	}
 	
+	/**
+	 * 初始化代码类型映射
+	 */
 	@SuppressWarnings("unchecked")
 	private void initCodeHash(){
 		codeHashtable = new Hashtable<String, String>();
@@ -200,7 +213,6 @@ public class BlogPageProcessor implements PageProcessor{
         page.putField("titles", titles);
         page.putField("links", links);
         
-        List<String> alllinks = page.getHtml().links().all();
         List<String> Pagelinks = page.getHtml().links().regex(PagelinksRex.get(0)).all();
         
         for(int i=1; i < PagelinksRex.size() && Pagelinks.size() == 0; ++i){
