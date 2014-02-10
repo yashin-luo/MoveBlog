@@ -17,7 +17,7 @@ public class Blog {
 	
 	private String 	title="";			//	true		博客标题	
 	private String 	content="";			//	true		博客内容	
-	private String 	classification="418860";//	true		系统博客分类
+	private String 	classification="430381";//	true		系统博客分类 默认：其他类型
 	private String 	save_as_draft="0";	//	false		保存到草稿 是：1 否：0	0
 	private String 	catalog;			//	false		博客分类	
 	private String 	abstracts="";		//	false		博客摘要	
