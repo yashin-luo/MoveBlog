@@ -9,13 +9,13 @@
 		<blog-flag>/article/details/</blog-flag>			<!--//博客url的内容标志域  -->
 		
 		<link-xpath>							<!--//获取链接表达式  -->
-			<links-xpath><![CDATA[//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/@href]]></links-xpath>
-			<titles-xpath><![CDATA[//div[@class='list_item article_item']/div[@class='article_title']/h3/span/a/text()]]></titles-xpath>
+			<links-xpath><![CDATA[//div[@class='list_item article_item']/div[@class='article_title']/h1/span/a/@href]]></links-xpath>
+			<titles-xpath><![CDATA[//div[@class='list_item article_item']/div[@class='article_title']/h1/span/a/text()]]></titles-xpath>
 		</link-xpath>
 		
 		<article-xpath>							<!--//获取文章表达式  -->
 			<content-xpath><![CDATA[//div[@class='article_content']/html()]]></content-xpath>
-			<title-xpath><![CDATA[//div[@class='details']/div[@class='article_title']/h3/span/a/text()]]></title-xpath>
+			<title-xpath><![CDATA[//div[@class='details']/div[@class='article_title']/h1/span/a/text()]]></title-xpath>
 			<tags-xpath><![CDATA[//div[@class='tag2box']/a/text()]]></tags-xpath>
 		</article-xpath>
 		

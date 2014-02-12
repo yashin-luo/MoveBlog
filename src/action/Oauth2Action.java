@@ -40,7 +40,7 @@ public class Oauth2Action extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String code = request.getParameter("code");
 		
-		if(code.isEmpty()){//授权码获取失败
+		if(StringUtils.isBlank(code)){//授权码获取失败
 			JsonMsg.json_out(JsonMsg.jsonError("授权码获取失败"),response);
 			return;
 		}

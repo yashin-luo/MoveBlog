@@ -1,13 +1,12 @@
-/*var Conf = {
+var Conf = {
 	'host':'http://www.oschina.net',
 	'auth_uri':'/action/oauth2/authorize',
 	'response_type':'code',
 	'client_id':'c39L0n9Am23s5wTW10dC',
 	'redirect_uri':'http://move.pengbo.us/Oauth2Action'
-<<<<<<< HEAD
 };
-*/
 
+/*
 var Conf = {
 		'host':'http://www.oschina.com',
 		'auth_uri':'/action/oauth2/authorize',
@@ -16,7 +15,7 @@ var Conf = {
 		'redirect_uri':'http://www.moveblog.com:8080/Oauth2Action'
 	};
 
-
+*/
 var Api = (function(conf,$){
 	
 	var api = {};
@@ -173,7 +172,7 @@ var Api = (function(conf,$){
 	api.blog_list = getBlogList;
 	api.blog_type = detectBlogType;
 	api.blog_list_tpl = generateBlogList;
-	api.import = importBlog;
+	api.importBlog = importBlog;
 	api.on_error = ajaxErrorHandler;
 	
 	return api;
@@ -286,7 +285,7 @@ $(function(){
 			return;
 		}
 		var urls = import_tasks.map(function(){return $(this).data('url');}).toArray();
-		Api.import(urls,urls.length,function(url,index){
+		Api.importBlog(urls,urls.length,function(url,index){
 			var input = import_tasks.eq(index);
 			var li = input.parents('li');
 			li.attr('class','loading');

@@ -81,13 +81,9 @@ public class BlogApi {
 		//User-Agent
 		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
-		
 		AppConfigTool configTool=new AppConfigTool();
-		
 		PostMethod method = new PostMethod(configTool.getConfig("osc_host") + configTool.getConfig("blog_pub"));
-		
 		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
-		
 		NameValuePair access_token_ = new NameValuePair("access_token",access_token);  
 		NameValuePair title_ = new NameValuePair("title",title);
 		NameValuePair content_ = new NameValuePair("content",content);
@@ -107,9 +103,68 @@ public class BlogApi {
         		new NameValuePair[] {access_token_,title_,content_,classification_,
         				catalog_,tags_,abstracts_,origin_url_,as_top_,auto_content_,
         				deny_comment_,type_,save_as_draft_,privacy_} );  
-		
 		String responsestr = "";
 		
+		try {
+			client.executeMethod(method);
+			responsestr = new String(method.getResponseBodyAsString()); 
+		} catch (HttpException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  
+		method.releaseConnection(); 
+		return new Gson().toJson(responsestr);
+	}
+	
+	public static String getBlogUserCatalog(String client_id, String authorname) {
+		
+		HttpClient client = new HttpClient();
+		//User-Agent
+		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
+				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
+		
+		AppConfigTool configTool = new AppConfigTool();
+		PostMethod method = new PostMethod(configTool.getConfig("osc_host") + configTool.getConfig("blog_user_catalog"));
+		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
+		NameValuePair client_id_ = new NameValuePair("client_id",client_id);  
+		NameValuePair authorname_ = new NameValuePair("authorname",authorname);
+        method.setRequestBody(
+        		new NameValuePair[] {client_id_,authorname_} );  
+		String responsestr = "";
+		try {
+			client.executeMethod(method);
+			responsestr = new String(method.getResponseBodyAsString()); 
+		} catch (HttpException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  
+		method.releaseConnection(); 
+		return new Gson().toJson(responsestr);
+	}
+	
+	
+public static String getBlogSysCatalog(String client_id) {
+		
+		HttpClient client = new HttpClient();
+		//User-Agent
+		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
+				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
+		
+		AppConfigTool configTool = new AppConfigTool();
+		PostMethod method = new PostMethod(configTool.getConfig("osc_host") + configTool.getConfig("blog_sys_catalog"));
+		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
+		NameValuePair client_id_ = new NameValuePair("client_id",client_id);  
+        method.setRequestBody(
+        		new NameValuePair[] {client_id_} );  
+		String responsestr = "";
 		try {
 			client.executeMethod(method);
 			responsestr = new String(method.getResponseBodyAsString()); 
