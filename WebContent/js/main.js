@@ -187,7 +187,7 @@ $(function(){
 		$blog_list = $('.blog-list');
 		$submit = $('#submit'),
 		$cancel = $('#cancel'),
-		$import = $('#import'),
+		$importBlog = $('#importBlog'),
 		$select_all = $('#select-all'),
 		$wp_image = $('.blog-providers ul li.wordpress img'),
 		$upload_form = $('#search-form form'),
@@ -251,7 +251,7 @@ $(function(){
 			$input_url.attr('disabled','disabled');
 			$submit.hide();
 			$cancel.show();
-			$import.show();
+			$importBlog.show();
 			$select_all.show();
 			if(list!=null){
 				$blog_list.html(Api.blog_list_tpl(list));
@@ -269,7 +269,7 @@ $(function(){
 		$blog_list.removeClass('loading');
 		$(this).hide();
 		$submit.show();
-		$import.hide();
+		$importBlog.hide();
 		$select_all.hide();
 		$blog_list.html('');
 		$input_url.removeAttr('disabled');
@@ -278,7 +278,7 @@ $(function(){
 	});
 	
 	//开始导入所选博客
-	$import.on('click',function(){
+	$importBlog.on('click',function(){
 		var import_tasks = $('.blog-list input[type="checkbox"]:checked');
 		if(import_tasks.length==0){
 			alert('先选定一篇博客吧！');
@@ -354,7 +354,7 @@ $(function(){
 				$blog_list.removeClass('loading');
 				$submit.hide();
 				$cancel.show();
-				$import.show();
+				$importBlog.show();
 				$select_all.show();
 				if(list!=null){
 					$blog_list.html(Api.blog_list_tpl(list));
