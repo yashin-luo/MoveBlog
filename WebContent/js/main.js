@@ -3,7 +3,7 @@ var Conf = {
 	'auth_uri':'/action/oauth2/authorize',
 	'response_type':'code',
 	'client_id':'c39L0n9Am23s5wTW10dC',
-	'redirect_uri':'http://move.pengbo.us/Oauth2Action'
+	'redirect_uri':'http://move.oschina.net/Oauth2Action'
 };
 
 /*
