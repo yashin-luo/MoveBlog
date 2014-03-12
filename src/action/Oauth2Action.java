@@ -54,7 +54,7 @@ public class Oauth2Action extends HttpServlet {
 		
 		//根据access_token 获取User
 		User user = UserApi.getUser(access_token);
-		if(null == user){
+		if(null == user || !StringUtils.isNumeric(user.getId())){
 			JsonMsg.json_out(JsonMsg.jsonError("user获取失败"),response);
 			return;
 		}

@@ -1,13 +1,18 @@
 package oschina;
 
 import java.io.IOException;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.lang.StringUtils;
+
 import beans.User;
+
 import com.google.gson.Gson;
+
 import common.AppConfigTool;
 
 /**
@@ -57,6 +62,8 @@ public class UserApi {
 		Gson gson = new Gson();
 		try {
 			User user = gson.fromJson(responsestr, User.class);
+			if(!StringUtils.isNumeric(user.getId()))
+				return null;
 			return user;
 		} catch (Exception e) {
 			// TODO: handle exception

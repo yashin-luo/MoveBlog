@@ -1,13 +1,18 @@
 package oschina;
 
 import java.io.IOException;
+import java.util.Map;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+
 import beans.Blog;
+
 import com.google.gson.Gson;
+
 import common.AppConfigTool;
 
 /**
@@ -16,6 +21,7 @@ import common.AppConfigTool;
  *
  */
 public class BlogApi {
+	
 	/**
 	 * 将博客导入oschina
 	 * @param blog
@@ -147,7 +153,7 @@ public class BlogApi {
 		}
 		  
 		method.releaseConnection(); 
-		return new Gson().toJson(responsestr);
+		return responsestr;
 	}
 	
 	
@@ -167,17 +173,16 @@ public static String getBlogSysCatalog(String client_id) {
 		String responsestr = "";
 		try {
 			client.executeMethod(method);
-			responsestr = new String(method.getResponseBodyAsString()); 
+			responsestr = method.getResponseBodyAsString();
+			//responsestr = new String(method.getResponseBodyAsString()); 
 		} catch (HttpException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		  
 		method.releaseConnection(); 
-		return new Gson().toJson(responsestr);
+		return responsestr;
 	}
 	
 

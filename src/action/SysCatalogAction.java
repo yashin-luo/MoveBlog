@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.alibaba.fastjson.JSON;
-
 import common.JsonMsg;
 import oschina.BlogApi;
 
@@ -19,16 +17,16 @@ import oschina.BlogApi;
 public class SysCatalogAction extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
-		doGet(request, response);
+		doPost(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String client_id = request.getParameter("client_id");
 		
-		if(!StringUtils.isNumeric(client_id))
+		if(StringUtils.isBlank(client_id))
 			return;
 		
 		String reString = BlogApi.getBlogSysCatalog(client_id);
-		JsonMsg.json_out(JSON.toJSONString(reString), response);
+		JsonMsg.json_out(reString, response);
 	}
 }

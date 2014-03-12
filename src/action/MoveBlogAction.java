@@ -2,6 +2,7 @@
 package action;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +37,7 @@ public class MoveBlogAction extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	
 		String user="";
 		Cookie[] cookie = request.getCookies();
 
@@ -59,10 +60,27 @@ public class MoveBlogAction extends HttpServlet {
 		}
 		
 		String link = request.getParameter("link");
+		String user_catalog = request.getParameter("user_catalog");
+		String sys_catalog = request.getParameter("sys_catalog");
 		
 		if(StringUtils.isBlank(link)){//id获取失败
 			JsonMsg.json_out(JsonMsg.jsonError("link获取失败"),response);
 			return;
+		}
+		
+		/*
+		if(StringUtils.isBlank(user_catalog) || StringUtils.isBlank(sys_catalog)){
+			JsonMsg.json_out(JsonMsg.jsonError("分类获取失败"),response);
+			return;
+		}
+		*/
+		
+		if(StringUtils.isBlank(user_catalog) ){
+			
+		}
+		
+		if(StringUtils.isBlank(sys_catalog)){
+			sys_catalog = "430381";
 		}
 		
 		Blog blog=BlogList.getBlog(link); //已存在，不用抓取
@@ -101,9 +119,17 @@ public class MoveBlogAction extends HttpServlet {
 		*	auto_content=0;		//	false		自动生成目录：0、不自动生成目录：1	0
 		*	as_top=0;			//	false		非置顶：0、置顶：1	0
 		 */
+		blog.setCatalog(user_catalog);
+		blog.setClassification(sys_catalog);
+		
 		long key = Long.valueOf(user);
 		String token = Oauth2Action.Users().get(key);
 		String reString = BlogApi.pubBlog(blog,token);	//根据access_token 导入blog
+
+		if(StringUtils.isBlank(reString) || reString.contains("error=500")){
+			JsonMsg.json_out(JsonMsg.jsonError("导入失败！授权了吗？"), response);
+			return;
+		}
 		
 		JsonMsg.json_out(reString,response);
 	}

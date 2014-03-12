@@ -36,6 +36,12 @@ public class UserAction extends HttpServlet {
 		}
 		
 		User user = UserApi.getUser(access_token);
+		
+		if(null == user || !StringUtils.isNumeric(user.getId())){
+			JsonMsg.json_out(JsonMsg.jsonError("请重新认证！",JsonMsg.ERROR_CODE_AUTH), response);
+			return;
+		}
+		
 		JsonMsg.json_out(JSON.toJSONString(user), response);
 	}
 }
