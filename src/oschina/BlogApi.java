@@ -9,6 +9,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
+import action.Oauth2Action;
 import beans.Blog;
 
 import com.google.gson.Gson;
@@ -157,7 +158,7 @@ public class BlogApi {
 	}
 	
 	
-public static String getBlogSysCatalog(String client_id) {
+public static String getBlogSysCatalog(String user_id) {
 		
 		HttpClient client = new HttpClient();
 		//User-Agent
@@ -165,11 +166,13 @@ public static String getBlogSysCatalog(String client_id) {
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
 		AppConfigTool configTool = new AppConfigTool();
+		String access_token =  Oauth2Action.Users().get(Long.valueOf(user_id));
+		
 		PostMethod method = new PostMethod(configTool.getConfig("osc_host") + configTool.getConfig("blog_sys_catalog"));
-		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
-		NameValuePair client_id_ = new NameValuePair("client_id",client_id);  
+		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8"); 
+		NameValuePair access_token_ = new NameValuePair("access_token",access_token);  
         method.setRequestBody(
-        		new NameValuePair[] {client_id_} );  
+        		new NameValuePair[] {access_token_} );  
 		String responsestr = "";
 		try {
 			client.executeMethod(method);
