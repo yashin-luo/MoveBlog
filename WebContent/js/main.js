@@ -353,7 +353,7 @@ $(function() {
 			} else {
 				li.attr('class', 'imported');
 				input.remove();
-			}
+			} 
 		});
 	});
 
