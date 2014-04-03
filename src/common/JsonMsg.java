@@ -36,8 +36,6 @@ public class JsonMsg {
         response.setHeader("expires", "0");
 		PrintWriter out = response.getWriter();
 		response.setCharacterEncoding("utf-8");
-		
 		out.print(json);
 	}
-
 }
