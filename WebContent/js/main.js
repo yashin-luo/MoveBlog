@@ -41,14 +41,17 @@ var Api = (function(conf, $) {
 			'<li>',
 				'<span class="article_title">',
 				'<input type="checkbox" id="blog_{id}" data-url="{link}"/>',
+				'<img class="import_loading" src="img/loading2.gif">',
+				'<img class="import_ok" src="img/ok.png" >',
+				
 				'<label for="blog_{id}">',
 					'<a href="{link}" title="按住Ctrl点击在新页查看《{title}》" target="_blank">{title}</a>',
 				'</label>', 
 				'</span>',
 				'<span class="select_type">',
-					'<select class="select_box" name="classification" id="blogcatalogselect">',
+					'<select class="select_box" name="classification" id="sys_catalog">',
 					'</select>',
-					'<select class="person_select_box" name="classification" id="blogcatalogselect">',
+					'<select class="person_select_box" name="classification" id="user_catalog">',
 					'</select>',
 				'</span>',
 			'</li>'].join('\n');
@@ -91,11 +94,13 @@ var Api = (function(conf, $) {
 				+ response + ')');
 
 		if (data == null) {
+			location.reload();
 			return;
 		}
 
 		if (data.status == 500) {
 			alert('500 服务器内部错误');
+			location.reload();
 			return;
 		}
 		if (data.error) {
@@ -173,13 +178,18 @@ var Api = (function(conf, $) {
 		var length = arr.length;
 		if (length == 0)
 			return;
-		var url = arr.shift();
+		var obj = arr.shift();
+		var url = obj.url;
 		before && before(url, len - length);
 		return ajax(uri.import_list, function(data) {
 			callback && callback(data, url, len - length);
 			importBlog(arr, len, before, callback);
 		}, {
-			link : url
+			link : url,
+			user_catalog:obj.user_catalog,
+			sys_catalog:obj.sys_catalog,
+			reprint:obj.reprint,
+			priva:obj.priva
 		});
 	};
 
@@ -204,14 +214,26 @@ var Api = (function(conf, $) {
 
 $(function() {
 
-	var $user_info = $('.user-info'), $blog_provider = $('.blog-providers'), $input_url = $('input[name="url"]'),$blog_list_loading=$('.blog-list-loading'), $blog_list = $('.blog-list');
-	$submit = $('#submit'), $cancel = $('#cancel'),
-			$importBlog = $('#importBlog'), $choose_all = $('.choose-all'),$selete_all = $('.selete-all'),
-			$img_without_wp = $('.blog-providers ul li').not(".wordpress")
-					.find('img');
+	var $user_info = $('.user-info'),
+	$blog_provider = $('.blog-providers'), 
+	$input_url = $('input[name="url"]'),
+	//$blog_list_loading=$('.blog-list-loading'), 
+	$blog_list = $('.blog-list');
+	$submit = $('#submit'), 
+	$cancel = $('#cancel'),
+	$importBlog = $('#importBlog'), 
+	$choose_all = $('.choose-all'),
+	$selete_all = $('.selete-all'),
+	$reprint = $('#reprint'),
+	$img_without_wp = $('.blog-providers ul li').not(".wordpress").find('img');
 	$wp_image = $('.blog-providers ul li.wordpress img'),
-			$upload_form = $('#search-form form'),
-			$input_file = $('input[name="file"]');
+	$upload_form = $('#search-form form'),
+	$input_file = $('input[name="file"]'),
+	
+	$all_sys = $('#all_sys_catalog'),
+	$all_user = $('#all_user_catalog');
+	
+	
 
 	// 查询 login user 信息
 	Api.user(function(user) {
@@ -225,7 +247,7 @@ $(function() {
 		tmplogin.hide();
 		login.attr('href', user.url + '/blog').attr('target', '_blank').text(
 				  user.name + '的博客');
-		logout.show();
+		logout.show().removeAttr('disabled');
 		$input_url.removeAttr('disabled');
 		$input_url.focus();
 	});
@@ -287,24 +309,32 @@ $(function() {
 		if (url.length == 0)
 			return;
 		$blog_list.html('');
-		$blog_list_loading.show();
-		$blog_list_loading.addClass('loading');
+		//$blog_list_loading.show().removeAttr('disabled');
+		$blog_list.addClass('loading');
 		Api.blog_list(url, function(list) {
-			$blog_list_loading.hide();
-			$blog_list_loading.removeClass('loading');
+			//$blog_list_loading.hide();
+			//$blog_list_loading.removeClass('loading');
+			$blog_list.removeClass('loading');
 			$input_url.attr('disabled', 'disabled');
-			$submit.hide();
-			$cancel.show();
-			$importBlog.show();
-			$choose_all.show();
+			$submit.hide().attr('disabled', 'disabled');
+			$cancel.show().removeAttr('disabled');
+			$reprint.show().removeAttr('disabled');
+			$importBlog.show().removeAttr('disabled');
+			$choose_all.show().removeAttr('disabled');
 			if (list != null) {
 				$blog_list.html(Api.blog_list_tpl(list));
 				$.getJSON('http://www.moveblog.com:8080/action/syscatalog',function(data){
 					var options="";
+					var user_options="";
 					$.each(data.blog_sys_catalog_list,function(optionindex,option){
 						options="<option value="+option.id+">"+option.name+"</option>";
 						$('.select_box').append(options);
 					});
+					$.each(data.blog_user_catalog_list,function(optionindex,user_option){
+						user_options="<option value="+user_option.id+">"+user_option.name+"</option>";
+						$('.person_select_box').append(user_options);
+					});
+					
 				});
 			}
 		});
@@ -318,12 +348,14 @@ $(function() {
 			location.reload();
 			return;
 		}
-		$blog_list_loading.hide();
-		$blog_list_loading.removeClass('loading');
-		$(this).hide();
-		$submit.show();
-		$importBlog.hide();
-		$choose_all.hide();
+		$blog_list.removeClass('loading');
+		//$blog_list_loading.hide().attr('disabled', 'disabled');
+		//$blog_list_loading.removeClass('loading');
+		$(this).hide().attr('disabled', 'disabled');
+		$submit.show().removeAttr('disabled');
+		$importBlog.hide().attr('disabled', 'disabled');
+		$choose_all.hide().attr('disabled', 'disabled');
+		$reprint.hide().attr('disabled', 'disabled');
 		$blog_list.html('');
 		$input_url.removeAttr('disabled');
 		$input_file.removeAttr('disabled');
@@ -338,7 +370,21 @@ $(function() {
 			return;
 		}
 		var urls = import_tasks.map(function() {
-			return $(this).data('url');
+			//return $(this).data('url');
+			//这里返回每个列表的所有信息
+			var obj={
+					'url':'',
+					'user_catalog':'',
+					'sys_catalog':'',
+					'reprint':'',
+					'priva':''
+					};
+			obj.url = $(this).data('url');
+			obj.user_catalog = $(this).parent().next().children(".person_select_box").val();
+			obj.sys_catalog = $(this).parent().next().children(".select_box").val();
+			obj.reprint = $('.reprint').val();
+			obj.priva = $('.private').val();
+			return obj;
 		}).toArray();
 		Api.importBlog(urls, urls.length, function(url, index) {
 			var input = import_tasks.eq(index);
@@ -387,35 +433,58 @@ $(function() {
 		dataType : 'json',
 		beforeSubmit : function() {
 			$blog_list.html('');
-			$blog_list_loading.addClass('loading');
-			$blog_list_loading.show();
+			$blog_list.addClass('loading');
+			//$blog_list_loading.show().removeAttr('disabled');
 		},
 		success : function(data) {
 			Api.on_error(data, function(list) {
-				$blog_list_loading.hide();
-				$blog_list_loading.removeClass('loading');
-				$submit.hide();
-				$cancel.show();
-				$importBlog.show();
-				$choose_all.show();
+				//$blog_list_loading.hide();
+				$blog_list.removeClass('loading');
+				$submit.hide().attr('disabled', 'disabled');
+				$cancel.show().removeAttr('disabled');
+				$importBlog.show().removeAttr('disabled');
+				$choose_all.show().removeAttr('disabled');
 				if (list != null) {
 					$blog_list.html(Api.blog_list_tpl(list));
 					$.getJSON('http://www.moveblog.com:8080/action/syscatalog',function(data){
 						var options="";
+						var user_options="";
 						$.each(data.blog_sys_catalog_list,function(optionindex,option){
 							options="<option value="+option.id+">"+option.name+"</option>";
 							$('.select_box').append(options);
 						});
+						$.each(data.blog_user_catalog_list,function(optionindex,user_option){
+							user_options="<option value="+user_option.id+">"+user_option.name+"</option>";
+							$('.person_select_box').append(user_options);
+						});
 					});
+					
 				}
 			}, function(data) {
 				alert(data.error);
-				$blog_list_loading.hide();
-				$blog_list_loading.removeClass('loading');
+				$blog_list.removeClass('loading');
 			});
 		},
 		error : function(xhr) {
 			Api.on_error(xhr);
 		}
+	});
+	
+	
+	$all_sys.on('change',function(){
+		var num = $all_sys.val();
+		$('.select_box').each(function(){
+			$(this).val(num);
+		});  
+		
+	});
+	
+	
+	$all_user.on('change',function(){
+		var num = $all_user.val();
+		$('.person_select_box').each(function(){
+			$(this).val(num);
+		});  
+		
 	});
 });

@@ -8,10 +8,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-
-import common.AppConfigTool;
 import common.JsonMsg;
 import oschina.BlogApi;
 
@@ -24,7 +20,7 @@ public class SysCatalogAction extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		String user_id = null;
+		String authoruid = null;
 		Cookie[] cookie = request.getCookies();
 
 		if(cookie == null){
@@ -34,12 +30,12 @@ public class SysCatalogAction extends HttpServlet {
 		for (int i = 0; i < cookie.length; i++) {
 			Cookie cook = cookie[i];
 			if(cook.getName().equalsIgnoreCase("user")){ //获取键 
-				user_id = cook.getValue().toString();
+				authoruid = cook.getValue().toString();
 				break;
 			}
 		}
 		
-		String reString = BlogApi.getBlogSysCatalog(user_id);
+		String reString = BlogApi.getBlogSysCatalog(authoruid);
 		JsonMsg.json_out(reString, response);
 	}
 }

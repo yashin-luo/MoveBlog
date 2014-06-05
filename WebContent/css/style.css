@@ -9,7 +9,7 @@ body {
 }
  
 .header {
-	padding: 10px 20%;
+	padding: 10px 23%;
 	background-color: #f5f5f5;
 }
 
@@ -23,10 +23,12 @@ body {
 		0;
 }
 
+
 .clear {
 	clear: both;
 	font-size: 1px;
 	line-height: 0;
+	width: 998px;
 }
 
 .clear-left {
@@ -122,13 +124,14 @@ ul {
 
 .search-control {
 	margin-top: 20px;
+	width: 700px;
 }
 
 .search-control input {
 	font-size: 16px;
 	padding: 3px;
 	border: 1px solid #ccc;
-	width: 78%;
+	width: 550px;
 	margin-right: 10px;
 }
 
@@ -160,18 +163,23 @@ div.choose-all {
 	margin-top: 20px;
 	line-height: 36px;
 	margin-bottom: 5px;
+	width: 700px;
 }
 
-div.blog-list-loading.loading {
+div.blog-list.loading {
 	background:
 		url('http://sandbox.runjs.cn/uploads/rs/76/rkefkn4z/loading.gif')
 		no-repeat;
-	position: absolute;
-	top: 5px;
+	background-position: 200px 20px;
+}
+
+.blog-list {
+	width: 700px;
 }
 
 .blog-list li {
-	line-height: 28px;
+	height:36px;
+	line-height: 36px;
 }
 
 input[type='checkbox'] {
@@ -185,7 +193,7 @@ input[type='checkbox'] {
 .blog-list label {
 	color: #3B94CF;
 	cursor: pointer;
-	width: 400px;
+	width: 366px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -196,20 +204,37 @@ input[type='checkbox'] {
 }
 .blog-list a {
 	color: #3B94CF;
-	width: 550px;
+	width: 366px;
 	display: inline-block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
 
-}
+.blog-list li img.import_loading{display:none;	width: 13px;
+	height: 13px;
+	line-height: 13px;
+	margin:auto; }
+.blog-list li img.import_ok{display:none;	width: 13px;
+	height: 13px;
+	line-height: 13px;
+	margin:auto; }
+.blog-list li.loading img.import_loading{display:inline;}
+.blog-list li.imported img.import_ok{display:inline;}
+.blog-list li.loading input,.blog-list li.imported input{display:none;}
+
+
+.blog-list input.imported{background-color:#F17725;}
+
+
 .article {
 	width: 599px;
 }
 
 .article_title {
-	width: 599px;
+	width: 366px;
+	height:30px;
+	line-height: 30px;
 }
 
 .select_type {
@@ -225,6 +250,41 @@ input[type='checkbox'] {
 	padding: 3px 1px;
 	cursor: pointer;
 	width: 113px;
+}
+
+.person_select_box {
+	white-space: nowrap;
+	line-height: 36px;
+	color: #999;
+	border: 2px solid #999;
+	font-size: 14px;
+	padding: 3px 1px;
+	cursor: pointer;
+	width: 113px;
+}
+
+.private {
+	
+	white-space: nowrap;
+	line-height: 36px;
+	color: #999;
+	border: 2px solid #999;
+	font-size: 14px;
+	padding: 3px 1px;
+	cursor: pointer;
+	width: 60px;
+}
+
+.reprint {
+	
+	white-space: nowrap;
+	line-height: 36px;
+	color: #999;
+	border: 2px solid #999;
+	font-size: 14px;
+	padding: 3px 1px;
+	cursor: pointer;
+	width: 60px;
 }
 
 #topcontrol a {

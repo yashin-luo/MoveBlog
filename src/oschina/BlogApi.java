@@ -1,7 +1,6 @@
 package oschina;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -127,7 +126,7 @@ public class BlogApi {
 		return new Gson().toJson(responsestr);
 	}
 	
-	public static String getBlogUserCatalog(String client_id, String authorname) {
+public static String getBlogSysCatalog(String authoruid) {
 		
 		HttpClient client = new HttpClient();
 		//User-Agent
@@ -135,44 +134,15 @@ public class BlogApi {
 				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
 		
 		AppConfigTool configTool = new AppConfigTool();
-		PostMethod method = new PostMethod(configTool.getConfig("osc_host") + configTool.getConfig("blog_user_catalog"));
-		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");  
-		NameValuePair client_id_ = new NameValuePair("client_id",client_id);  
-		NameValuePair authorname_ = new NameValuePair("authorname",authorname);
-        method.setRequestBody(
-        		new NameValuePair[] {client_id_,authorname_} );  
-		String responsestr = "";
-		try {
-			client.executeMethod(method);
-			responsestr = new String(method.getResponseBodyAsString()); 
-		} catch (HttpException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		  
-		method.releaseConnection(); 
-		return responsestr;
-	}
-	
-	
-public static String getBlogSysCatalog(String user_id) {
-		
-		HttpClient client = new HttpClient();
-		//User-Agent
-		client.getParams().setParameter(HttpMethodParams.USER_AGENT,
-				"Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803");
-		
-		AppConfigTool configTool = new AppConfigTool();
-		String access_token =  Oauth2Action.Users().get(Long.valueOf(user_id));
+		String access_token =  Oauth2Action.Users().get(Long.valueOf(authoruid));
 		
 		PostMethod method = new PostMethod(configTool.getConfig("osc_host") + configTool.getConfig("blog_sys_catalog"));
 		method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8"); 
+		
+		NameValuePair authoruid_ = new NameValuePair("authoruid",authoruid); 
 		NameValuePair access_token_ = new NameValuePair("access_token",access_token);  
         method.setRequestBody(
-        		new NameValuePair[] {access_token_} );  
+        		new NameValuePair[] {access_token_,authoruid_} );  
 		String responsestr = "";
 		try {
 			client.executeMethod(method);

@@ -2,7 +2,6 @@
 package action;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,25 +61,28 @@ public class MoveBlogAction extends HttpServlet {
 		String link = request.getParameter("link");
 		String user_catalog = request.getParameter("user_catalog");
 		String sys_catalog = request.getParameter("sys_catalog");
+		String type = request.getParameter("reprint");
+		String privacy = request.getParameter("priva");
 		
 		if(StringUtils.isBlank(link)){//id获取失败
 			JsonMsg.json_out(JsonMsg.jsonError("link获取失败"),response);
 			return;
 		}
 		
-		/*
-		if(StringUtils.isBlank(user_catalog) || StringUtils.isBlank(sys_catalog)){
-			JsonMsg.json_out(JsonMsg.jsonError("分类获取失败"),response);
-			return;
-		}
-		*/
-		
 		if(StringUtils.isBlank(user_catalog) ){
-			
+			user_catalog = "0";
 		}
 		
 		if(StringUtils.isBlank(sys_catalog)){
 			sys_catalog = "430381";
+		}
+		
+		if(StringUtils.isBlank(type)){
+			type = "1";
+		}
+		
+		if(StringUtils.isBlank(privacy)){
+			privacy = "0";
 		}
 		
 		Blog blog=BlogList.getBlog(link); //已存在，不用抓取
@@ -121,6 +123,12 @@ public class MoveBlogAction extends HttpServlet {
 		 */
 		blog.setCatalog(user_catalog);
 		blog.setClassification(sys_catalog);
+		blog.setType(type);
+		blog.setPrivacy(privacy);
+		
+		if(!"1".equals(type)){
+			blog.setOrigin_url(link);
+		}
 		
 		long key = Long.valueOf(user);
 		String token = Oauth2Action.Users().get(key);

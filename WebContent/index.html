@@ -4,10 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OSChina.Net 博客搬家</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
-<script type="text/javascript"
-	src="http://runjs.cn/js/sandbox/jquery/jquery-1.8.2.min.js"></script>
-<script type="text/javascript"
-	src="http://runjs.cn/js/sandbox/jquery-plugins/jquery.form-2.82.js"></script>
+<link rel="stylesheet" type="text/css" href="http://www.oschina.net/css/reset_y.css"/>
+<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="http://runjs.cn/js/sandbox/jquery-plugins/jquery.form-2.82.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
@@ -57,27 +56,38 @@
 			<div class="clear-left"></div>
 			<div class="search-control">
 				<form action="/action/upload" method="POST">
-					<input name="url" disabled="disabled" placeholder="http://" /> <input
-						name="file" type="file" style="display: none;" /> <a id="submit"
-						class="button" href="javascript:void(0);">抓取</a> <select
-						class="reprint" name="reprint" id="reprint" style="display: none;">
-						<option value="0">转载</option>
-						<option value="1">原创</option>
-					</select> <a id="importBlog" class="button" href="javascript:void(0);"
-						style="display: none;">导入</a> <a id="cancel" class="gray button"
-						href="javascript:void(0);" style="display: none;">取消</a>
+					<input name="url" disabled="disabled" placeholder="http://" /> 
+					<input name="file" type="file" style="display: none;" /> 
+					<a id="submit" class="button" href="javascript:void(0);">抓取</a> 
+					 
+					<a id="importBlog" class="button" href="javascript:void(0);" style="display: none;">导入</a> 
+					<a id="cancel" class="gray button" href="javascript:void(0);" style="display: none;">取消</a>
 				</form>
 			</div>
-			<div class="choose-all" style="display: none;">
-				<input class="selete-all" type="checkbox" class="button"><label>
-					全选</label> <span class="select_type"> <select class="select_box"
-					name="classification" id="blogcatalogselect">
-						<option value="0">批量设置分类</option>
-				</select>
+			<div class="choose-all" style="display: none; margin-bottom:20px;">
+				<input class="selete-all" type="checkbox" class="button">
+				<label>全选</label> 
+				
+				<span class="select_type"> 
+					<select class="reprint" name="reprint" >
+							<option value="4">转载</option>
+							<option value="1">原创</option>
+					</select>
+					<select class="private" name="private"  >
+							<option value="0">公开</option>
+							<option value="1">私有</option>
+					</select>
+					
+					<select class="select_box" name="classification" id="all_sys_catalog">
+						<option value="0">批量系统分类</option>
+					</select>
+					<select class="person_select_box" name="classification" id="all_user_catalog">
+						<option value="0">批量个人分类</option>
+					</select>
 				</span>
 			</div>
-			<div class="blog-list-loading"></div>
-			<div class="blog-list"></div>
+			<!-- <div class="blog-list-loading"></div> -->
+			<div class="blog-list clearfix"></div>
 		</div>
 	</div>
 	<div id="topcontrol" title="回到顶部">
