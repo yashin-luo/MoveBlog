@@ -227,7 +227,7 @@ $(function() {
 	$reprint = $('#reprint'),
 	$img_without_wp = $('.blog-providers ul li').not(".wordpress").find('img');
 	$wp_image = $('.blog-providers ul li.wordpress img'),
-	$upload_form = $('#search-form form'),
+	$upload_form = $('.search-control form'),
 	$input_file = $('input[name="file"]'),
 	
 	$all_sys = $('#all_sys_catalog'),
