@@ -124,7 +124,7 @@ public class Blog {
 		}
 		
 		if(null != id){
-			this.setId((long)id);
+			this.setId((Long)id);
 		}
 		
 		if(null != link){

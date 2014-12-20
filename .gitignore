@@ -1,5 +1,6 @@
 *.class
-
+.idea/
+*.iml
 # Package Files #
 #*.jar#
 *.war
@@ -7,3 +8,4 @@
 /build
 /.settings
 /WebContent/WEB-INF/classes
+/WebContent/xmlfile
